@@ -1,0 +1,11 @@
+set(DOXYGEN_EXTRACT_ALL YES)
+set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
+set(DOXYGEN_EXCLUDE_PATTERNS *.cpp)
+set(JAVADOC_AUTOBRIEF YES)
+
+doxygen_add_docs( docs 
+    ../README.md . 
+    ALL
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/src
+    COMMENT "Generate doxygen doc pages"
+)
