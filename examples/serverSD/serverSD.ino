@@ -1,7 +1,7 @@
 
 /**
  * @file serverSD.ino
- * @author Phil Schatzmann (phil.schatzmann@gmail.com)
+ * @author SSID (phil.schatzmann@gmail.com)
  * @brief  We start a Webserver which serves the pages from a SD card.
  * @version 0.1
  * @date 2020-11-30
@@ -23,7 +23,7 @@ ExtensionSD sd;
 void setup() {
     Serial.begin(115200);
     // connect to WIFI
-    WiFi.begin("Phil Schatzmann", "sabrina01");
+    WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
       delay(500);
       Serial.print(".");

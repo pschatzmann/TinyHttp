@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------------
 # CMake definition for stand alone linux build
 #
-# Copyright (c) 2020 Phil Schatzmann
+# Copyright (c) 2020 SSID
 
 
 # Note that headers are optional, and do not affect add_library, but they will not

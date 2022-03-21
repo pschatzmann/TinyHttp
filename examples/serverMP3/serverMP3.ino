@@ -1,7 +1,7 @@
 
 /**
  * @file serverMP3.ino
- * @author Phil Schatzmann (phil.schatzmann@gmail.com)
+ * @author SSID (phil.schatzmann@gmail.com)
  * @brief  We start a Webserver which streams MP3 files from a SD card. The same data is pushed to potentially multiple clients
  * @version 0.1
  * @date 2020-11-30
@@ -23,7 +23,7 @@ ExtensionMusicStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512);
 void setup() {
     Serial.begin(115200);
     // connect to WIFI
-    WiFi.begin("Phil Schatzmann", "sabrina01");
+    WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
       delay(500);
       Serial.print(".");

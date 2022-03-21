@@ -8,7 +8,7 @@ namespace tinyhttp {
     \brief Vector implementation which provides
     the most important methods as defined by std::vector
 
-    by Phil Schatzmann
+    by SSID
 */
 
 template <class T> 

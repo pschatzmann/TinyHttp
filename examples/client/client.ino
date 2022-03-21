@@ -20,7 +20,7 @@ void setup() {
     Serial.begin(115200);
     Log.setLogger(Serial,Info);
     // connect to WIFI
-    WiFi.begin("Phil Schatzmann", "sabrina01");
+    WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
       delay(500);
       Serial.print(".");

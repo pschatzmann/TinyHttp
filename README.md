@@ -50,7 +50,7 @@ void setup() {
     // connect to WIFI
     Log.setLogger(Serial,Info);
 
-    WiFi.begin("Phil Schatzmann", "sabrina01");
+    WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
       delay(500);
       Serial.print(".");
@@ -127,7 +127,7 @@ void setup() {
     // connect to WIFI
     Log.setLogger(Serial,Info);
 
-    WiFi.begin("Phil Schatzmann", "sabrina01");
+    WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
       delay(500);
       Serial.print(".");

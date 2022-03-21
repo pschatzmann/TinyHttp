@@ -1,6 +1,6 @@
 /**
  * @file server.ino
- * @author Phil Schatzmann (phil.schatzmann@gmail.com)
+ * @author SSID (phil.schatzmann@gmail.com)
  * @brief  We start a Webserver and demonstrate how to define the output by providing strings
  * or by defining a lambda function.
  * @version 0.1
@@ -24,7 +24,7 @@ void setup() {
     // connect to WIFI
     Log.setLogger(Serial,Info);
 
-    WiFi.begin("Phil Schatzmann", "sabrina01");
+    WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
       delay(500);
       Serial.print(".");

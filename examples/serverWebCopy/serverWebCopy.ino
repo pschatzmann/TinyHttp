@@ -1,7 +1,7 @@
 
 /**
  * @file serverDump.ino
- * @author Phil Schatzmann (phil.schatzmann@gmail.com)
+ * @author SSID (phil.schatzmann@gmail.com)
  * @brief  We start a Webserver which serves the pages from a SD card and which also supports the download of an external
  * website to the SD.
  * @version 0.1
