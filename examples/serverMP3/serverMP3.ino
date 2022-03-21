@@ -12,13 +12,13 @@
 
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "ExtensionMusicStream.h"
+#include "ExtensionMusicFileStream.h"
 
 using namespace tinyhttp;
 
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionMusicStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512);
+ExtensionMusicFileStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512);
 
 void setup() {
     Serial.begin(115200);

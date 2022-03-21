@@ -10,7 +10,7 @@
 namespace tinyhttp {
 
 /**
- * @brief Extension which implements the Arduiono Stream functionality. Instead of writing to Serial you can
+ * @brief Extension which implements the Arduino Stream functionality. Instead of writing to Serial you can
  * write to a ExtensionStream object and look at the streamed output in your web browser. 
  * The data is managed with the help of a simple ring buffer.
  */

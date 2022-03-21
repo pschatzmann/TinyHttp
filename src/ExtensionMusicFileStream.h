@@ -1,5 +1,5 @@
-#ifndef __EXTENSIONMUSICSTREAM_H__
-#define __EXTENSIONMUSICSTREAM_H__
+#ifndef __ExtensionMusicFileStream_H__
+#define __ExtensionMusicFileStream_H__
 
 #include <SPI.h>
 #include <SD.h>
@@ -14,10 +14,10 @@ namespace tinyhttp {
  * @brief Extension which supports the Streaming of music files from a SD drive. 
  * 
  */
-class ExtensionMusicStream : public Extension {
+class ExtensionMusicFileStream : public Extension {
     public:
-        ExtensionMusicStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cpin=-1){
-            Log.log(Info,"ExtensionMusicStream", url);
+        ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cpin=-1){
+            Log.log(Info,"ExtensionMusicFileStream", url);
             this->id = id;
             this->url = url;
             this->file_extension = extension;
@@ -35,14 +35,14 @@ class ExtensionMusicStream : public Extension {
 
         }
 
-        ~ExtensionMusicStream(){
-            Log.log(Info,"~ExtensionMusicStream");
+        ~ExtensionMusicFileStream(){
+            Log.log(Info,"~ExtensionMusicFileStream");
             delete[] buffer;
             delete this->streaming;
         }
 
         virtual void open(HttpServer *server) {
-            Log.log(Info,"ExtensionMusicStream", "open");
+            Log.log(Info,"ExtensionMusicFileStream", "open");
             // setup handler
             streaming->open(server);
             // setup first music file
@@ -80,9 +80,9 @@ class ExtensionMusicStream : public Extension {
         // provides the current file if it is not finished yet otherwise we move to the 
         // next music file or restart at the start directory when we reach the end
         File &getNextMusicFile() {
-            Log.log(Info,"ExtensionMusicStream::getNextMusicFile",file_extension);
+            Log.log(Info,"ExtensionMusicFileStream::getNextMusicFile",file_extension);
             if ((current_file).available()>0){
-                Log.log(Info,"ExtensionMusicStream::getNextMusicFile", current_file.name());
+                Log.log(Info,"ExtensionMusicFileStream::getNextMusicFile", current_file.name());
                 return current_file;
             }
             current_file.close();
@@ -99,16 +99,16 @@ class ExtensionMusicStream : public Extension {
                     if (name_str.endsWith(file_extension)){
                         break;
                     }
-                    Log.log(Warning,"ExtensionMusicStream::getNextMusicFile - not relevant", current_file.name());
+                    Log.log(Warning,"ExtensionMusicFileStream::getNextMusicFile - not relevant", current_file.name());
                 } else {
-                    Log.log(Warning,"ExtensionMusicStream::getNextMusicFile", "restart");
+                    Log.log(Warning,"ExtensionMusicFileStream::getNextMusicFile", "restart");
                     // no file -> restart from the beginning
                     current_file = SD.open(start_dir);
                     loop_count++;
                 }
             }    
 
-            Log.log(Info,"ExtensionMusicStream::getNextMusicFile", current_file.name());
+            Log.log(Info,"ExtensionMusicFileStream::getNextMusicFile", current_file.name());
             return current_file;
         }
 
@@ -116,4 +116,4 @@ class ExtensionMusicStream : public Extension {
 
 }
 
-#endif // __EXTENSIONMUSICSTREAM_H__
+#endif // __ExtensionMusicFileStream_H__

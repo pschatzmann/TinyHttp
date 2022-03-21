@@ -1,7 +1,6 @@
 #include <WiFi.h>
 #include "HttpServer.h"
 #include "ExtensionStream.h"
-//#include "Ticker.h"
 #include "Ticker.h"
 
 using namespace tinyhttp;
