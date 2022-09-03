@@ -1,5 +1,4 @@
-\mainpage
-# TinyHttp
+# TinyHttp (Media) Server
 
 There is a good choice of different Http Server implementations for Arduino. Somehow however I was always fighting with some restrictions: E.g the server was crashing because it was running out of memory.
 
