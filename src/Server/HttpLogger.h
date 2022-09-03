@@ -1,5 +1,4 @@
-#ifndef __HttpLogger_H__
-#define __HttpLogger_H__
+#pragma once
 
 #include "Platform/AltStream.h"
 
@@ -65,5 +64,3 @@ HttpLogger Log;
 
 }
 
-
-#endif // __HttpLogger_H__

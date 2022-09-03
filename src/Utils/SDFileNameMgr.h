@@ -1,6 +1,4 @@
-#ifndef __SDFILENAME_H__
-#define __SDFILENAME_H__
-
+#pragma once
 
 #include "Basic/StrExt.h"
 #include "Server/HttpCommon.h"
@@ -88,5 +86,3 @@ class SDFileNameMgr {
 
 }
 
-
-#endif // __SDFILENAME_H__

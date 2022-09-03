@@ -1,6 +1,4 @@
-#ifndef __URLEXTRACTOR_H__
-#define __URLEXTRACTOR_H__
-
+#pragma once
 
 #include "Basic/Str.h"
 
@@ -92,4 +90,3 @@ class UrlExtractor {
 
 }
 
-#endif // __URLEXTRACTOR_H__

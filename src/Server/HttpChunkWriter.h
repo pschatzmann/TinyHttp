@@ -1,5 +1,4 @@
-#ifndef __HTTPCHUNKWRITER_H__
-#define __HTTPCHUNKWRITER_H__
+#pragma once
 
 #include "Client.h"
 
@@ -35,4 +34,3 @@ class HttpChunkWriter {
 
 }
 
-#endif // __HTTPCHUNKWRITER_H__

@@ -1,10 +1,9 @@
+#pragma once
 
 #ifndef PLATFORM_LINUX
 #include <WiFi.h>
 #include <Client.h>
 #else
-#ifndef __ALTCLIENT_H__
-#define __ALTCLIENT_H__
 
 #include <sys/socket.h> 
 #include <sys/ioctl.h>
@@ -195,4 +194,3 @@ class WiFiClient : public Client {
 }
 
 #endif // __ALTCLIENT_H__
-#endif // USE_LINUX

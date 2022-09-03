@@ -1,5 +1,4 @@
-#ifndef __EXTENSIONSTREAM_H__
-#define __EXTENSIONSTREAM_H__
+#pragma once
 
 #include "Stream.h"
 #include "Extensions/Extension.h"
@@ -134,4 +133,3 @@ class ExtensionStream : public Stream, public Extension  {
 
 }
 
-#endif // __EXTENSIONSTREAM_H__

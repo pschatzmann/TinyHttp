@@ -1,5 +1,4 @@
-#ifndef __HttpStreamedMultiOutput_H__
-#define __HttpStreamedMultiOutput_H__
+#pragma once
 
 #include "Server/HttpChunkWriter.h"
 #include "Server/HttpStreamedOutput.h"
@@ -204,5 +203,3 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
 
 }
 
-
-#endif // __HttpStreamedMultiOutput_H__

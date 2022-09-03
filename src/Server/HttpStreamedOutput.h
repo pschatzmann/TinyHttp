@@ -1,5 +1,4 @@
-#ifndef __HTTPSTREAMEDOUTPUT_H__
-#define __HTTPSTREAMEDOUTPUT_H__
+#pragma once
 
 #include "Wifi.h"
 
@@ -45,4 +44,3 @@ class HttpStreamedOutput {
 
 }
 
-#endif // __HTTPSTREAMEDOUTPUT_H__

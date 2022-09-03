@@ -1,5 +1,4 @@
-#ifndef __HTTPSERVER_H__
-#define __HTTPSERVER_H__
+#pragma once
 
 #include <stdlib.h> 
 #include "Basic/Vector.h"
@@ -46,6 +45,11 @@ class HttpServer {
                 delay(500);
                 Serial.print(".");
             }
+            Serial.println();
+            Serial.print("Started Server at ");
+            Serial.print(WiFi.localIP());
+            Serial.print(":");
+            Serial.println(port);
             begin(port);
         }
 
@@ -338,4 +342,3 @@ class HttpServer {
 
 }
 
-#endif // __HTTPSERVER_H__

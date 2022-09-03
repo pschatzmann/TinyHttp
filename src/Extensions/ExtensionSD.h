@@ -1,5 +1,4 @@
-#ifndef __HTTPSDSERVER_H__
-#define __HTTPSDSERVER_H__
+#pragma once
 
 #include "Server/HttpServer.h"
 #include "Utils/MimeResolver.h"
@@ -15,18 +14,16 @@ namespace tinyhttp {
  */
 class ExtensionSD : public Extension {
     public:    
-        ExtensionSD(const char* path="/*", int cpin=-1){
+        ExtensionSD(const char* path="/*", int cspin=-1){
             Log.log(Info,"ExtensionSD", path);
             this->path = path;
-            if (cpin==-1){
-                SD.begin();
-            } else {
-                SD.begin(cpin);
-            }
+            this->sd_cs = cspin;
         }
 
         virtual void open(HttpServer *server) {
             Log.log(Info,"ExtensionSD", "open");
+            setupSD();
+
             // define the file handler
             auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
                 const char* path = requestPath;
@@ -49,9 +46,21 @@ class ExtensionSD : public Extension {
 
     protected:
         const char* path;
+        int sd_cs;
+        bool is_open = false;
+
+        void setupSD() {
+            if (!is_open) {
+                if (sd_cs==-1){
+                    SD.begin();
+                } else {
+                    SD.begin(sd_cs);
+                }
+                is_open = true;
+            }
+        }
 
 };
 
 }
 
-#endif // __HTTPSDSERVER_H__

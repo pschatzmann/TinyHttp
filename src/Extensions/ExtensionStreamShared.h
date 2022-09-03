@@ -1,5 +1,4 @@
-#ifndef __ExtensionStreamShared_H__
-#define __ExtensionStreamShared_H__
+#pragma once
 
 #include "Server/HttpStreamedOutput.h"
 //#include "Server/HttpHeader.h"
@@ -107,4 +106,3 @@ class ExtensionStreamShared : public Extension  {
 
 }
 
-#endif // __ExtensionStreamShared_H__

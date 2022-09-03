@@ -1,5 +1,4 @@
-#ifndef __HTTPCHUNKREADER_H__
-#define __HTTPCHUNKREADER_H__
+#pragma once
 
 #include "Server/HttpHeader.h"
 #include "Server/HttpLineReader.h"
@@ -126,5 +125,3 @@ class HttpChunkReader : public HttpLineReader {
 };   
 
 }
-
-#endif // __HTTPCHUNKREADER_H__

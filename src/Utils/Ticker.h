@@ -1,5 +1,4 @@
-#ifndef __Ticker_H__
-#define __Ticker_H__
+#pragma once
 
 #include "Arduino.h"
 #include "Basic/Vector.h"
@@ -111,4 +110,3 @@ class Ticker {
 
 }
 
-#endif // __Ticker_H__

@@ -1,5 +1,4 @@
-#ifndef __SDSTRINGSTACK_H__
-#define __SDSTRINGSTACK_H__
+#pragma once
 
 
 #include "SPI.h"
@@ -116,4 +115,3 @@ class SDStack {
 
 }
 
-#endif // __SDSTRINGSTACK_H__

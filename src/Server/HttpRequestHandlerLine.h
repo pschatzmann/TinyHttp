@@ -1,6 +1,4 @@
-#ifndef __HTTPREQUESTHANDLERLINE__
-#define __HTTPREQUESTHANDLERLINE__
-
+#pragma once
 
 #include "Server/HttpHeader.h"
 
@@ -49,4 +47,3 @@ class HttpRequestHandlerLine {
 
 }
 
-#endif // __HTTPREQUESTHANDLERLINE__

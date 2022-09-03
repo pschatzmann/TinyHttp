@@ -1,5 +1,4 @@
-#ifndef __EXTENSION_H__
-#define __EXTENSION_H__
+#pragma once
 
 namespace tinyhttp {
 
@@ -22,4 +21,3 @@ class Extension {
 
 }
 
-#endif // __EXTENSION_H__

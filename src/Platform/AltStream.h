@@ -1,8 +1,8 @@
+#pragma once
+
 #ifndef PLATFORM_LINUX
 #include <Stream.h>
 #else
-#ifndef __ALTETC_H__
-#define __ALTETC_H__
 
 namespace tinyhttp {
 
@@ -91,5 +91,4 @@ WifiMock WiFi;
 
 }
 
-#endif // __ALTETC_H__
 #endif // PLATFORM_LINUX

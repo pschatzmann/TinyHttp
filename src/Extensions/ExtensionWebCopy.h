@@ -1,5 +1,4 @@
-#ifndef __EXTENSIONWEBDUMP_H__
-#define __EXTENSIONWEBDUMP_H__
+#pragma once
 
 #include "Extensions/ExtensionSD.h"
 #include "Utils/WebCopy.h"
@@ -77,4 +76,3 @@ class ExtensionWebCopy : public Extension {
 
 }
 
-#endif // __EXTENSIONWEBDUMP_H__

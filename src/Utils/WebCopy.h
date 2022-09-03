@@ -1,5 +1,4 @@
-#ifndef __WEBDUMP_H__
-#define __WEBDUMP_H__
+#pragma once
 
 #include <Arduino.h>
 #include <SPI.h>
@@ -262,4 +261,3 @@ class WebCopy {
 
 } // namespace
 
-#endif // __WEBDUMP_H__

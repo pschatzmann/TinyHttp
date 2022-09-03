@@ -8,14 +8,12 @@
  * @copyright Copyright (c) 2020
  * 
  */
+#pragma once
 
 #ifdef PLATFORM_LINUX
-#ifndef ALT_ARDUINO_H
-#define ALT_ARDUINO_H
 
 #include <iostream>
 #include "Platform/AltClient.h"
 #include "Platform/AltStream.h"
 
-#endif
 #endif

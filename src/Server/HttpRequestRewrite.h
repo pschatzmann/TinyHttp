@@ -1,6 +1,4 @@
-#ifndef __HTTPREQUESTREWRITE_H__
-#define __HTTPREQUESTREWRITE_H__
-
+#pragma once
 
 #include "Basic/StrExt.h"
 
@@ -18,4 +16,3 @@ class HttpRequestRewrite {
 };
 
 }
-#endif // __HTTPREQUESTREWRITE_H__

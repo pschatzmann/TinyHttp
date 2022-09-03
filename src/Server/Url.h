@@ -1,5 +1,4 @@
-#ifndef __URL_H__
-#define __URL_H__
+#pragma once
 
 #include "Basic/StrExt.h"
 #include "Server/HttpLogger.h"
@@ -111,4 +110,3 @@ class Url {
 
 }
 
-#endif // __URL_H__

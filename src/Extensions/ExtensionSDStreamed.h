@@ -1,7 +1,7 @@
-#ifndef __HTTPSDSERVER_H__
-#define __HTTPSDSERVER_H__
+#pragma once
 
 #include "Server/HttpServer.h"
+#include "Server/HttpStreamCopy.h"
 #include "Utils/MimeResolver.h"
 #include <SPI.h>
 #include <SD.h>
@@ -14,19 +14,16 @@ namespace tinyhttp {
  */
 class ExtensionSDStreamed : public Extension {
     public:    
-        ExtensionSDStreamed(const char* path="/*"; bool replyNotFound = false){
-        Log.log(Info,"ExtensionSD", path);
-         this->path = path;
-             if (cpin==-1){
-                SD.begin();
-            } else {
-                SD.begin(cpin);
-            }
+        ExtensionSDStreamed(const char* path="/*", int cspin=-1){
+        Log.log(Info,"ExtensionSDStreamed", path);
+        this->path = path;
+        this->sd_cs = cspin;
        }
 
         virtual void open(HttpServer *server) {
+            setupSD();
             // define the file handler
-            auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
+            auto lambda = [this](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
                 Url url(server_ptr->requestHeader().urlPath());
                 const char* path = url.path();
                 Log.log(Info,"ExtensionSD::lambda", path);
@@ -38,7 +35,7 @@ class ExtensionSDStreamed : public Extension {
 
                     // setup incremental reply chunks
                     File file = SD.open(path);
-                    HttpStreamCopy *out = new HttpStreamCopy(file, server_ptr->client())
+                    HttpStreamCopy *out = new HttpStreamCopy(file, server_ptr->client());
                     output->push_back(out);
 
                 } 
@@ -72,9 +69,21 @@ class ExtensionSDStreamed : public Extension {
     protected:
         Vector<HttpStreamCopy*> output;
         const char* path;
+        int sd_cs;
+        bool is_open = false;
+
+        void setupSD() {
+            if (!is_open) {
+                if (sd_cs==-1){
+                    SD.begin();
+                } else {
+                    SD.begin(sd_cs);
+                }
+                is_open = true;
+            }
+        }
 
 };
 
 }
 
-#endif // __HTTPSDSERVER_H__

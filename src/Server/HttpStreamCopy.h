@@ -1,6 +1,4 @@
-#ifndef __HttpStreamCopy_H__
-#define __HttpStreamCopy_H__
-
+#pragma once
 
 /**
  * @brief Processing of a single stream to a single client. 
@@ -11,12 +9,14 @@
  */
 #include "Server/HttpChunkWriter.h"
 
+namespace tinyhttp {
+
 class HttpStreamCopy {
     public:
         HttpStreamCopy(Stream &input, WiFiClient &client, int outputSize=215){
             this->is_open=true;
             this->input_ptr = &input;
-            this->client = client;
+            this->client_ptr = &client;
             this->output_size = outputSize;
         }
 
@@ -30,10 +30,10 @@ class HttpStreamCopy {
 
         void doLoop(){
             if (is_open) {
-                char buffer[outputSize];
-                if(input.available()>0 && client.connected()){
-                    int len = input.read(buffer, outputSize);
-                    writer.writeChunk(client, buffer, len);
+                char buffer[output_size];
+                if(input_ptr->available()>0 && client_ptr->connected()){
+                    int len = input_ptr->readBytes(buffer, output_size);
+                    writer.writeChunk(*client_ptr, buffer, len);
                 } else {
                     close();
                 }
@@ -43,7 +43,7 @@ class HttpStreamCopy {
     protected:
         HttpChunkWriter writer;
         Stream *input_ptr;
-        Client client;
+        Client* client_ptr;
         int output_size;
         bool is_open;
 
@@ -51,11 +51,12 @@ class HttpStreamCopy {
         void close() {
             if (is_open){
                 is_open = false;
-                input.close();
-                chunk_writer.writeEnd(client_ptr);
+                //input_ptr->close();
+                writer.writeEnd(*client_ptr);
                 client_ptr = nullptr;    
             }            
         }
 
+};
+
 }
-#endif // __HttpStreamCopy_H__

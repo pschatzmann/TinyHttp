@@ -11,16 +11,26 @@
  */
 
 #include "HttpServer.h"
+#include "SD.h"
+
+#define PIN_AUDIO_KIT_SD_CARD_CS 13
+#define PIN_AUDIO_KIT_SD_CARD_MISO 2
+#define PIN_AUDIO_KIT_SD_CARD_MOSI 15
+#define PIN_AUDIO_KIT_SD_CARD_CLK  14
+
 
 const char* ssid = "SSID";
 const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionSD sd;
+ExtensionSD sd("/*", PIN_AUDIO_KIT_SD_CARD_CS); // or use ExtensionSDStreamed
 
 void setup() {
     Serial.begin(115200);
     Log.setLogger(Serial, Info);
+ 
+    // If you use custom pins for the CD drive
+    SPI.begin(PIN_AUDIO_KIT_SD_CARD_CLK, PIN_AUDIO_KIT_SD_CARD_MISO, PIN_AUDIO_KIT_SD_CARD_MOSI, PIN_AUDIO_KIT_SD_CARD_CS);
 
     // start server
     server.rewrite("/","/index.html");

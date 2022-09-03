@@ -1,6 +1,4 @@
-#ifndef __HTTPREQUEST_H__
-#define __HTTPREQUEST_H__
-
+#pragma once
 
 #include "Server/HttpHeader.h" 
 #include "Platform/AltClient.h"
@@ -184,4 +182,3 @@ class HttpRequest{
 };
 
 }
-#endif // __HTTPREQUEST_H__

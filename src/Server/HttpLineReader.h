@@ -1,5 +1,4 @@
-#ifndef __HTTPLINEREADER_H__
-#define __HTTPLINEREADER_H__
+#pragma once
 
 #include "Server/HttpLogger.h"
 
@@ -77,4 +76,3 @@ class HttpLineReader {
 };
 
 }
-#endif // __HTTPLINEREADER_H__

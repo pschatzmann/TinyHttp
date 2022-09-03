@@ -1,5 +1,4 @@
-#ifndef __ExtensionMusicFileStream_H__
-#define __ExtensionMusicFileStream_H__
+#pragma once
 
 #include <SPI.h>
 #include <SD.h>
@@ -114,4 +113,3 @@ class ExtensionMusicFileStream : public Extension {
 
 }
 
-#endif // __ExtensionMusicFileStream_H__

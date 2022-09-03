@@ -1,6 +1,4 @@
-#ifndef __HTTPHEADER_H__
-#define __HTTPHEADER_H__
-
+#pragma once
 
 #include "Platform/AltClient.h"
 #include "Basic/StrExt.h"
@@ -474,5 +472,3 @@ class HttpReplyHeader : public HttpHeader  {
 };
 
 }
-
-#endif // __HTTPHEADER_H__

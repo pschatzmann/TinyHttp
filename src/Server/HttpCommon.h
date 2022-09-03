@@ -1,6 +1,4 @@
-#ifndef __HTTPCOMMON_H__
-#define __HTTPCOMMON_H__
-
+#pragma once
 
 // the functions have been defined in the header so we just need to take care of the
 // allocation of the static and shared data
@@ -21,5 +19,3 @@ extern const MimeExtension* mimeTable;
 
 
 } // namespace
-
-#endif // __HTTPCOMMON_H__

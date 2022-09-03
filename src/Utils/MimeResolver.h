@@ -1,6 +1,4 @@
-#ifndef __MIMERESOLVER_H__
-#define __MIMERESOLVER_H__
-
+#pragma once
 
 #include "Server/HttpCommon.h"
 
@@ -57,5 +55,3 @@ class MimeResolver {
 };
 
 }
-
-#endif // __MIMERESOLVER_H__

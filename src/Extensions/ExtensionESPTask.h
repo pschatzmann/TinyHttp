@@ -1,5 +1,4 @@
-#ifndef __EXTENSION_H__
-#define __EXTENSION_H__
+#pragma once
 
 #include "FreeRTOS.h" /* Must come first. */
 
@@ -64,4 +63,3 @@ class ExtensionESPTask {
 
 }
 
-#endif // __EXTENSION_H__
