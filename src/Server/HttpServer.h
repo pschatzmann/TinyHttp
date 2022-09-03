@@ -39,6 +39,17 @@ class HttpServer {
             rewrite_vector.clear();
         }
 
+        /// Starts the server on the indicated port - calls WiFi.begin(ssid, password);
+        void begin(int port, const char* ssid, const char* password){
+            WiFi.begin(ssid, password);
+            while (WiFi.status() != WL_CONNECTED) {        
+                delay(500);
+                Serial.print(".");
+            }
+            begin(port);
+        }
+
+        /// Starts the server on the indicated port
         void begin(int port){
             Log.log(Info,"HttpServer","begin");
             is_active = true;

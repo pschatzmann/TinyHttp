@@ -10,30 +10,22 @@
  * 
  */
 
-#include <WiFi.h>
 #include "HttpServer.h"
-#include "Extensions/ExtensionSD.h"
 
+const char* ssid = "SSID";
+const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
 ExtensionSD sd;
 
 void setup() {
     Serial.begin(115200);
-    // connect to WIFI
-    WiFi.begin("SSID", "password");
-    while (WiFi.status() != WL_CONNECTED) {        
-      delay(500);
-      Serial.print(".");
-    }
-
-    // setup logging
     Log.setLogger(Serial, Info);
 
     // start server
     server.rewrite("/","/index.html");
     server.addExtension(sd);
-    server.begin(80);
+    server.begin(80, ssid, password);
     Log.log(Info,"server was started...");
 
     // create test files

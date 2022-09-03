@@ -53,12 +53,12 @@ class ExtensionMusicFileStream : public Extension {
         // incremental pushing of the next buffer size to the open clients using chunked HttpStreamedMultiOutput
         virtual void doLoop(){
             // we actually just need to do something if we have open clients
-            if (streaming->isOpen(id)){
+            if (streaming->isOpen()){
                 File file = getNextMusicFile();
                 if (file) {
                     // we just write the current data from the file to all open streams            
                     int len = file.read(buffer,buffer_size);
-                    streaming->write(id, buffer, len);
+                    streaming->write(buffer, len);
                 }
             }
         }

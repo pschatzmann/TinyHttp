@@ -104,16 +104,11 @@ You can "write log messages" to an Arduino stream and look at the result from mu
 ```
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "Extensions/ExtensionStream.h"
-#include "Utils/Ticker.h"
 
 // setup server 
 WiFiServer wifi;
 HttpServer server(wifi);
-const char* htmlHeader = "<html><body style='background-color:black; color:white'><h1>Streaming Example</h1>";
-const char* htmlEnd = "</body></html>";
-const char* mime = "text/html";
-ExtensionStream stream("/stream",GET, mime, htmlHeader, htmlEnd );
+ExtensionLoggingStream stream("/log" );
 Ticker Ticker;
 
 
@@ -155,9 +150,6 @@ The following  example shows how you can setup a server that uses the SD drive a
 ```
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "Extensions/ExtensionSD.h"
-
-using namespace tinyhttp;
 
 WiFiServer wifi;
 HttpServer server(wifi);

@@ -17,12 +17,20 @@ namespace tinyhttp {
 
 class ExtensionStream : public Stream, public Extension  {
     public:
+        /// Default Constructor
         ExtensionStream(const char* url, MethodID action,  const char* mime, const char* startHtml=nullptr, const char* endHtml=nullptr, int bufferSize=256, int historySize=1024){
             Log.log(Info,"ExtensionStream");
             out = new HttpStreamedMultiOutput(mime, startHtml, endHtml, historySize);
             ext = new ExtensionStreamShared(url, *out, action);
             this->bufferSize = bufferSize;
             this->ringBuffer = new RingBuffer(bufferSize);
+        }
+
+        /// Alternative way to provide data by reading from another stream
+        ExtensionStream(const char* url, const char* mime, Stream &source){
+            out = new HttpStreamedMultiOutput(mime);
+            ext = new ExtensionStreamShared(url, *out, GET);
+            pAltSource = &source;
         }
 
         ~ExtensionStream(){
@@ -41,6 +49,7 @@ class ExtensionStream : public Stream, public Extension  {
         virtual void doLoop() {
             // only do something after open
             if (is_open){
+                copyFromAltSource(); // optinally
                 ext->doLoop();
             }
         }
@@ -60,24 +69,26 @@ class ExtensionStream : public Stream, public Extension  {
         };
 
         void flush() {
-            int readLen = ringBuffer->available();
-            if (readLen>0){
-                Log.log(Info,"ExtensionStream","flush");
-                uint8_t buffer[readLen];
-                readLen = ringBuffer->read(buffer, readLen);
-                out->write(buffer, readLen);
+            if (out!=nullptr && out->isOpen()) {
+                int readLen = ringBuffer->available();
+                if (readLen>0){
+                    Log.log(Info,"ExtensionStream","flush");
+                    uint8_t buffer[readLen];
+                    readLen = ringBuffer->read(buffer, readLen);
+                    out->write(buffer, readLen);
+                }
             }
         };
 
         size_t write(uint8_t chr) {
-            if (ringBuffer->availableToWrite()==0){
+            if (ringBuffer!=nullptr && ringBuffer->availableToWrite()==0){
                 flush();
             }
             return ringBuffer->write(chr);            
         }
 
         size_t write(uint8_t *str, int len) {
-            if (out->isOpen()) {
+            if (out!=nullptr && out->isOpen()) {
                 Log.log(Info,"ExtensionStream","write");
                 flush();
                 return out->write(str, len);
@@ -86,7 +97,7 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
         size_t print(const char str[]){
-            if (out->isOpen()) {
+            if (out!=nullptr && out->isOpen()) {
                 Log.log(Info,"ExtensionStream","print");
                 flush();
                 return out->print(str);
@@ -95,7 +106,7 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
         size_t println(const char str[]){
-            if (out->isOpen()) {
+            if (out!=nullptr && out->isOpen()) {
                 Log.log(Info,"ExtensionStream","println");
                 flush();
                 return out->println(str);
@@ -104,11 +115,20 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
     protected:
-        ExtensionStreamShared *ext;
-        RingBuffer *ringBuffer; 
-        HttpStreamedMultiOutput *out;
+        ExtensionStreamShared *ext=nullptr;
+        RingBuffer *ringBuffer=nullptr; 
+        HttpStreamedMultiOutput *out=nullptr;
+        Stream *pAltSource=nullptr;
         int bufferSize;
         bool is_open=false;
+
+        void copyFromAltSource() {
+            if (pAltSource!=nullptr){
+                uint8_t buffer[1024];
+                size_t bytesRead = pAltSource->readBytes(buffer, 1024);
+                out->write(buffer, bytesRead);
+            }
+        }
 
 };
 

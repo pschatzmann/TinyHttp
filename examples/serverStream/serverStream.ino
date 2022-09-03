@@ -1,5 +1,5 @@
 /**
- * @file serverLoggingStream.ino
+ * @file serverStream.ino
  * @author Phil Schatzmann
  * @brief Instead of logging messages to serial you can log them to the Server!
  * @version 0.1
@@ -11,25 +11,29 @@
 
 #include "HttpServer.h"
 
+
+// setup server 
 const char* ssid = "SSID";
 const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionLoggingStream stream("/log");
+const char* htmlHeader = "<html><body style='background-color:black; color:white'><h1>Streaming Example</h1>";
+const char* htmlEnd = "</body></html>";
+const char* mime = "text/html";
+ExtensionStream stream("/stream",GET, mime, htmlHeader, htmlEnd );
 Ticker ticker;
 
 
 void setup() {
     Serial.begin(115200);
-    // connect to WIFI
     Log.setLogger(Serial,Info);
+
+    server.addExtension(stream);
+    server.begin(80, ssid, password);
 
     // generate test messages
     ticker.schedule(1000,&printMsg);
 
-    server.addExtension(stream);
-    server.begin(80, ssid, password);
-    
 }
 
 void printMsg(void*){

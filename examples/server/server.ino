@@ -9,12 +9,11 @@
  * @copyright Copyright (c) 2020
  * 
  */
-#include <WiFi.h>
+
 #include "HttpServer.h"
 
-using namespace tinyhttp;
-
-// setup server with initial dump address
+const char* ssid = "SSID";
+const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
 Url indexUrl("/index.html");
@@ -23,12 +22,6 @@ void setup() {
     Serial.begin(115200);
     // connect to WIFI
     Log.setLogger(Serial,Info);
-
-    WiFi.begin("SSID", "password");
-    while (WiFi.status() != WL_CONNECTED) {        
-      delay(500);
-      Serial.print(".");
-    }
 
     const char*htmlHallo = 
         "<!DOCTYPE html>"
@@ -64,7 +57,7 @@ void setup() {
     server.on("/count",GET, countLambda);
     server.on("/moved", GET, indexUrl);
 
-    server.begin(80);
+    server.begin(80, ssid, password);
     
 }
 

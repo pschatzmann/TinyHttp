@@ -10,28 +10,21 @@
  * 
  */
 
-#include <WiFi.h>
 #include "HttpServer.h"
-#include "Extensions/ExtensionMusicFileStream.h"
 
+const char* ssid = "SSID";
+const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
 ExtensionMusicFileStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512);
 
 void setup() {
     Serial.begin(115200);
-    // connect to WIFI
-    WiFi.begin("SSID", "password");
-    while (WiFi.status() != WL_CONNECTED) {        
-      delay(500);
-      Serial.print(".");
-    }
-
     Log.setLogger(Serial, Info);
 
     server.rewrite("/","/music/mp3");
     server.addExtension(sdMp3);
-    server.begin(80);
+    server.begin(80, ssid, password);
     Log.log(Info,"server was started...");
 
 }

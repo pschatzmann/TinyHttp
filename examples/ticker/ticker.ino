@@ -10,8 +10,7 @@
  * 
  */
 
-#include "Utils/Ticker.h"
-using namespace tinyhttp;
+#include "HttpServer.h"
 
 Ticker ticker;
 
