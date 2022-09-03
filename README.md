@@ -21,20 +21,13 @@ The basic HttpServer class just provides the functionality to
 - register extensions
 - provide replys 
 
-In order to be able to support an unlimited number of more complex scenarios, I have designed the concept of __flexible "Extensions"__ and to proof the usefulness I have implemented the support for the following extensions:
-
-- Publishing of Output from an Arduino Stream 
-- Music Streaming
-- Serving web pages from SD
-
 I also added a small http client implementation by re-using the same functionality which was needed for the Server.
 
-## Example - Basic Server
+## Example: Basic Server
 
 A simple demo that shows how to use the basic server functionality w/o extensions.
 
 ```
-#include <WiFi.h>
 #include "HttpServer.h"
 
 // setup server with initial dump address
@@ -44,14 +37,7 @@ Url indexUrl("/index.html");
 
 void setup() {
     Serial.begin(115200);
-    // connect to WIFI
     Log.setLogger(Serial,Info);
-
-    WiFi.begin("SSID", "password");
-    while (WiFi.status() != WL_CONNECTED) {        
-      delay(500);
-      Serial.print(".");
-    }
 
     const char*htmlHallo = 
         "<!DOCTYPE html>"
@@ -87,22 +73,28 @@ void setup() {
     server.on("/count",GET, countLambda);
     server.on("/moved", GET, indexUrl);
 
-    server.begin(80);
+    server.begin(80, "SSID", "password");
     
 }
 
-int count;
 void loop(){
     server.doLoop();
 }
+
 ```
+## Extensions
+
+In order to be able to support an unlimited number of more complex scenarios, I have designed the concept of __flexible "Extensions"__ and to proof the usefulness I have implemented the support for the following extensions:
+
+- Publishing of Output from an Arduino Stream 
+- Music Streaming to multiple clients
+- Serving web pages from SD
 
 ## Example - Logging with Http 
 
 You can "write log messages" to an Arduino stream and look at the result from multiple browser windows: 
 
 ```
-#include <WiFi.h>
 #include "HttpServer.h"
 
 // setup server 
@@ -114,18 +106,11 @@ Ticker Ticker;
 
 void setup() {
     Serial.begin(115200);
-    // connect to WIFI
     Log.setLogger(Serial,Info);
-
-    WiFi.begin("SSID", "password");
-    while (WiFi.status() != WL_CONNECTED) {        
-      delay(500);
-      Serial.print(".");
-    }
 
     Ticker.schedule(1000,&printMsg);
     server.addExtension(stream);
-    server.begin(80);
+    server.begin(80,"SSID", "password" );
     
 }
 
@@ -143,33 +128,5 @@ void loop(){
 }
 
 ```
-## Example - Server from SD
 
-The following  example shows how you can setup a server that uses the SD drive as data souce:
-
-```
-#include <WiFi.h>
-#include "HttpServer.h"
-
-WiFiServer wifi;
-HttpServer server(wifi);
-Extension sd = ExtensionSD();
-
-void setup() {
-    Serial.begin(115200);
-    // connect to WIFI
-    WiFi.begin("network name", "password");
-    while (WiFi.status() != WL_CONNECTED) {        
-      delay(500);
-      Serial.print(".");
-    }
-
-    server.addExtension(sd);
-    server.begin(80);
-    
-}
-
-void loop(){
-    server.doLoop();
-}
-```
+Further extension examples can be found in the examples directory!
