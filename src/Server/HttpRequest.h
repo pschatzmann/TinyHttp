@@ -157,7 +157,7 @@ class HttpRequest{
                 len = strlen(data);
                 request_header.put(CONTENT_LENGTH, len);
             }
-            request_header.put(HOST, host_name);                
+            request_header.put(HOST_C, host_name);                
             request_header.put(CONNECTION, connection);
             request_header.put(USER_AGENT, agent);
             request_header.put(ACCEPT_ENCODING, accept_encoding);

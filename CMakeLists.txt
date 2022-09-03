@@ -20,13 +20,9 @@ project(
       add_subdirectory(${arduino_emulator_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/emulator)
   endif()
 
-
-
   # The compiled library code is here
   add_subdirectory(src)
 
-  # The executable code is here
-  add_subdirectory(tests)
 
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well

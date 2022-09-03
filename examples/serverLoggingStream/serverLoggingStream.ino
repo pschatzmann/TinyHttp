@@ -36,6 +36,7 @@ void setup() {
       Serial.print(".");
     }
 
+    // generate test messages
     ticker.schedule(1000,&printMsg);
 
     server.addExtension(stream);

@@ -1,16 +1,15 @@
 
 // example for the http GET request
 
+#include "HttpServer.h"
+
 #ifdef ARDUINO
 #include <WiFiClientSecure.h>
+WiFiClientSecure client;
+#else
+WiFiClient client;
 #endif
 
-#include "Platform/AltClient.h"
-#include "Server/HttpRequest.h"
-#include "Utils/UrlExtractor.h"
-
-//WiFiClient client;
-WiFiClientSecure client;
 HttpRequest request(client);
 Url url("https://www.pschatzmann.ch/home/category/arduino/");
 UrlExtractor urlExtractor("https://www.pschatzmann.ch");

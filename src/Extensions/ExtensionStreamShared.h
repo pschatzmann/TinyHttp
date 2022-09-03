@@ -1,5 +1,5 @@
-#ifndef __ExtensionStreamLean_H__
-#define __ExtensionStreamLean_H__
+#ifndef __ExtensionStreamShared_H__
+#define __ExtensionStreamShared_H__
 
 #include "Server/HttpStreamedOutput.h"
 //#include "Server/HttpHeader.h"
@@ -16,24 +16,24 @@ namespace tinyhttp {
  * Only a subset of the stream output functions is avaiblable!
  */
 
-class ExtensionStreamLean : public Extension  {
+class ExtensionStreamShared : public Extension  {
     public:
-        ExtensionStreamLean( const char* url,  HttpStreamedOutput &out, MethodID method=GET){
-            Log.log(Info,"ExtensionStreamLean");
+        ExtensionStreamShared( const char* url,  HttpStreamedOutput &out, MethodID method=GET){
+            Log.log(Info,"ExtensionStreamShared");
             this->url = url;
             this->method = method;
             this->out = &out;
         }
 
         virtual void open(HttpServer *server){
-            Log.log(Info,"ExtensionStreamLean","open");
+            Log.log(Info,"ExtensionStreamShared","open");
 
             auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl){ 
                 HttpReplyHeader reply_header;
-                ExtensionStreamLean *ext = static_cast<ExtensionStreamLean*>(hl->context[0]);
+                ExtensionStreamShared *ext = static_cast<ExtensionStreamShared*>(hl->context[0]);
                 HttpStreamedOutput *out = ext->getOutput();
                 if (out==nullptr){
-                    Log.log(Error,"ExtensionStreamLean","out must not be null");
+                    Log.log(Error,"ExtensionStreamShared","out must not be null");
                     return;
                 }
                 Log.log(Error,"mime",out->mime());
@@ -69,24 +69,24 @@ class ExtensionStreamLean : public Extension  {
         }
 
         // checks if we have any active clients for the id
-        bool isOpen(int id){
+        bool isOpen(){
             return out!=nullptr && out->isOpen();
         }
 
         // closes the ouptut
-        void close(int id){
+        void close(){
             if (out!=nullptr)
                 out->close();
         }
 
         // write the content to the ouptut
-        int write(int id, uint8_t *content, int len){
+        int write(uint8_t *content, int len){
             if (out!=nullptr)
                 out->write(content, len);
         }
 
         // writes a line 
-        int print(int id, const char* str){
+        int print(const char* str){
             if (out!=nullptr){
                 int len = strlen(str);
                 out->write((uint8_t*)str, len);
@@ -94,18 +94,17 @@ class ExtensionStreamLean : public Extension  {
         }
 
         // writes a line which terminates with a html line break
-        int println(int id, const char* str){
+        int println(const char* str){
             if (out!=nullptr)
                 out->println(str);
         }
 
     protected:
         MethodID method;
-        HttpStreamedOutput *out;
-        const char* url;
-        int id;
+        HttpStreamedOutput *out = nullptr;
+        const char* url = nullptr;
 };
 
 }
 
-#endif // __ExtensionStreamLean_H__
+#endif // __ExtensionStreamShared_H__

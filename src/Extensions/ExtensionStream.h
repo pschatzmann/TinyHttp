@@ -4,7 +4,7 @@
 #include "Stream.h"
 #include "Extensions/Extension.h"
 #include "Server/HttpStreamedMultiOutput.h"
-#include "Extensions/ExtensionStreamLean.h"
+#include "Extensions/ExtensionStreamShared.h"
 #include "Basic/RingBuffer.h"
 
 namespace tinyhttp {
@@ -20,7 +20,7 @@ class ExtensionStream : public Stream, public Extension  {
         ExtensionStream(const char* url, MethodID action,  const char* mime, const char* startHtml=nullptr, const char* endHtml=nullptr, int bufferSize=256, int historySize=1024){
             Log.log(Info,"ExtensionStream");
             out = new HttpStreamedMultiOutput(mime, startHtml, endHtml, historySize);
-            ext = new ExtensionStreamLean(url, *out, action);
+            ext = new ExtensionStreamShared(url, *out, action);
             this->bufferSize = bufferSize;
             this->ringBuffer = new RingBuffer(bufferSize);
         }
@@ -31,7 +31,7 @@ class ExtensionStream : public Stream, public Extension  {
             delete ringBuffer;
         }
 
-        // delegate processing to ExtensionStreamLean
+        // delegate processing to ExtensionStreamShared
         virtual void open(HttpServer *server){     
             Log.log(Info,"ExtensionStream","open");
             ext->open(server);
@@ -104,7 +104,7 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
     protected:
-        ExtensionStreamLean *ext;
+        ExtensionStreamShared *ext;
         RingBuffer *ringBuffer; 
         HttpStreamedMultiOutput *out;
         int bufferSize;

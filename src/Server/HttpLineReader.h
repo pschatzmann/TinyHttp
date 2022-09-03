@@ -29,13 +29,20 @@ class HttpLineReader {
                 return 0;
             }
 
-            // process characters
-            for (int j=0;j<len;j++){
-                int c = client.read();
-                if (c==-1){
-                    break;
-                }
-                result++;
+           // process characters until we find a new line
+           bool is_buffer_owerflow = false;
+           int j=0;
+           while (true){
+               int c = client.read();
+               if (c==-1){
+                   break;
+               }
+
+               if (j<len){
+                   result++;
+               } else {
+                   is_buffer_owerflow = true;
+               }
                 if (c=='\n'){
                     if (incl_nl){
                         str[j]=c;
@@ -55,9 +62,16 @@ class HttpLineReader {
                         }
                     }
                 }
-                str[j] = c;
+               if (!is_buffer_owerflow){
+                   str[j] = c;
+               }
+               j++;
             }
             str[result]=0;
+            str[result-1]=0;
+            if (is_buffer_owerflow){
+               Log.log(Error, "Line cut off:", (const char*) str);
+            }
             return result;
         }
 };

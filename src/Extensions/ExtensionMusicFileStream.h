@@ -5,7 +5,7 @@
 #include <SD.h>
 #include "Extensions/Extension.h"
 #include "Server/HttpServer.h"
-#include "Extensions/ExtensionStreamLean.h"
+#include "Extensions/ExtensionStreamShared.h"
 #include "Server/HttpStreamedMultiOutput.h"
 
 namespace tinyhttp {
@@ -18,14 +18,13 @@ class ExtensionMusicFileStream : public Extension {
     public:
         ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cpin=-1){
             Log.log(Info,"ExtensionMusicFileStream", url);
-            this->id = id;
             this->url = url;
             this->file_extension = extension;
             this->start_dir = startDir;
             this->buffer_size = bufferSize;
             this->buffer = new uint8_t[bufferSize];
             HttpStreamedMultiOutput *out = new HttpStreamedMultiOutput(mime, nullptr, nullptr, 0);
-            this->streaming = new ExtensionStreamLean(url,  *out, GET);
+            this->streaming = new ExtensionStreamShared(url,  *out, GET);
             // open SD 
             if (cpin==-1){
                 SD.begin();
@@ -65,8 +64,7 @@ class ExtensionMusicFileStream : public Extension {
         }
 
     protected:
-        ExtensionStreamLean *streaming;
-        int id;
+        ExtensionStreamShared *streaming;
         const char *file_extension;
         const char *start_dir;
         const char *url;

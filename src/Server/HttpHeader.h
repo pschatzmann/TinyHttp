@@ -27,7 +27,7 @@ const char* ACCEPT_ALL = "*/*";
 const char* SUCCESS = "Success";
 const char* USER_AGENT = "User-Agent";
 const char* DEFAULT_AGENT = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
-const char* HOST = "Host";
+const char* HOST_C = "Host";
 const char* ACCEPT_ENCODING = "Accept-Encoding";
 const char* IDENTITY = "identity";
 const char* LOCATION = "Location";
@@ -136,8 +136,12 @@ class HttpHeader {
             char *key = (char*)line;
             key[pos] = 0;
 
-            const char *value = line+pos+2;
-            return put((const char*)key,value);
+            // usually there is a leading space - but unfurtunately not always
+            const char *value = line+pos+1;
+            if (value[0]==' '){
+                value = line+pos+2;
+            }
+            return put((const char*)key, value);
         }
 
         // determines a header value with the key
@@ -145,7 +149,7 @@ class HttpHeader {
             for (auto it = lines.begin() ; it != lines.end(); ++it){
                 HttpHeaderLine *line = *it;
                 line->key.trim();
-                if (line->key == key){
+                if (line->key.equalsIgnoreCase(key)){
                     const char* result = line->value.c_str();
                     return line->active ? result : nullptr;
                 }
@@ -183,6 +187,9 @@ class HttpHeader {
             msg_str += CRLF;
             out.print(msg);
 
+            // remove crlf from log
+            int len = strnlen(msg,200);
+            msg[len-2] = 0;
             Log.log(Info," -> ", msg);
 
             // marke as processed
@@ -211,8 +218,7 @@ class HttpHeader {
         }
 
         bool isChunked(){
-            // the value is automatically set from the
-            // reply
+            // the value is automatically set from the reply
             return is_chunked;
         }
 
@@ -224,16 +230,24 @@ class HttpHeader {
 
             char line[MaxHeaderLineLength];   
             if (in.connected()){
+                if (in.available()==0) {
+                    Log.log(Warning, "Waiting for data...");
+                    while(in.available()==0){
+                        delay(500);
+                    }
+                }
                 readLine(in, line, MaxHeaderLineLength);
                 parse1stLine(line);
                 while (in.available()){
                     readLine(in, line, MaxHeaderLineLength);
-                    Str lineStr(line);
-                    lineStr.ltrim();
-                    if (lineStr.isEmpty()){
-                        break;
-                    }
-                    put(line);                
+                    if (isValidStatus() || isRedirectStatus()){
+                        Str lineStr(line);
+                        lineStr.ltrim();
+                        if (lineStr.isEmpty()){
+                            break;
+                        }
+                        put(line); 
+                    }               
                 }
             }
         }
@@ -254,6 +268,14 @@ class HttpHeader {
         // automatically create new lines
         void setAutoCreateLines(bool is_auto_line){
             create_new_lines = is_auto_line;
+        }
+        /// returns true if status code >=200 and < 300
+        bool isValidStatus() {
+            return status_code >= 200 && status_code < 300;
+        }
+
+        bool isRedirectStatus() {
+            return status_code >= 300 && status_code < 400;
         }
 
 
@@ -285,7 +307,7 @@ class HttpHeader {
                 for (auto it = lines.begin() ; it != lines.end(); ++it){
                     HttpHeaderLine *pt = (*it);
                     if (pt!=nullptr && pt->key.c_str()!=nullptr){
-                        if (strcmp(pt->key.c_str(),key)==0){
+                        if (pt->key.equalsIgnoreCase(key)){
                             pt->active = true;
                             return pt;
                         }
@@ -357,6 +379,8 @@ class HttpRequestHeader : public HttpHeader {
             msg_str += CRLF;
             out.print(msg);
 
+            int len = strnlen(msg, 200);
+            msg[len-2]=0;
             Log.log(Info,"->", msg);
         }
 
