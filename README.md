@@ -21,12 +21,11 @@ The basic HttpServer class just provides the functionality to
 - register extensions
 - provide replys 
 
-In order to be able to support an unlimited number of more complex scenarios, I have designed the concept of flexible "Extensions" and to proof the usefulness I have implemented the support for the following extensions:
+In order to be able to support an unlimited number of more complex scenarios, I have designed the concept of __flexible "Extensions"__ and to proof the usefulness I have implemented the support for the following extensions:
 
 - Publishing of Output from an Arduino Stream 
 - Music Streaming
 - Serving web pages from SD
-- Extracting an external website and save it to SD
 
 I also added a small http client implementation by re-using the same functionality which was needed for the Server.
 
@@ -37,8 +36,6 @@ A simple demo that shows how to use the basic server functionality w/o extension
 ```
 #include <WiFi.h>
 #include "HttpServer.h"
-
-using namespace tinyhttp;
 
 // setup server with initial dump address
 WiFiServer wifi;
@@ -100,17 +97,15 @@ void loop(){
 }
 ```
 
-## Example - Streamed Http 
+## Example - Logging with Http 
 
-You can "publish" to an Arduino stream and look at the result from multiple browser windows: 
+You can "write log messages" to an Arduino stream and look at the result from multiple browser windows: 
 
 ```
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "ExtensionStream.h"
-#include "Ticker.h"
-
-using namespace tinyhttp;
+#include "Extensions/ExtensionStream.h"
+#include "Utils/Ticker.h"
 
 // setup server 
 WiFiServer wifi;
@@ -160,7 +155,7 @@ The following  example shows how you can setup a server that uses the SD drive a
 ```
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "ExtensionSD.h"
+#include "Extensions/ExtensionSD.h"
 
 using namespace tinyhttp;
 

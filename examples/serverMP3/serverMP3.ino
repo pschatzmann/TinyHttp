@@ -12,9 +12,7 @@
 
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "ExtensionMusicFileStream.h"
-
-using namespace tinyhttp;
+#include "Extensions/ExtensionMusicFileStream.h"
 
 WiFiServer wifi;
 HttpServer server(wifi);

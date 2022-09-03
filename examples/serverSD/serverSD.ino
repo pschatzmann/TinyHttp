@@ -12,9 +12,7 @@
 
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "ExtensionSD.h"
-
-using namespace tinyhttp;
+#include "Extensions/ExtensionSD.h"
 
 WiFiServer wifi;
 HttpServer server(wifi);

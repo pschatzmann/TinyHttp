@@ -1,7 +1,7 @@
 /**
     Stand alone client ino example
 */
-#include "AltArduino.h"
+#include "Platform/AltArduino.h"
 
 int main() {
     setup();

@@ -1,5 +1,16 @@
 
-#include "Ticker.h"
+/**
+ * @file ticker.ino
+ * @author Phil Schatzmann
+ * @brief The ticker executes a scheduled function in a defined interval
+ * @version 0.1
+ * @date 2022-09-03
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+#include "Utils/Ticker.h"
 using namespace tinyhttp;
 
 Ticker ticker;

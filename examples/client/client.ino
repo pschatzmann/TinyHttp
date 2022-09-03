@@ -1,12 +1,13 @@
 
 // example for the http GET request
+
+#ifdef ARDUINO
 #include <WiFiClientSecure.h>
+#endif
 
-#include "AltClient.h"
-#include "HttpRequest.h"
-#include "UrlExtractor.h"
-
-using namespace tinyhttp;
+#include "Platform/AltClient.h"
+#include "Server/HttpRequest.h"
+#include "Utils/UrlExtractor.h"
 
 //WiFiClient client;
 WiFiClientSecure client;

@@ -8,60 +8,25 @@ project(
   DESCRIPTION "TinyHttp (Arduino) Library"
   LANGUAGES CXX)
 
+  include(FetchContent)
+
   add_definitions(-DPLATFORM_LINUX)
 
-# Only do these if this is the main project, and not if it is included through add_subdirectory
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-
-  # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
-
-  # Let's ensure -std=c++xx instead of -std=g++xx
-  set(CMAKE_CXX_EXTENSIONS OFF)
-
-  # Let's nicely support folders in IDEs
-  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-  # Testing only available if this is the main app
-  # Note this needs to be done in the main CMakeLists
-  # since it calls enable_testing, which must be in the
-  # main CMakeLists.
-  include(CTest)
-
-  # Docs only available if this is the main app
-  find_package(Doxygen)
-  if(Doxygen_FOUND)
-    message(STATUS "Doxygen found: building docs")
-    add_subdirectory(docs)
-  else()
-    message(STATUS "Doxygen not found, not building docs")
+  # Build with Linux Arduino Emulator
+  FetchContent_Declare(arduino_emulator GIT_REPOSITORY "https://github.com/pschatzmann/Arduino-Emulator.git" GIT_TAG main )
+  FetchContent_GetProperties(arduino_emulator)
+  if(NOT arduino_emulator_POPULATED)
+      FetchContent_Populate(arduino_emulator)
+      add_subdirectory(${arduino_emulator_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/emulator)
   endif()
-endif()
 
-# FetchContent added in CMake 3.11, downloads during the configure step
-include(FetchContent)
-# FetchContent_MakeAvailable was not added until CMake 3.14; use our shim
-if(${CMAKE_VERSION} VERSION_LESS 3.14)
-  include(cmake/add_FetchContent_MakeAvailable.cmake)
-endif()
 
-# Accumulator library
-# This is header only, so could be replaced with git submodules or FetchContent
-#find_package(Boost REQUIRED)
-# Adds Boost::boost
 
-# Formatting library
-FetchContent_Declare(
-  fmtlib
-  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-  GIT_TAG 5.3.0)
-FetchContent_MakeAvailable(fmtlib)
-# Adds fmt::fmt
+  # The compiled library code is here
+  add_subdirectory(src)
 
-# The compiled library code is here
-add_subdirectory(src)
-
-# The executable code is here
-add_subdirectory(tests)
+  # The executable code is here
+  add_subdirectory(tests)
 
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well

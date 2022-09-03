@@ -8,8 +8,8 @@
 # show up in IDEs unless they are listed in add_library.
 
 # glob, but only for CMake 3.12 or later:
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.h")
-file(GLOB SRC_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE HEADER_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.h")
+file(GLOB_RECURSE SRC_LIST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp")
 # set(HEADER_LIST "${TinyPPP_SOURCE_DIR}/include/modern/lib.hpp")
 
 # Make an automatic library - will be static or dynamic based on user setting

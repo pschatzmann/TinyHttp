@@ -5,7 +5,7 @@ add_definitions(-DPLATFORM_LINUX)
 add_executable(htmldump template.cpp)
 target_compile_options(htmldump PUBLIC -include../examples/client/client.ino)
 target_compile_features(htmldump PRIVATE cxx_std_17)
-target_link_libraries(htmldump PRIVATE tinyhttp_library fmt::fmt)
+target_link_libraries(htmldump PRIVATE tinyhttp_library arduino_emulator)
 
 ## build server.ino
 #add_executable(server template.cpp)

@@ -1,9 +1,19 @@
+/**
+ * @file serverStream.ino
+ * @author Phil Schatzmann
+ * @brief Instead of logging messages to serial you can log them to the Server!
+ * @version 0.1
+ * @date 2022-09-03
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <WiFi.h>
 #include "HttpServer.h"
-#include "ExtensionStream.h"
-#include "Ticker.h"
+#include "Extensions/ExtensionStream.h"
+#include "Utils/Ticker.h"
 
-using namespace tinyhttp;
 
 // setup server 
 WiFiServer wifi;
@@ -37,7 +47,9 @@ void printMsg(){
     static int count;
     char str[20];
     sprintf(str,"counter: %d",count++);
+    // log to server
     stream.println((const char*) str);
+    // log to serial
     Serial.println(str);
 }
 
