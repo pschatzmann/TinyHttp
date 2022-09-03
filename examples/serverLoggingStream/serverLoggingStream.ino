@@ -37,7 +37,7 @@ void printMsg(void*){
     char str[20];
     sprintf(str,"counter: %d",count++);
     // log to server
-    stream.println((const char*) str);
+    stream.println(str);
     // log to serial
     Serial.println(str);
 }

@@ -89,7 +89,7 @@ In order to be able to support an unlimited number of more complex scenarios, I 
 - Music Streaming to multiple clients
 - Serving web pages from SD
 
-## Example - Logging with Http 
+### Example - Logging with Http 
 
 You can "write log messages" to an Arduino stream and look at the result from multiple browser windows: 
 
@@ -100,14 +100,14 @@ You can "write log messages" to an Arduino stream and look at the result from mu
 WiFiServer wifi;
 HttpServer server(wifi);
 ExtensionLoggingStream stream("/log" );
-Ticker Ticker;
+Ticker ticker;
 
 
 void setup() {
     Serial.begin(115200);
     Log.setLogger(Serial,Info);
 
-    Ticker.schedule(1000,&printMsg);
+    ticker.schedule(1000,&printMsg);
     server.addExtension(stream);
     server.begin(80,"SSID", "password" );
     
@@ -117,13 +117,13 @@ void printMsg(void*){
     static int count;
     char str[20];
     sprintf(str,"counter: %d",count++);
-    stream.println((const char*) str);
-    Serial.println(str);
+    stream.println(str); // log to server
+    Serial.println(str); // log to Serial
 }
 
 void loop(){
     server.doLoop();
-    Ticker.doLoop();
+    ticker.doLoop();
 }
 
 ```
