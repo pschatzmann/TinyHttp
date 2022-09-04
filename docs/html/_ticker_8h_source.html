@@ -72,7 +72,7 @@ $(function() {
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Arduino.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/Vector.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/List.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Server/HttpLogger.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>tinyhttp {</div>
@@ -87,7 +87,7 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;};</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">const</span> <span class="keywordtype">long</span> UNDEFINED_SCHEDULE = -1;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<a class="code" href="classtinyhttp_1_1_vector.html">Vector&lt;TickerEntry*&gt;</a> ticker_entries;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<a class="code" href="classtinyhttp_1_1_list.html">List&lt;TickerEntry*&gt;</a> ticker_entries;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">int</span> TickerId;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtinyhttp_1_1_ticker.html">Ticker</a> {</div>
@@ -100,84 +100,83 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        ~<a class="code" href="classtinyhttp_1_1_ticker.html">Ticker</a>(){</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <a class="code" href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">stopAll</a>();</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            ticker_entries.clear();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            ticker_entries.shrink_to_fit();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff">   42</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff">schedule</a>(<span class="keywordtype">long</span> repeatMs, <span class="keywordtype">void</span>(*callback)(<span class="keywordtype">void</span>*), <span class="keywordtype">long</span> startMs= UNDEFINED_SCHEDULE, <span class="keywordtype">long</span> endMs = UNDEFINED_SCHEDULE, <span class="keywordtype">void</span>* ctx = <span class="keyword">nullptr</span> ) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordtype">long</span> now = millis();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = <span class="keyword">new</span> <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            entry-&gt;repeatMs = repeatMs;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            entry-&gt;startMs = startMs != UNDEFINED_SCHEDULE ? startMs : now;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            entry-&gt;endMs = endMs != UNDEFINED_SCHEDULE ? endMs : UNDEFINED_SCHEDULE;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            entry-&gt;callback = callback;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            entry-&gt;ctx = ctx;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            entry-&gt;id = TickerId++;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            ticker_entries.push_back(entry);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">return</span> entry-&gt;id;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f">   56</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f">stop</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>){</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = ticker_entries.begin(); it != ticker_entries.end(); ++it) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = *it;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">if</span> (entry!=<span class="keyword">nullptr</span> &amp;&amp; entry-&gt;id==<span class="keywordtype">id</span>){</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    entry-&gt;endMs = millis();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">   67</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">stopAll</a>(){</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = ticker_entries.begin(); it != ticker_entries.end(); ++it) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = *it;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                entry-&gt;endMs = millis();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff">   41</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff">schedule</a>(<span class="keywordtype">long</span> repeatMs, <span class="keywordtype">void</span>(*callback)(<span class="keywordtype">void</span>*), <span class="keywordtype">long</span> startMs= UNDEFINED_SCHEDULE, <span class="keywordtype">long</span> endMs = UNDEFINED_SCHEDULE, <span class="keywordtype">void</span>* ctx = <span class="keyword">nullptr</span> ) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordtype">long</span> now = millis();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = <span class="keyword">new</span> <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            entry-&gt;repeatMs = repeatMs;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            entry-&gt;startMs = startMs != UNDEFINED_SCHEDULE ? startMs : now;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            entry-&gt;endMs = endMs != UNDEFINED_SCHEDULE ? endMs : UNDEFINED_SCHEDULE;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            entry-&gt;callback = callback;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            entry-&gt;ctx = ctx;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            entry-&gt;id = TickerId++;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            ticker_entries.push_back(entry);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">return</span> entry-&gt;id;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f">   55</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f">stop</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>){</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = ticker_entries.begin(); it != ticker_entries.end(); ++it) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = *it;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">if</span> (entry!=<span class="keyword">nullptr</span> &amp;&amp; entry-&gt;id==<span class="keywordtype">id</span>){</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    entry-&gt;endMs = millis();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">   66</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">stopAll</a>(){</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = ticker_entries.begin(); it != ticker_entries.end(); ++it) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = *it;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                entry-&gt;endMs = millis();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#ab9d04870a4b7bbde66213937994ff036">   76</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_ticker.html#ab9d04870a4b7bbde66213937994ff036">doLoop</a>() {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordtype">long</span> now = millis();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = ticker_entries.begin(); it != ticker_entries.end(); ++it) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = *it;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keywordflow">if</span> (now &gt;= entry-&gt;startMs </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                &amp;&amp; (entry-&gt;endMs &gt;= now || entry-&gt;endMs==UNDEFINED_SCHEDULE)){</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    <span class="comment">// execute callback</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                    entry-&gt;callback(entry-&gt;ctx);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="comment">// reschedule to new time</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    entry-&gt;startMs = now + entry-&gt;repeatMs;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                } </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">// protected methods</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> cleanup(<span class="keywordtype">void</span>*) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;Ticker&quot;</span>,<span class="stringliteral">&quot;cleanup&quot;</span>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordtype">long</span> count=0;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordtype">long</span> now = millis();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> pos=ticker_entries.size()-1; pos&gt;=0; pos--) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = ticker_entries[pos];</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keywordflow">if</span> (entry-&gt;endMs != UNDEFINED_SCHEDULE &amp;&amp; entry-&gt;endMs &lt; now ){</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    ticker_entries.erase(ticker_entries.begin()+pos);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    count++;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordtype">char</span> msg[160];</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            sprintf(msg, <span class="stringliteral">&quot;cleaned up %d ticker_entries&quot;</span>, count);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;Ticker&quot;</span>,msg);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;};</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_ticker.html#ab9d04870a4b7bbde66213937994ff036">   75</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_ticker.html#ab9d04870a4b7bbde66213937994ff036">doLoop</a>() {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordtype">long</span> now = millis();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> it = ticker_entries.begin(); it != ticker_entries.end(); ++it) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = *it;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">if</span> (now &gt;= entry-&gt;startMs </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                &amp;&amp; (entry-&gt;endMs &gt;= now || entry-&gt;endMs==UNDEFINED_SCHEDULE)){</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    <span class="comment">// execute callback</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    entry-&gt;callback(entry-&gt;ctx);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                    <span class="comment">// reschedule to new time</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    entry-&gt;startMs = now + entry-&gt;repeatMs;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                } </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">// protected methods</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keyword">static</span> <span class="keywordtype">void</span> cleanup(<span class="keywordtype">void</span>*) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;Ticker&quot;</span>,<span class="stringliteral">&quot;cleanup&quot;</span>);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordtype">long</span> count=0;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordtype">long</span> now = millis();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> pos=ticker_entries.size()-1; pos&gt;=0; pos--) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <a class="code" href="structtinyhttp_1_1_ticker_entry.html">TickerEntry</a> *entry = ticker_entries[pos];</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="keywordflow">if</span> (entry-&gt;endMs != UNDEFINED_SCHEDULE &amp;&amp; entry-&gt;endMs &lt; now ){</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    ticker_entries.erase(ticker_entries.begin()+pos);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    count++;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordtype">char</span> msg[160];</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            sprintf(msg, <span class="stringliteral">&quot;cleaned up %d ticker_entries&quot;</span>, count);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;Ticker&quot;</span>,msg);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;};</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="ttc" id="aclasstinyhttp_1_1_list_html"><div class="ttname"><a href="classtinyhttp_1_1_list.html">tinyhttp::List</a></div><div class="ttdoc">Double linked list.</div><div class="ttdef"><b>Definition:</b> List.h:13</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_ticker_html"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html">tinyhttp::Ticker</a></div><div class="ttdoc">A Simple Ticker which executes a callback function in defined intervalls.</div><div class="ttdef"><b>Definition:</b> Ticker.h:28</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_a0c90114256432d558c8be07c0e083d1a"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">tinyhttp::Ticker::stopAll</a></div><div class="ttdeci">void stopAll()</div><div class="ttdoc">stops the execution of the callback by setting the end time;</div><div class="ttdef"><b>Definition:</b> Ticker.h:67</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_a3ca0e8b7836a900167d84a2960e1e9ff"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff">tinyhttp::Ticker::schedule</a></div><div class="ttdeci">int schedule(long repeatMs, void(*callback)(void *), long startMs=UNDEFINED_SCHEDULE, long endMs=UNDEFINED_SCHEDULE, void *ctx=nullptr)</div><div class="ttdoc">Schedule and starts the execution of the callback.</div><div class="ttdef"><b>Definition:</b> Ticker.h:42</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_a8005e24ef8627b1b84286275c0df586f"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f">tinyhttp::Ticker::stop</a></div><div class="ttdeci">void stop(int id)</div><div class="ttdoc">stops the execution of the callback by setting the end time;</div><div class="ttdef"><b>Definition:</b> Ticker.h:56</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_ab9d04870a4b7bbde66213937994ff036"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#ab9d04870a4b7bbde66213937994ff036">tinyhttp::Ticker::doLoop</a></div><div class="ttdeci">void doLoop()</div><div class="ttdoc">please call this method in your loop()</div><div class="ttdef"><b>Definition:</b> Ticker.h:76</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_vector_html"><div class="ttname"><a href="classtinyhttp_1_1_vector.html">tinyhttp::Vector</a></div><div class="ttdoc">Vector implementation which provides the most important methods as defined by std::vector....</div><div class="ttdef"><b>Definition:</b> Vector.h:14</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_a0c90114256432d558c8be07c0e083d1a"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a">tinyhttp::Ticker::stopAll</a></div><div class="ttdeci">void stopAll()</div><div class="ttdoc">stops the execution of the callback by setting the end time;</div><div class="ttdef"><b>Definition:</b> Ticker.h:66</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_a3ca0e8b7836a900167d84a2960e1e9ff"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff">tinyhttp::Ticker::schedule</a></div><div class="ttdeci">int schedule(long repeatMs, void(*callback)(void *), long startMs=UNDEFINED_SCHEDULE, long endMs=UNDEFINED_SCHEDULE, void *ctx=nullptr)</div><div class="ttdoc">Schedule and starts the execution of the callback.</div><div class="ttdef"><b>Definition:</b> Ticker.h:41</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_a8005e24ef8627b1b84286275c0df586f"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f">tinyhttp::Ticker::stop</a></div><div class="ttdeci">void stop(int id)</div><div class="ttdoc">stops the execution of the callback by setting the end time;</div><div class="ttdef"><b>Definition:</b> Ticker.h:55</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_ticker_html_ab9d04870a4b7bbde66213937994ff036"><div class="ttname"><a href="classtinyhttp_1_1_ticker.html#ab9d04870a4b7bbde66213937994ff036">tinyhttp::Ticker::doLoop</a></div><div class="ttdeci">void doLoop()</div><div class="ttdoc">please call this method in your loop()</div><div class="ttdef"><b>Definition:</b> Ticker.h:75</div></div>
 <div class="ttc" id="astructtinyhttp_1_1_ticker_entry_html"><div class="ttname"><a href="structtinyhttp_1_1_ticker_entry.html">tinyhttp::TickerEntry</a></div><div class="ttdoc">Information for each scheduled ticker request.</div><div class="ttdef"><b>Definition:</b> Ticker.h:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

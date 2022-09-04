@@ -107,16 +107,16 @@ $(function() {
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="comment">// setup handler</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            streaming-&gt;open(server);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="comment">// setup first music file</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            current_file = SD.open(start_dir);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            directory = SD.open(start_dir);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="comment">// find first music file - so that we are already ready to stream when a request arives</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            getNextMusicFile();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            getMusicFile();</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">// incremental pushing of the next buffer size to the open clients using chunked HttpStreamedMultiOutput</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> doLoop(){</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="comment">// we actually just need to do something if we have open clients</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> (streaming-&gt;isOpen()){</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                File file = getNextMusicFile();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                File file = getMusicFile();</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">if</span> (file) {</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    <span class="comment">// we just write the current data from the file to all open streams            </span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    <span class="keywordtype">int</span> len = file.read(buffer,buffer_size);</div>
@@ -130,70 +130,81 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *file_extension;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *start_dir;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *url;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        File current_file;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        File empty;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        uint8_t* buffer;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">int</span> buffer_size;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">int</span> loop_limit = 2;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">int</span> loop_count;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">int</span> sd_cs;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">bool</span> is_open = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">void</span> setupSD() {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">if</span> (!is_open) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">if</span> (sd_cs==-1){</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    SD.begin();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    SD.begin(sd_cs);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                is_open = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment">// provides the current file if it is not finished yet otherwise we move to the </span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment">// next music file or restart at the start directory when we reach the end</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        File &amp;getNextMusicFile() {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;ExtensionMusicFileStream::getNextMusicFile&quot;</span>,file_extension);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">if</span> ((current_file).available()&gt;0){</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                Log.log(Info,<span class="stringliteral">&quot;ExtensionMusicFileStream::getNextMusicFile&quot;</span>, current_file.name());</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordflow">return</span> current_file;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            current_file.close();</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">while</span>(<span class="keyword">true</span>){</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="comment">// prevent an endless loop</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="keywordflow">if</span> (loop_count &gt; loop_limit){</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    <span class="keywordflow">return</span> empty;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="comment">// check file extension</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                current_file = current_file.openNextFile();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="keywordflow">if</span> (current_file){</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    <a class="code" href="classtinyhttp_1_1_str.html">Str</a> name_str = <a class="code" href="classtinyhttp_1_1_str.html">Str</a>(current_file.name());</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    <span class="keywordflow">if</span> (name_str.<a class="code" href="classtinyhttp_1_1_str.html#aad327b366e8e4f6e99834cb35ecdcd2d">endsWith</a>(file_extension) &amp;&amp; !name_str.<a class="code" href="classtinyhttp_1_1_str.html#a1a6dc483f72954d95a1ed15ac80cebb7">contains</a>(<span class="stringliteral">&quot;/.&quot;</span>)){</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    Log.log(Warning,<span class="stringliteral">&quot;ExtensionMusicFileStream::getNextMusicFile - not relevant&quot;</span>, current_file.name());</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    Log.log(Warning,<span class="stringliteral">&quot;ExtensionMusicFileStream::getNextMusicFile&quot;</span>, <span class="stringliteral">&quot;restart&quot;</span>);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    <span class="comment">// no file -&gt; restart from the beginning</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                    current_file = SD.open(start_dir);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    loop_count++;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            }    </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;ExtensionMusicFileStream::getNextMusicFile&quot;</span>, current_file.name());</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordflow">return</span> current_file;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;};</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        File directory;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        File current_file;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        File empty;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        uint8_t* buffer;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">int</span> buffer_size;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">int</span> loop_limit = 10;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">int</span> loop_count;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">int</span> sd_cs;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordtype">bool</span> is_open = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">void</span> setupSD() {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">if</span> (!is_open) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">if</span> (sd_cs==-1){</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    SD.begin();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    SD.begin(sd_cs);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                is_open = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment">// provides the current file if it is not finished yet otherwise we move to the </span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="comment">// next music file or restart at the start directory when we reach the end</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        File &amp;getMusicFile() {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            Log.log(Debug,<span class="stringliteral">&quot;ExtensionMusicFileStream::getMusicFile&quot;</span>,file_extension);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">if</span> (current_file.available()&gt;0){</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                loop_count = 0;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="comment">//Log.log(Debug,&quot;ExtensionMusicFileStream::getMusicFile&quot;, current_file.name());</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordflow">return</span> current_file;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            current_file.close();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordtype">int</span> nextFileCount = 0;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">while</span>(<span class="keyword">true</span>){</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="comment">// prevent an endless loop</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span> (loop_count &gt; loop_limit){</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    <span class="keywordflow">return</span> empty;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <span class="comment">// check file extension</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                current_file = directory.openNextFile();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                Log.log(Info,<span class="stringliteral">&quot;processing&quot;</span>, current_file.name());</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">if</span> (current_file){</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    <a class="code" href="classtinyhttp_1_1_str.html">Str</a> name_str = <a class="code" href="classtinyhttp_1_1_str.html">Str</a>(current_file.name());</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    <span class="keywordflow">if</span> (name_str.<a class="code" href="classtinyhttp_1_1_str.html#aad327b366e8e4f6e99834cb35ecdcd2d">endsWith</a>(file_extension) &amp;&amp; !name_str.<a class="code" href="classtinyhttp_1_1_str.html#a1a6dc483f72954d95a1ed15ac80cebb7">contains</a>(<span class="stringliteral">&quot;/.&quot;</span>)){</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                        Log.log(Info,<span class="stringliteral">&quot;ExtensionMusicFileStream::getMusicFile&quot;</span>, current_file.name());</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                        loop_count = 0;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                        nextFileCount = 0;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    } </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                    Log.log(Warning,<span class="stringliteral">&quot;ExtensionMusicFileStream::getMusicFile - not relevant&quot;</span>, current_file.name());</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    nextFileCount++;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                <span class="comment">// we restart when we did not find any vaild file in the last 20 entrie</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">if</span> (nextFileCount&gt;20){</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    Log.log(Warning,<span class="stringliteral">&quot;ExtensionMusicFileStream::getMusicFile&quot;</span>, <span class="stringliteral">&quot;restart&quot;</span>);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    <span class="comment">// no file -&gt; restart from the beginning</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    directory.rewindDirectory();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    loop_count++;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            }    </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">return</span> current_file;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
 <div class="ttc" id="aclasstinyhttp_1_1_extension_html"><div class="ttname"><a href="classtinyhttp_1_1_extension.html">tinyhttp::Extension</a></div><div class="ttdoc">The HttpServer supports the registraiton of Extensions to implement some additional functionalry whic...</div><div class="ttdef"><b>Definition:</b> Extension.h:14</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_extension_music_file_stream_html"><div class="ttname"><a href="classtinyhttp_1_1_extension_music_file_stream.html">tinyhttp::ExtensionMusicFileStream</a></div><div class="ttdoc">Extension which supports the Streaming of music files from a SD drive.</div><div class="ttdef"><b>Definition:</b> ExtensionMusicFileStream.h:16</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_extension_stream_shared_html"><div class="ttname"><a href="classtinyhttp_1_1_extension_stream_shared.html">tinyhttp::ExtensionStreamShared</a></div><div class="ttdoc">Extension which supports streaming to multiple clients. It makes sure that same content is streamed t...</div><div class="ttdef"><b>Definition:</b> ExtensionStreamShared.h:18</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_extension_stream_shared_html"><div class="ttname"><a href="classtinyhttp_1_1_extension_stream_shared.html">tinyhttp::ExtensionStreamShared</a></div><div class="ttdoc">Extension which supports streaming to multiple clients. It makes sure that same content is streamed t...</div><div class="ttdef"><b>Definition:</b> ExtensionStreamShared.h:16</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html">tinyhttp::HttpServer</a></div><div class="ttdoc">A Simple Header only implementation of Http Server that allows the registration of callback functions...</div><div class="ttdef"><b>Definition:</b> HttpServer.h:23</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_http_streamed_multi_output_html"><div class="ttname"><a href="classtinyhttp_1_1_http_streamed_multi_output.html">tinyhttp::HttpStreamedMultiOutput</a></div><div class="ttdoc">Generic HttpStreamedMultiOutput Class which handles multicast streaming. We can optionally define som...</div><div class="ttdef"><b>Definition:</b> HttpStreamedMultiOutput.h:24</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_http_streamed_multi_output_html"><div class="ttname"><a href="classtinyhttp_1_1_http_streamed_multi_output.html">tinyhttp::HttpStreamedMultiOutput</a></div><div class="ttdoc">Generic HttpStreamedMultiOutput Class which handles multicast streaming. We can optionally define som...</div><div class="ttdef"><b>Definition:</b> HttpStreamedMultiOutput.h:25</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:16</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_str_html_a1a6dc483f72954d95a1ed15ac80cebb7"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a1a6dc483f72954d95a1ed15ac80cebb7">tinyhttp::Str::contains</a></div><div class="ttdeci">virtual bool contains(const char *str)</div><div class="ttdoc">checks if the string contains a substring</div><div class="ttdef"><b>Definition:</b> Str.h:291</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_str_html_aad327b366e8e4f6e99834cb35ecdcd2d"><div class="ttname"><a href="classtinyhttp_1_1_str.html#aad327b366e8e4f6e99834cb35ecdcd2d">tinyhttp::Str::endsWith</a></div><div class="ttdeci">virtual bool endsWith(const char *str)</div><div class="ttdoc">checks if the string ends with the indicated substring</div><div class="ttdef"><b>Definition:</b> Str.h:173</div></div>

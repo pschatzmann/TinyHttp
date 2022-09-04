@@ -131,6 +131,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a6a20ed633c40188e036094fdaa89e6c6">onRequest</a> (const char *path)</td></tr>
 <tr class="memdesc:a6a20ed633c40188e036094fdaa89e6c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic handler - you can overwrite this method to provide your specifc processing logic <br /></td></tr>
 <tr class="separator:a6a20ed633c40188e036094fdaa89e6c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d25c1f6f3c948dc15e3a2ea775c60cc"><td class="memItemLeft" align="right" valign="top"><a id="a5d25c1f6f3c948dc15e3a2ea775c60cc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>operator bool</b> ()</td></tr>
+<tr class="separator:a5d25c1f6f3c948dc15e3a2ea775c60cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5268c194f8696ed7daf3662d9a83801"><td class="memItemLeft" align="right" valign="top"><a id="ab5268c194f8696ed7daf3662d9a83801"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char *contentType, const char *str, int status=200, const char *msg=SUCCESS)</td></tr>
 <tr class="separator:ab5268c194f8696ed7daf3662d9a83801"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,10 +171,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:abc6d3c5292335bd5e81fd96f2b6f8413"><td class="memItemLeft" align="right" valign="top"><a id="abc6d3c5292335bd5e81fd96f2b6f8413"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#abc6d3c5292335bd5e81fd96f2b6f8413">processextension_vector</a> ()</td></tr>
-<tr class="memdesc:abc6d3c5292335bd5e81fd96f2b6f8413"><td class="mdescLeft">&#160;</td><td class="mdescRight">executes the doLoop of all extension_vector <br /></td></tr>
-<tr class="separator:abc6d3c5292335bd5e81fd96f2b6f8413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ff6db5a079f081d5d8ad21902bf5085"><td class="memItemLeft" align="right" valign="top"><a id="a2ff6db5a079f081d5d8ad21902bf5085"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085">processextension_collection</a> ()</td></tr>
+<tr class="memdesc:a2ff6db5a079f081d5d8ad21902bf5085"><td class="mdescLeft">&#160;</td><td class="mdescRight">executes the doLoop of all extension_collection <br /></td></tr>
+<tr class="separator:a2ff6db5a079f081d5d8ad21902bf5085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab20c78030e45b0c4cd856bca17f7b882"><td class="memItemLeft" align="right" valign="top"><a id="ab20c78030e45b0c4cd856bca17f7b882"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>processRequest</b> ()</td></tr>
 <tr class="separator:ab20c78030e45b0c4cd856bca17f7b882"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,12 +194,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></
 <tr class="memitem:aec5287df5b9a10c73fe02f2b428d746c"><td class="memItemLeft" align="right" valign="top"><a id="aec5287df5b9a10c73fe02f2b428d746c"></a>
 <a class="el" href="classtinyhttp_1_1_wi_fi_client.html">WiFiClient</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>client_ptr</b></td></tr>
 <tr class="separator:aec5287df5b9a10c73fe02f2b428d746c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cbb527a125ac22cac8734b472058f0f"><td class="memItemLeft" align="right" valign="top"><a id="a9cbb527a125ac22cac8734b472058f0f"></a>
-<a class="el" href="classtinyhttp_1_1_vector.html">Vector</a>&lt; <a class="el" href="classtinyhttp_1_1_extension.html">Extension</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>extension_vector</b></td></tr>
-<tr class="separator:a9cbb527a125ac22cac8734b472058f0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0b24ef44f62442ab2635863f3992770"><td class="memItemLeft" align="right" valign="top"><a id="ac0b24ef44f62442ab2635863f3992770"></a>
-<a class="el" href="classtinyhttp_1_1_vector.html">Vector</a>&lt; <a class="el" href="classtinyhttp_1_1_http_request_handler_line.html">HttpRequestHandlerLine</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>handler_vector</b></td></tr>
-<tr class="separator:ac0b24ef44f62442ab2635863f3992770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0e4279a40f6f147bb498eea97fd133e"><td class="memItemLeft" align="right" valign="top"><a id="af0e4279a40f6f147bb498eea97fd133e"></a>
+<a class="el" href="classtinyhttp_1_1_list.html">List</a>&lt; <a class="el" href="classtinyhttp_1_1_extension.html">Extension</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>extension_collection</b></td></tr>
+<tr class="separator:af0e4279a40f6f147bb498eea97fd133e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f6cda6ca234f531e7cbb90c41655db4"><td class="memItemLeft" align="right" valign="top"><a id="a2f6cda6ca234f531e7cbb90c41655db4"></a>
+<a class="el" href="classtinyhttp_1_1_list.html">List</a>&lt; <a class="el" href="classtinyhttp_1_1_http_request_handler_line.html">HttpRequestHandlerLine</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>handler_collection</b></td></tr>
+<tr class="separator:a2f6cda6ca234f531e7cbb90c41655db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a304e386f9fba6dfb0037daaad11f4ecc"><td class="memItemLeft" align="right" valign="top"><a id="a304e386f9fba6dfb0037daaad11f4ecc"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_active</b></td></tr>
 <tr class="separator:a304e386f9fba6dfb0037daaad11f4ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,9 +209,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_active</b></td></t
 <tr class="memitem:a29172ec3f816e43c4e79fbafda02fb77"><td class="memItemLeft" align="right" valign="top"><a id="a29172ec3f816e43c4e79fbafda02fb77"></a>
 <a class="el" href="classtinyhttp_1_1_http_request_header.html">HttpRequestHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><b>request_header</b></td></tr>
 <tr class="separator:a29172ec3f816e43c4e79fbafda02fb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1a178492bfd501ccfe194d1704826de"><td class="memItemLeft" align="right" valign="top"><a id="af1a178492bfd501ccfe194d1704826de"></a>
-<a class="el" href="classtinyhttp_1_1_vector.html">Vector</a>&lt; <a class="el" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>rewrite_vector</b></td></tr>
-<tr class="separator:af1a178492bfd501ccfe194d1704826de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad52e0da34787614afcd879ae3ce6f018"><td class="memItemLeft" align="right" valign="top"><a id="ad52e0da34787614afcd879ae3ce6f018"></a>
+<a class="el" href="classtinyhttp_1_1_list.html">List</a>&lt; <a class="el" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>rewrite_collection</b></td></tr>
+<tr class="separator:ad52e0da34787614afcd879ae3ce6f018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5adcd96e13d7cc37cdbf8783f1a52a90"><td class="memItemLeft" align="right" valign="top"><a id="a5adcd96e13d7cc37cdbf8783f1a52a90"></a>
 WiFiServer *&#160;</td><td class="memItemRight" valign="bottom"><b>server_ptr</b></td></tr>
 <tr class="separator:a5adcd96e13d7cc37cdbf8783f1a52a90"><td class="memSeparator" colspan="2">&#160;</td></tr>

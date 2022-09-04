@@ -72,7 +72,7 @@ $(function() {
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span> </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/Vector.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/List.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Server.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Client.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;HttpClient.h&quot;</span></div>
@@ -98,10 +98,10 @@ $(function() {
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        ~<a class="code" href="classtinyhttp_1_1_http_server.html">HttpServer</a>(){</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;~HttpServer&quot;</span>);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keyword">delete</span> []buffer;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            handler_vector.clear();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            handler_collection.clear();</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            request_header.<a class="code" href="classtinyhttp_1_1_http_header.html#a35d354aec53464f3064629de6db64760">clear</a>(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            reply_header.<a class="code" href="classtinyhttp_1_1_http_header.html#a35d354aec53464f3064629de6db64760">clear</a>(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            rewrite_vector.clear();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            rewrite_collection.clear();</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_server.html#a22b936ff7a1085c0b426d2f4da0494da">   42</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_http_server.html#a22b936ff7a1085c0b426d2f4da0494da">begin</a>(<span class="keywordtype">int</span> port, <span class="keyword">const</span> <span class="keywordtype">char</span>* ssid, <span class="keyword">const</span> <span class="keywordtype">char</span>* password){</div>
@@ -137,7 +137,7 @@ $(function() {
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">   76</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* from, <span class="keyword">const</span> <span class="keywordtype">char</span>* to){</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a> *line = <span class="keyword">new</span> <a class="code" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a>(from, to);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            rewrite_vector.push_back(line);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            rewrite_collection.push_back(line);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
@@ -205,7 +205,7 @@ $(function() {
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordtype">bool</span> result = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="comment">// check in registered handlers</span></div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <a class="code" href="classtinyhttp_1_1_str.html">Str</a> pathStr = <a class="code" href="classtinyhttp_1_1_str.html">Str</a>(path);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = handler_vector.begin() ; it != handler_vector.end(); ++it) {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = handler_collection.begin() ; it != handler_collection.end(); ++it) {</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <a class="code" href="classtinyhttp_1_1_http_request_handler_line.html">HttpRequestHandlerLine</a> *handler_line_ptr = *it;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                Log.log(Info,<span class="stringliteral">&quot;onRequest - checking:&quot;</span>,handler_line_ptr-&gt;path);</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
@@ -314,12 +314,12 @@ $(function() {
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="keywordtype">void</span> addExtension(Extension &amp;out){</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;HttpServer&quot;</span>,<span class="stringliteral">&quot;addExtension&quot;</span>);</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            out.open(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            extension_vector.push_back(&amp;out);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            extension_collection.push_back(&amp;out);</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="comment">// adds a new handler</span></div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <span class="keywordtype">void</span> addHandler(HttpRequestHandlerLine *handlerLinePtr){</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            handler_vector.push_back(handlerLinePtr);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            handler_collection.push_back(handlerLinePtr);</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        }</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="comment">// Call this method from your loop!</span></div>
@@ -338,8 +338,8 @@ $(function() {
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                    processRequest();</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                }</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <span class="comment">// process doLoop of all registed (and opened) extension_vector </span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                <a class="code" href="classtinyhttp_1_1_http_server.html#abc6d3c5292335bd5e81fd96f2b6f8413">processextension_vector</a>();</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <span class="comment">// process doLoop of all registed (and opened) extension_collection </span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                <a class="code" href="classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085">processextension_collection</a>();</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            }</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        }</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
@@ -348,59 +348,63 @@ $(function() {
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            <span class="keywordflow">return</span> *client_ptr;</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        }</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        <span class="comment">// data</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        HttpRequestHeader request_header;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        HttpReplyHeader reply_header;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        Vector&lt;HttpRequestHandlerLine*&gt; handler_vector;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        Vector&lt;Extension*&gt; extension_vector;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        Vector&lt;HttpRequestRewrite*&gt; rewrite_vector;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        WiFiClient *client_ptr;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        WiFiServer *server_ptr;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        <span class="keywordtype">bool</span> is_active;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordtype">char</span>* buffer;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="keywordtype">int</span> buffer_size;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="comment">// process a full request and send the reply</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="keywordtype">void</span> processRequest(){</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;processRequest&quot;</span>);</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            request_header.read(this-&gt;client());</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            <span class="comment">// provde reply with empty header</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            reply_header.clear();</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            <span class="comment">// determine the path</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">char</span>* path = request_header.urlPath();</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            path = <a class="code" href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">resolveRewrite</a>(path);</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            <span class="keywordtype">bool</span> processed = <a class="code" href="classtinyhttp_1_1_http_server.html#a6a20ed633c40188e036094fdaa89e6c6">onRequest</a>(path);</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="keywordflow">if</span> (!processed){</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;              <span class="comment">//  replyNotFound();</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            }                   </div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        }</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160; </div>
-<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_server.html#abc6d3c5292335bd5e81fd96f2b6f8413">  326</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_http_server.html#abc6d3c5292335bd5e81fd96f2b6f8413">processextension_vector</a>(){</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            <span class="comment">//if (extension_vector.size()&gt;0) Log.log(Info,&quot;processextension_vector&quot;);</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <span class="comment">// we handle all open clients</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = extension_vector.begin(); i != extension_vector.end(); ++i) {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                <a class="code" href="classtinyhttp_1_1_extension.html">Extension</a> *ext = (*i);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                <span class="comment">// register new client</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                ext-&gt;doLoop();</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            }    </div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        }</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
-<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">  337</a></span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">resolveRewrite</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* from){</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;             <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = rewrite_vector.begin(); i != rewrite_vector.end(); ++i) {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                <a class="code" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a> *<a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a> = (*i);</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a>-&gt;from.matches(from)){</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a>-&gt;to.c_str();</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                }</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;            }    </div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            <span class="keywordflow">return</span> from;</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        }</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;};</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;}</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keyword">operator</span> bool(){</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="keywordflow">return</span> is_active;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        }</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="comment">// data</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        HttpRequestHeader request_header;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        HttpReplyHeader reply_header;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        List&lt;HttpRequestHandlerLine*&gt; handler_collection;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        List&lt;Extension*&gt; extension_collection;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        List&lt;HttpRequestRewrite*&gt; rewrite_collection;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        WiFiClient *client_ptr;</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        WiFiServer *server_ptr;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordtype">bool</span> is_active;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordtype">char</span>* buffer;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="keywordtype">int</span> buffer_size;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="comment">// process a full request and send the reply</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordtype">void</span> processRequest(){</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            Log.log(Info,<span class="stringliteral">&quot;processRequest&quot;</span>);</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            request_header.read(this-&gt;client());</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            <span class="comment">// provde reply with empty header</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            reply_header.clear();</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="comment">// determine the path</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">char</span>* path = request_header.urlPath();</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            path = <a class="code" href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">resolveRewrite</a>(path);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keywordtype">bool</span> processed = <a class="code" href="classtinyhttp_1_1_http_server.html#a6a20ed633c40188e036094fdaa89e6c6">onRequest</a>(path);</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="keywordflow">if</span> (!processed){</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;              <span class="comment">//  replyNotFound();</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            }                   </div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        }</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
+<div class="line"><a name="l00330"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085">  330</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085">processextension_collection</a>(){</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            <span class="comment">//if (extension_collection.size()&gt;0) Log.log(Info,&quot;processextension_collection&quot;);</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            <span class="comment">// we handle all open clients</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = extension_collection.begin(); i != extension_collection.end(); ++i) {</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                <a class="code" href="classtinyhttp_1_1_extension.html">Extension</a> *ext = (*i);</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                <span class="comment">// register new client</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                ext-&gt;doLoop();</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;            }    </div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        }</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">  341</a></span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">resolveRewrite</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* from){</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;             <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = rewrite_collection.begin(); i != rewrite_collection.end(); ++i) {</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                <a class="code" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a> *<a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a> = (*i);</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a>-&gt;from.matches(from)){</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a>-&gt;to.c_str();</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                }</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            }    </div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;            <span class="keywordflow">return</span> from;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        }</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;};</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;}</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
 <div class="ttc" id="aclasstinyhttp_1_1_extension_html"><div class="ttname"><a href="classtinyhttp_1_1_extension.html">tinyhttp::Extension</a></div><div class="ttdoc">The HttpServer supports the registraiton of Extensions to implement some additional functionalry whic...</div><div class="ttdef"><b>Definition:</b> Extension.h:14</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_chunk_writer_html"><div class="ttname"><a href="classtinyhttp_1_1_http_chunk_writer.html">tinyhttp::HttpChunkWriter</a></div><div class="ttdoc">Writes the data chunked to the actual client.</div><div class="ttdef"><b>Definition:</b> HttpChunkWriter.h:11</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_header_html_a35d354aec53464f3064629de6db64760"><div class="ttname"><a href="classtinyhttp_1_1_http_header.html#a35d354aec53464f3064629de6db64760">tinyhttp::HttpHeader::clear</a></div><div class="ttdeci">HttpHeader &amp; clear(bool activeFlag=true)</div><div class="ttdoc">clears the data - usually we do not delete but we just set the active flag</div><div class="ttdef"><b>Definition:</b> HttpHeader.h:70</div></div>
@@ -411,14 +415,14 @@ $(function() {
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html">tinyhttp::HttpServer</a></div><div class="ttdoc">A Simple Header only implementation of Http Server that allows the registration of callback functions...</div><div class="ttdef"><b>Definition:</b> HttpServer.h:23</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a1be6afda7ebc2f7182e58528ce971f35"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a1be6afda7ebc2f7182e58528ce971f35">tinyhttp::HttpServer::begin</a></div><div class="ttdeci">void begin(int port)</div><div class="ttdoc">Starts the server on the indicated port.</div><div class="ttdef"><b>Definition:</b> HttpServer.h:63</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a22b936ff7a1085c0b426d2f4da0494da"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a22b936ff7a1085c0b426d2f4da0494da">tinyhttp::HttpServer::begin</a></div><div class="ttdeci">void begin(int port, const char *ssid, const char *password)</div><div class="ttdoc">Starts the server on the indicated port - calls WiFi.begin(ssid, password);.</div><div class="ttdef"><b>Definition:</b> HttpServer.h:42</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a2ff6db5a079f081d5d8ad21902bf5085"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085">tinyhttp::HttpServer::processextension_collection</a></div><div class="ttdeci">void processextension_collection()</div><div class="ttdoc">executes the doLoop of all extension_collection</div><div class="ttdef"><b>Definition:</b> HttpServer.h:330</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a3117076812f07d4b6c145a1085e2db89"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a3117076812f07d4b6c145a1085e2db89">tinyhttp::HttpServer::replyHeader</a></div><div class="ttdeci">HttpReplyHeader &amp; replyHeader()</div><div class="ttdoc">provides the reply header</div><div class="ttdef"><b>Definition:</b> HttpServer.h:241</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a5d63c8f7170d736f3623f6d9c99cc5aa"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a5d63c8f7170d736f3623f6d9c99cc5aa">tinyhttp::HttpServer::endClient</a></div><div class="ttdeci">void endClient()</div><div class="ttdoc">closes the connection to the current client_ptr</div><div class="ttdef"><b>Definition:</b> HttpServer.h:246</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a5e16bf26a351b1e297f3ba73682e1226"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a5e16bf26a351b1e297f3ba73682e1226">tinyhttp::HttpServer::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">stops the server_ptr</div><div class="ttdef"><b>Definition:</b> HttpServer.h:70</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a6a20ed633c40188e036094fdaa89e6c6"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a6a20ed633c40188e036094fdaa89e6c6">tinyhttp::HttpServer::onRequest</a></div><div class="ttdeci">bool onRequest(const char *path)</div><div class="ttdoc">generic handler - you can overwrite this method to provide your specifc processing logic</div><div class="ttdef"><b>Definition:</b> HttpServer.h:144</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a7bd02a66d83001b30cff9be2a76e8e6e"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a7bd02a66d83001b30cff9be2a76e8e6e">tinyhttp::HttpServer::on</a></div><div class="ttdeci">void on(const char *url, MethodID method, const char *mime, const char *result)</div><div class="ttdoc">register a handler which provides the indicated string</div><div class="ttdef"><b>Definition:</b> HttpServer.h:95</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_http_server_html_abc6d3c5292335bd5e81fd96f2b6f8413"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#abc6d3c5292335bd5e81fd96f2b6f8413">tinyhttp::HttpServer::processextension_vector</a></div><div class="ttdeci">void processextension_vector()</div><div class="ttdoc">executes the doLoop of all extension_vector</div><div class="ttdef"><b>Definition:</b> HttpServer.h:326</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_acd3281dc1afe380c7fa79d858b4135a9"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#acd3281dc1afe380c7fa79d858b4135a9">tinyhttp::HttpServer::on</a></div><div class="ttdeci">void on(const char *url, MethodID method, web_callback_fn fn, void *ctx[]=nullptr, int ctxCount=0)</div><div class="ttdoc">register a generic handler</div><div class="ttdef"><b>Definition:</b> HttpServer.h:83</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_http_server_html_acf40e79ffc90ad04df36ee0dae299458"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">tinyhttp::HttpServer::resolveRewrite</a></div><div class="ttdeci">const char * resolveRewrite(const char *from)</div><div class="ttdoc">determiens the potentially rewritten url which should be used for the further processing</div><div class="ttdef"><b>Definition:</b> HttpServer.h:337</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_http_server_html_acf40e79ffc90ad04df36ee0dae299458"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#acf40e79ffc90ad04df36ee0dae299458">tinyhttp::HttpServer::resolveRewrite</a></div><div class="ttdeci">const char * resolveRewrite(const char *from)</div><div class="ttdoc">determiens the potentially rewritten url which should be used for the further processing</div><div class="ttdef"><b>Definition:</b> HttpServer.h:341</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_ad084feacf1d29e1f44de0e018707d829"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">tinyhttp::HttpServer::rewrite</a></div><div class="ttdeci">void rewrite(const char *from, const char *to)</div><div class="ttdoc">adds a rewrite rule</div><div class="ttdef"><b>Definition:</b> HttpServer.h:76</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_ad6241bfe0426581f8ea06c62749fd484"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#ad6241bfe0426581f8ea06c62749fd484">tinyhttp::HttpServer::requestHeader</a></div><div class="ttdeci">HttpRequestHeader &amp; requestHeader()</div><div class="ttdoc">provides the request header</div><div class="ttdef"><b>Definition:</b> HttpServer.h:236</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html_af5fe000a9d703136f70043200e8816c8"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#af5fe000a9d703136f70043200e8816c8">tinyhttp::HttpServer::on</a></div><div class="ttdeci">void on(const char *url, MethodID method, Url &amp;redirect)</div><div class="ttdoc">register a redirection</div><div class="ttdef"><b>Definition:</b> HttpServer.h:118</div></div>

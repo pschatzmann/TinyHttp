@@ -73,7 +73,7 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Platform/AltClient.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/StrExt.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Basic/Vector.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Basic/List.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Server/Url.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;Server/HttpLogger.h&quot;</span> </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;Server/HttpLineReader.h&quot;</span> </div>
@@ -344,7 +344,7 @@ $(function() {
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        StrExt protocol_str = StrExt(10);</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        StrExt url_path = StrExt(70);</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        StrExt status_msg = StrExt(20);</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        Vector&lt;HttpHeaderLine*&gt; lines;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        List&lt;HttpHeaderLine*&gt; lines;</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        HttpLineReader reader;</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* CRLF = <span class="stringliteral">&quot;\r\n&quot;</span>;</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>

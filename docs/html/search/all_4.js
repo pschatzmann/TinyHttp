@@ -12,6 +12,5 @@ var searchData=
   ['extensionsd_19',['ExtensionSD',['../classtinyhttp_1_1_extension_s_d.html',1,'tinyhttp']]],
   ['extensionsdstreamed_20',['ExtensionSDStreamed',['../classtinyhttp_1_1_extension_s_d_streamed.html',1,'tinyhttp']]],
   ['extensionstream_21',['ExtensionStream',['../classtinyhttp_1_1_extension_stream.html#a45632ba65e61a4165388968a36674c11',1,'tinyhttp::ExtensionStream::ExtensionStream(const char *url, MethodID action, const char *mime, const char *startHtml=nullptr, const char *endHtml=nullptr, int bufferSize=256, int historySize=1024)'],['../classtinyhttp_1_1_extension_stream.html#ab031febbdb2bf855e8eb8ed5feea4e27',1,'tinyhttp::ExtensionStream::ExtensionStream(const char *url, const char *mime, Stream &amp;source)'],['../classtinyhttp_1_1_extension_stream.html',1,'tinyhttp::ExtensionStream']]],
-  ['extensionstreamshared_22',['ExtensionStreamShared',['../classtinyhttp_1_1_extension_stream_shared.html',1,'tinyhttp']]],
-  ['extensionwebcopy_23',['ExtensionWebCopy',['../classtinyhttp_1_1_extension_web_copy.html',1,'tinyhttp']]]
+  ['extensionstreamshared_22',['ExtensionStreamShared',['../classtinyhttp_1_1_extension_stream_shared.html',1,'tinyhttp']]]
 ];
