@@ -53,6 +53,12 @@ class HttpServer {
             begin(port);
         }
 
+        IPAddress &localIP() {
+            static IPAddress address;
+            address = WiFi.localIP();
+            return address;
+        }
+
         /// Starts the server on the indicated port
         void begin(int port){
             Log.log(Info,"HttpServer","begin");

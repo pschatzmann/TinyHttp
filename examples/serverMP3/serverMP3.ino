@@ -11,16 +11,26 @@
  */
 
 #include "HttpServer.h"
+#include "HttpExtensions.h"
+
+// I was using the AudioKit to test: It has quite some strange SD pin setup
+#define PIN_AUDIO_KIT_SD_CARD_CS 13
+#define PIN_AUDIO_KIT_SD_CARD_MISO 2
+#define PIN_AUDIO_KIT_SD_CARD_MOSI 15
+#define PIN_AUDIO_KIT_SD_CARD_CLK  14
 
 const char* ssid = "SSID";
 const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionMusicFileStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512);
+ExtensionMusicFileStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512, PIN_AUDIO_KIT_SD_CARD_CS);
 
 void setup() {
     Serial.begin(115200);
     Log.setLogger(Serial, Info);
+
+    // If you use custom pins for the CD drive: Comment out if you use the standard pins
+    SPI.begin(PIN_AUDIO_KIT_SD_CARD_CLK, PIN_AUDIO_KIT_SD_CARD_MISO, PIN_AUDIO_KIT_SD_CARD_MOSI, PIN_AUDIO_KIT_SD_CARD_CS);
 
     server.rewrite("/","/music/mp3");
     server.addExtension(sdMp3);

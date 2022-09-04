@@ -15,7 +15,7 @@ namespace tinyhttp {
  */
 class ExtensionMusicFileStream : public Extension {
     public:
-        ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cpin=-1){
+        ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cspin=-1){
             Log.log(Info,"ExtensionMusicFileStream", url);
             this->url = url;
             this->file_extension = extension;
@@ -24,12 +24,7 @@ class ExtensionMusicFileStream : public Extension {
             this->buffer = new uint8_t[bufferSize];
             HttpStreamedMultiOutput *out = new HttpStreamedMultiOutput(mime, nullptr, nullptr, 0);
             this->streaming = new ExtensionStreamShared(url,  *out, GET);
-            // open SD 
-            if (cpin==-1){
-                SD.begin();
-            } else {
-                SD.begin(cpin);
-            }
+            this->sd_cs = cspin;
 
         }
 
@@ -41,6 +36,7 @@ class ExtensionMusicFileStream : public Extension {
 
         virtual void open(HttpServer *server) {
             Log.log(Info,"ExtensionMusicFileStream", "open");
+            setupSD();
             // setup handler
             streaming->open(server);
             // setup first music file
@@ -73,6 +69,19 @@ class ExtensionMusicFileStream : public Extension {
         int buffer_size;
         int loop_limit = 2;
         int loop_count;
+        int sd_cs;
+        bool is_open = false;
+
+        void setupSD() {
+            if (!is_open) {
+                if (sd_cs==-1){
+                    SD.begin();
+                } else {
+                    SD.begin(sd_cs);
+                }
+                is_open = true;
+            }
+        }
 
         // provides the current file if it is not finished yet otherwise we move to the 
         // next music file or restart at the start directory when we reach the end
@@ -93,7 +102,7 @@ class ExtensionMusicFileStream : public Extension {
                 current_file = current_file.openNextFile();
                 if (current_file){
                     Str name_str = Str(current_file.name());
-                    if (name_str.endsWith(file_extension)){
+                    if (name_str.endsWith(file_extension) && !name_str.contains("/.")){
                         break;
                     }
                     Log.log(Warning,"ExtensionMusicFileStream::getNextMusicFile - not relevant", current_file.name());

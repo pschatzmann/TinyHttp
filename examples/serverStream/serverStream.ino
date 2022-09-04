@@ -10,7 +10,7 @@
  */
 
 #include "HttpServer.h"
-
+#include "HttpExtensions.h"
 
 // setup server 
 const char* ssid = "SSID";
@@ -20,7 +20,7 @@ HttpServer server(wifi);
 const char* htmlHeader = "<html><body style='background-color:black; color:white'><h1>Streaming Example</h1>";
 const char* htmlEnd = "</body></html>";
 const char* mime = "text/html";
-ExtensionStream stream("/stream",GET, mime, htmlHeader, htmlEnd );
+ExtensionStream stream("/",GET, mime, htmlHeader, htmlEnd );
 Ticker ticker;
 
 

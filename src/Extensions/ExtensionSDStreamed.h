@@ -8,6 +8,11 @@
 
 namespace tinyhttp {
 
+// forward declaration
+class ExtensionSDStreamed;
+// global reference to ExtensionSDStreamed
+ExtensionSDStreamed *selfExtensionSDStreamed=nullptr;
+
 /**
  * @brief Extension which serves the files which are available on the SD card
  * The content is returned in chunks via the processing loop
@@ -16,6 +21,7 @@ class ExtensionSDStreamed : public Extension {
     public:    
         ExtensionSDStreamed(const char* path="/*", int cspin=-1){
         Log.log(Info,"ExtensionSDStreamed", path);
+        selfExtensionSDStreamed = this;
         this->path = path;
         this->sd_cs = cspin;
        }
@@ -23,23 +29,10 @@ class ExtensionSDStreamed : public Extension {
         virtual void open(HttpServer *server) {
             setupSD();
             // define the file handler
-            auto lambda = [this](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
-                Url url(server_ptr->requestHeader().urlPath());
-                const char* path = url.path();
-                Log.log(Info,"ExtensionSD::lambda", path);
-                if (SD.exists(path)){
-                    // provide reply header
-                    MimeResolver resolver;
-                    const char* mime = resolver.getMime(path);
-                    server_ptr->replyChunked(mime, 200);
-
-                    // setup incremental reply chunks
-                    File file = SD.open(path);
-                    HttpStreamCopy *out = new HttpStreamCopy(file, server_ptr->client());
-                    output->push_back(out);
-
-                } 
+            auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
+                selfExtensionSDStreamed->getData(server_ptr, requestPath, hl);
             };
+
             // register default SD File handler
             server->on(path, GET, lambda);
         }
@@ -81,6 +74,25 @@ class ExtensionSDStreamed : public Extension {
                 }
                 is_open = true;
             }
+        }
+
+        // Callback logic implementation
+        void getData(HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
+            Url url(server_ptr->requestHeader().urlPath());
+            const char* path = url.path();
+            Log.log(Info,"getData", path);
+            if (SD.exists(path)){
+                // provide reply header
+                MimeResolver resolver;
+                const char* mime = resolver.getMime(path);
+                server_ptr->replyChunked(mime, 200);
+
+                // setup incremental reply chunks
+                File file = SD.open(path);
+                HttpStreamCopy *out = new HttpStreamCopy(file, server_ptr->client());
+                output.push_back(out);
+
+            } 
         }
 
 };

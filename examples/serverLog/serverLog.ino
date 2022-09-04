@@ -10,14 +10,24 @@
  */
 
 #include "HttpServer.h"
+#include "HttpExtensions.h"
 
 const char* ssid = "SSID";
 const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionLoggingStream stream("/log");
+ExtensionLoggingStream stream("/");
 Ticker ticker;
 
+void printMsg(void*){
+    static int count;
+    char str[20];
+    sprintf(str,"counter: %d",count++);
+    // log to server
+    stream.println(str);
+    // log to serial
+    Serial.println(str);
+}
 
 void setup() {
     Serial.begin(115200);
@@ -30,16 +40,6 @@ void setup() {
     server.addExtension(stream);
     server.begin(80, ssid, password);
     
-}
-
-void printMsg(void*){
-    static int count;
-    char str[20];
-    sprintf(str,"counter: %d",count++);
-    // log to server
-    stream.println(str);
-    // log to serial
-    Serial.println(str);
 }
 
 void loop(){

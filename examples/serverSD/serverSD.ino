@@ -11,8 +11,9 @@
  */
 
 #include "HttpServer.h"
-#include "SD.h"
+#include "HttpExtensions.h"
 
+// I was using the AudioKit to test: It has quite some strange SD pin setup
 #define PIN_AUDIO_KIT_SD_CARD_CS 13
 #define PIN_AUDIO_KIT_SD_CARD_MISO 2
 #define PIN_AUDIO_KIT_SD_CARD_MOSI 15
@@ -29,7 +30,7 @@ void setup() {
     Serial.begin(115200);
     Log.setLogger(Serial, Info);
  
-    // If you use custom pins for the CD drive
+    // If you use custom pins for the CD drive: Comment out if you use the standard pins
     SPI.begin(PIN_AUDIO_KIT_SD_CARD_CLK, PIN_AUDIO_KIT_SD_CARD_MISO, PIN_AUDIO_KIT_SD_CARD_MOSI, PIN_AUDIO_KIT_SD_CARD_CS);
 
     // start server
