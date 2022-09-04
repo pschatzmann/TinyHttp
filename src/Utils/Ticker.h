@@ -6,6 +6,7 @@
 
 namespace tinyhttp {
 
+/// Information for each scheduled ticker request
 struct TickerEntry {
     long repeatMs;
     long startMs= -1l; 

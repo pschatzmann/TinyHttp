@@ -4,6 +4,10 @@
 
 namespace tinyhttp {
 
+/**
+ * @brief Object which  information about the rewrite rule
+ * 
+ */
 class HttpRequestRewrite {
     public:
         HttpRequestRewrite(const char *from, const char* to ){

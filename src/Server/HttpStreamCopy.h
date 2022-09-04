@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Server/HttpChunkWriter.h"
+
+namespace tinyhttp {
+
 /**
  * @brief Processing of a single stream to a single client. 
  * In the loop we can simply provide individual small chunks
@@ -7,9 +11,6 @@
  * 
  * We work on a copy of the WiFiClient
  */
-#include "Server/HttpChunkWriter.h"
-
-namespace tinyhttp {
 
 class HttpStreamCopy {
     public:
