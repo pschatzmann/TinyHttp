@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['processextension_5fcollection_74',['processextension_collection',['../classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085',1,'tinyhttp::HttpServer']]],
-  ['put_75',['put',['../classtinyhttp_1_1_http_header.html#adc13e13648c3d881fae5f4da0dd9a3d9',1,'tinyhttp::HttpHeader::put(const char *key, int value)'],['../classtinyhttp_1_1_http_header.html#a777133cacd58f3626456ab8eab2d4ffe',1,'tinyhttp::HttpHeader::put(const char *line)']]]
+  ['processextension_5fcollection_0',['processextension_collection',['../classtinyhttp_1_1_http_server.html#a2ff6db5a079f081d5d8ad21902bf5085',1,'tinyhttp::HttpServer']]],
+  ['put_1',['put',['../classtinyhttp_1_1_http_header.html#a522309340aa1521b8d54ad69849c65ae',1,'tinyhttp::HttpHeader::put(const char *key, int value)'],['../classtinyhttp_1_1_http_header.html#af03d06efa84b158bb0b19b3c7c11b3b4',1,'tinyhttp::HttpHeader::put(const char *line)']]]
 ];

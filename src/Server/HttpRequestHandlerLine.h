@@ -13,7 +13,7 @@ class HttpRequestHandlerLine;
 typedef void (*web_callback_fn)(HttpServer *server, const char* requestPath, HttpRequestHandlerLine *handlerLine);
 
 /**
- * @brief used to register and process callbacks 
+ * @brief Used to register and process callbacks 
  * 
  */
 class HttpRequestHandlerLine {
@@ -39,10 +39,11 @@ class HttpRequestHandlerLine {
         }
 
         MethodID method;
-        const char* path;
+        const char* path = nullptr;
         web_callback_fn fn;
         void** context;
         int contextCount;
+        Str *header = nullptr;
 };
 
 }

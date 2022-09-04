@@ -4,7 +4,7 @@
 #include <SD.h>
 #include "Extensions/Extension.h"
 #include "Server/HttpServer.h"
-#include "Extensions/ExtensionStreamShared.h"
+#include "Extensions/ExtensionStreamBasic.h"
 #include "Server/HttpStreamedMultiOutput.h"
 
 namespace tinyhttp {
@@ -23,7 +23,7 @@ class ExtensionMusicFileStream : public Extension {
             this->buffer_size = bufferSize;
             this->buffer = new uint8_t[bufferSize];
             HttpStreamedMultiOutput *out = new HttpStreamedMultiOutput(mime, nullptr, nullptr, 0);
-            this->streaming = new ExtensionStreamShared(url,  *out, GET);
+            this->streaming = new ExtensionStreamBasic(url,  *out, GET);
             this->sd_cs = cspin;
             this->delay_ms = delay;
 
@@ -46,22 +46,8 @@ class ExtensionMusicFileStream : public Extension {
             getMusicFile();
         }
 
-        // incremental pushing of the next buffer size to the open clients using chunked HttpStreamedMultiOutput
-        virtual void doLoop(){
-            // we actually just need to do something if we have open clients
-            if (streaming->isOpen()){
-                File file = getMusicFile();
-                if (file) {
-                    // we just write the current data from the file to all open streams            
-                    int len = file.read(buffer,buffer_size);
-                    streaming->write(buffer, len);
-                    delay(delay_ms);
-                }
-            }
-        }
-
     protected:
-        ExtensionStreamShared *streaming;
+        ExtensionStreamBasic *streaming;
         const char *file_extension;
         const char *start_dir;
         const char *url;
@@ -75,6 +61,20 @@ class ExtensionMusicFileStream : public Extension {
         int sd_cs;
         int delay_ms;
         bool is_open = false;
+
+        // incremental pushing of the next buffer size to the open clients using chunked HttpStreamedMultiOutput
+        virtual void doLoop()override{
+            // we actually just need to do something if we have open clients
+            if (streaming->isOpen()){
+                File file = getMusicFile();
+                if (file) {
+                    // we just write the current data from the file to all open streams            
+                    int len = file.read(buffer,buffer_size);
+                    streaming->write(buffer, len);
+                    delay(delay_ms);
+                }
+            }
+        }
 
         void setupSD() {
             if (!is_open) {

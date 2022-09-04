@@ -26,7 +26,7 @@ class HttpStreamCopy {
         }
 
         bool isOpen(){
-            is_open;
+            return is_open;
         }
 
         void doLoop(){

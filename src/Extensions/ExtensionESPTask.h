@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Arduino.h"
-#include "FreeRTOS.h" /* Must come first. */
 
 namespace tinyhttp {
 
@@ -42,8 +41,6 @@ class ExtensionESPTask : public Extension {
                 Log.log(Info, "task created");
             }
         };
-
-        virtual void doLoop() {};
 
         void stop(){
             if (xHandle!=0) {

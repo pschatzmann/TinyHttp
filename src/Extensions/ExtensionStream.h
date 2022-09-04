@@ -3,7 +3,7 @@
 #include "Stream.h"
 #include "Extensions/Extension.h"
 #include "Server/HttpStreamedMultiOutput.h"
-#include "Extensions/ExtensionStreamShared.h"
+#include "Extensions/ExtensionStreamBasic.h"
 #include "Basic/RingBuffer.h"
 
 namespace tinyhttp {
@@ -20,7 +20,7 @@ class ExtensionStream : public Stream, public Extension  {
         ExtensionStream(const char* url, MethodID action,  const char* mime, const char* startHtml=nullptr, const char* endHtml=nullptr, int bufferSize=256, int historySize=1024){
             Log.log(Info,"ExtensionStream");
             out = new HttpStreamedMultiOutput(mime, startHtml, endHtml, historySize);
-            ext = new ExtensionStreamShared(url, *out, action);
+            ext = new ExtensionStreamBasic(url, *out, action);
             this->bufferSize = bufferSize;
             this->ringBuffer = new RingBuffer(bufferSize);
         }
@@ -28,7 +28,7 @@ class ExtensionStream : public Stream, public Extension  {
         /// Alternative way to provide data by reading from another stream
         ExtensionStream(const char* url, const char* mime, Stream &source){
             out = new HttpStreamedMultiOutput(mime);
-            ext = new ExtensionStreamShared(url, *out, GET);
+            ext = new ExtensionStreamBasic(url, *out, GET);
             pAltSource = &source;
         }
 
@@ -38,19 +38,16 @@ class ExtensionStream : public Stream, public Extension  {
             delete ringBuffer;
         }
 
-        // delegate processing to ExtensionStreamShared
+        /// Defines a standard reply header - which can be binary data
+        void setReplyHeader(Str &header){
+            ext->setReplyHeader(header);
+        }
+
+        // delegate processing to ExtensionStreamBasic
         virtual void open(HttpServer *server){     
             Log.log(Info,"ExtensionStream","open");
             ext->open(server);
             is_open = true;
-        }
-
-        virtual void doLoop() {
-            // only do something after open
-            if (is_open){
-                copyFromAltSource(); // optinally
-                ext->doLoop();
-            }
         }
 
         int available() {
@@ -114,12 +111,20 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
     protected:
-        ExtensionStreamShared *ext=nullptr;
+        ExtensionStreamBasic *ext=nullptr;
         RingBuffer *ringBuffer=nullptr; 
         HttpStreamedMultiOutput *out=nullptr;
         Stream *pAltSource=nullptr;
         int bufferSize;
         bool is_open=false;
+
+        virtual void doLoop() override {
+            // only do something after open
+            if (is_open){
+                copyFromAltSource(); // optinally
+                ext->doLoop();
+            }
+        }
 
         void copyFromAltSource() {
             if (pAltSource!=nullptr){

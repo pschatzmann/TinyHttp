@@ -41,7 +41,6 @@ class ExtensionSD : public Extension {
             // register default SD File handler
             server->on(path, GET, lambda);
         }
-        virtual void doLoop(){}
 
     protected:
         const char* path;

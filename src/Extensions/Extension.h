@@ -12,9 +12,13 @@ class HttpServer;
  * 
  */
 class Extension {
+    friend class HttpServer;
+
     public:
         Extension(){}
         virtual void open(HttpServer *server) {};
+    
+    protected:
         virtual void doLoop() {};
 
 };

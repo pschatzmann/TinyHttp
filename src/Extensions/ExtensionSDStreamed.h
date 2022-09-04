@@ -37,17 +37,6 @@ class ExtensionSDStreamed : public Extension {
             server->on(path, GET, lambda);
         }
 
-        // process chunk for each open request
-        virtual void doLoop(){
-            for (auto i = output.begin(); i != output.end(); ++i) {
-                HttpStreamCopy *out = (*i);
-                if (out->isOpen()){ 
-                    out->doLoop();
-                }
-            }  
-            cleanup();      
-        }
-
         // remove closed output from further processing
         void cleanup() {
             for (auto i = output.begin(); i != output.end(); ++i) {
@@ -64,6 +53,17 @@ class ExtensionSDStreamed : public Extension {
         const char* path;
         int sd_cs;
         bool is_open = false;
+
+        // process chunk for each open request
+        virtual void doLoop() override {
+            for (auto i = output.begin(); i != output.end(); ++i) {
+                HttpStreamCopy *out = (*i);
+                if (out->isOpen()){ 
+                    out->doLoop();
+                }
+            }  
+            cleanup();      
+        }
 
         void setupSD() {
             if (!is_open) {
