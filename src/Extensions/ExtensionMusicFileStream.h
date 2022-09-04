@@ -40,16 +40,16 @@ class ExtensionMusicFileStream : public Extension {
             // setup handler
             streaming->open(server);
             // setup first music file
-            current_file = SD.open(start_dir);
+            directory = SD.open(start_dir);
             // find first music file - so that we are already ready to stream when a request arives
-            getNextMusicFile();
+            getMusicFile();
         }
 
         // incremental pushing of the next buffer size to the open clients using chunked HttpStreamedMultiOutput
         virtual void doLoop(){
             // we actually just need to do something if we have open clients
             if (streaming->isOpen()){
-                File file = getNextMusicFile();
+                File file = getMusicFile();
                 if (file) {
                     // we just write the current data from the file to all open streams            
                     int len = file.read(buffer,buffer_size);
@@ -63,6 +63,7 @@ class ExtensionMusicFileStream : public Extension {
         const char *file_extension;
         const char *start_dir;
         const char *url;
+        File directory;
         File current_file;
         File empty;
         uint8_t* buffer;
@@ -85,14 +86,15 @@ class ExtensionMusicFileStream : public Extension {
 
         // provides the current file if it is not finished yet otherwise we move to the 
         // next music file or restart at the start directory when we reach the end
-        File &getNextMusicFile() {
-            Log.log(Debug,"ExtensionMusicFileStream::getNextMusicFile",file_extension);
-            if ((current_file).available()>0){
+        File &getMusicFile() {
+            Log.log(Debug,"ExtensionMusicFileStream::getMusicFile",file_extension);
+            if (current_file.available()>0){
                 loop_count = 0;
-                //Log.log(Debug,"ExtensionMusicFileStream::getNextMusicFile", current_file.name());
+                //Log.log(Debug,"ExtensionMusicFileStream::getMusicFile", current_file.name());
                 return current_file;
             }
             current_file.close();
+            int nextFileCount = 0;
             while(true){
                 // prevent an endless loop
                 if (loop_count > loop_limit){
@@ -100,22 +102,30 @@ class ExtensionMusicFileStream : public Extension {
                 }
 
                 // check file extension
-                current_file = current_file.openNextFile();
+                current_file = directory.openNextFile();
+                Log.log(Info,"processing", current_file.name());
                 if (current_file){
                     Str name_str = Str(current_file.name());
                     if (name_str.endsWith(file_extension) && !name_str.contains("/.")){
+                        Log.log(Info,"ExtensionMusicFileStream::getMusicFile", current_file.name());
+                        loop_count = 0;
+                        nextFileCount = 0;
                         break;
-                    }
-                    Log.log(Warning,"ExtensionMusicFileStream::getNextMusicFile - not relevant", current_file.name());
+                    } 
+                    Log.log(Warning,"ExtensionMusicFileStream::getMusicFile - not relevant", current_file.name());
                 } else {
-                    Log.log(Warning,"ExtensionMusicFileStream::getNextMusicFile", "restart");
+                    nextFileCount++;
+                }
+
+                // we restart when we did not find any vaild file in the last 20 entrie
+                if (nextFileCount>20){
+                    Log.log(Warning,"ExtensionMusicFileStream::getMusicFile", "restart");
                     // no file -> restart from the beginning
-                    current_file = SD.open(start_dir);
+                    directory.rewindDirectory();
                     loop_count++;
                 }
             }    
 
-            Log.log(Info,"ExtensionMusicFileStream::getNextMusicFile", current_file.name());
             return current_file;
         }
 
