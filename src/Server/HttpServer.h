@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdlib.h> 
-#include "Basic/Vector.h"
+#include "Basic/List.h"
 #include "Server.h"
 #include "Client.h"
 #include "HttpClient.h"
@@ -32,10 +32,10 @@ class HttpServer {
         ~HttpServer(){
             Log.log(Info,"~HttpServer");
             delete []buffer;
-            handler_vector.clear();
+            handler_collection.clear();
             request_header.clear(false);
             reply_header.clear(false);
-            rewrite_vector.clear();
+            rewrite_collection.clear();
         }
 
         /// Starts the server on the indicated port - calls WiFi.begin(ssid, password);
@@ -75,7 +75,7 @@ class HttpServer {
         /// adds a rewrite rule
         void rewrite(const char* from, const char* to){
             HttpRequestRewrite *line = new HttpRequestRewrite(from, to);
-            rewrite_vector.push_back(line);
+            rewrite_collection.push_back(line);
         }
 
 
@@ -147,7 +147,7 @@ class HttpServer {
             bool result = false;
             // check in registered handlers
             Str pathStr = Str(path);
-            for (auto it = handler_vector.begin() ; it != handler_vector.end(); ++it) {
+            for (auto it = handler_collection.begin() ; it != handler_collection.end(); ++it) {
                 HttpRequestHandlerLine *handler_line_ptr = *it;
                 Log.log(Info,"onRequest - checking:",handler_line_ptr->path);
 
@@ -259,12 +259,12 @@ class HttpServer {
         void addExtension(Extension &out){
             Log.log(Info,"HttpServer","addExtension");
             out.open(this);
-            extension_vector.push_back(&out);
+            extension_collection.push_back(&out);
         }
 
         // adds a new handler
         void addHandler(HttpRequestHandlerLine *handlerLinePtr){
-            handler_vector.push_back(handlerLinePtr);
+            handler_collection.push_back(handlerLinePtr);
         }
 
         // Call this method from your loop!
@@ -283,8 +283,8 @@ class HttpServer {
                     processRequest();
                 }
 
-                // process doLoop of all registed (and opened) extension_vector 
-                processextension_vector();
+                // process doLoop of all registed (and opened) extension_collection 
+                processextension_collection();
             }
         }
 
@@ -301,9 +301,9 @@ class HttpServer {
         // data
         HttpRequestHeader request_header;
         HttpReplyHeader reply_header;
-        Vector<HttpRequestHandlerLine*> handler_vector;
-        Vector<Extension*> extension_vector;
-        Vector<HttpRequestRewrite*> rewrite_vector;
+        List<HttpRequestHandlerLine*> handler_collection;
+        List<Extension*> extension_collection;
+        List<HttpRequestRewrite*> rewrite_collection;
         WiFiClient *client_ptr;
         WiFiServer *server_ptr;
         bool is_active;
@@ -326,11 +326,11 @@ class HttpServer {
             }                   
         }
 
-        /// executes the doLoop of all extension_vector
-        void processextension_vector(){
-            //if (extension_vector.size()>0) Log.log(Info,"processextension_vector");
+        /// executes the doLoop of all extension_collection
+        void processextension_collection(){
+            //if (extension_collection.size()>0) Log.log(Info,"processextension_collection");
             // we handle all open clients
-            for (auto i = extension_vector.begin(); i != extension_vector.end(); ++i) {
+            for (auto i = extension_collection.begin(); i != extension_collection.end(); ++i) {
                 Extension *ext = (*i);
                 // register new client
                 ext->doLoop();
@@ -339,7 +339,7 @@ class HttpServer {
 
         /// determiens the potentially rewritten url which should be used for the further processing
         const char *resolveRewrite(const char* from){
-             for (auto i = rewrite_vector.begin(); i != rewrite_vector.end(); ++i) {
+             for (auto i = rewrite_collection.begin(); i != rewrite_collection.end(); ++i) {
                 HttpRequestRewrite *rewrite = (*i);
                 if (rewrite->from.matches(from)){
                     return rewrite->to.c_str();

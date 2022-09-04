@@ -3,7 +3,7 @@
 #include "Server/HttpChunkWriter.h"
 #include "Server/HttpStreamedOutput.h"
 #include "WiFi.h"
-#include "Basic/Vector.h"
+#include "Basic/List.h"
 #include "Basic/StrExt.h"
 
 namespace tinyhttp {
@@ -144,7 +144,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
 
     protected:
         HttpChunkWriter writer;
-        Vector<WiFiClient> clients;
+        List<WiFiClient> clients;
         StrExt *history = nullptr;
         int max_history_length;
         const char *start = nullptr;

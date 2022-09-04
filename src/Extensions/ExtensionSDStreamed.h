@@ -60,7 +60,7 @@ class ExtensionSDStreamed : public Extension {
         }
 
     protected:
-        Vector<HttpStreamCopy*> output;
+        List<HttpStreamCopy*> output;
         const char* path;
         int sd_cs;
         bool is_open = false;

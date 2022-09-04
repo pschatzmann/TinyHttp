@@ -236,7 +236,7 @@ class WebCopy {
         file.close();
     }
 
-    // extracts the stack and puts them on the stack Vector
+    // extracts the stack and puts them on the stack 
     void extractReferences(uint8_t* buffer, int len) {
         Log.log(Info, "extractReferences");
         char url_buffer[200];

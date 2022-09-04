@@ -2,7 +2,7 @@
 
 #include "Platform/AltClient.h"
 #include "Basic/StrExt.h"
-#include "Basic/Vector.h"
+#include "Basic/List.h"
 #include "Server/Url.h"
 #include "Server/HttpLogger.h" 
 #include "Server/HttpLineReader.h" 
@@ -48,7 +48,7 @@ struct HttpHeaderLine {
 /**
  * @brief In a http request and reply we need to process header information. With this API
  * we can define and query the header information. The individual header lines are stored
- * in a vector. This is the common functionality for the HttpRequest and HttpReplyHeader
+ * in a list. This is the common functionality for the HttpRequest and HttpReplyHeader
  * subclasses
  * 
  */
@@ -288,7 +288,7 @@ class HttpHeader {
         StrExt protocol_str = StrExt(10);
         StrExt url_path = StrExt(70);
         StrExt status_msg = StrExt(20);
-        Vector<HttpHeaderLine*> lines;
+        List<HttpHeaderLine*> lines;
         HttpLineReader reader;
         const char* CRLF = "\r\n";
 

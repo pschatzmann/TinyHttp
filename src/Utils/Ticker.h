@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Arduino.h"
-#include "Basic/Vector.h"
+#include "Basic/List.h"
 #include "Server/HttpLogger.h"
 
 namespace tinyhttp {
@@ -17,7 +17,7 @@ struct TickerEntry {
 };
 
 const long UNDEFINED_SCHEDULE = -1;
-Vector<TickerEntry*> ticker_entries;
+List<TickerEntry*> ticker_entries;
 int TickerId;
 
 /**
@@ -35,7 +35,6 @@ class Ticker {
         ~Ticker(){
             stopAll();
             ticker_entries.clear();
-            ticker_entries.shrink_to_fit();
         }
 
          /// Schedule and starts the execution of the callback
