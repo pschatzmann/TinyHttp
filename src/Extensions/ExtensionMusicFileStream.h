@@ -15,7 +15,7 @@ namespace tinyhttp {
  */
 class ExtensionMusicFileStream : public Extension {
     public:
-        ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cspin=-1){
+        ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cspin=-1, int delay=10){
             Log.log(Info,"ExtensionMusicFileStream", url);
             this->url = url;
             this->file_extension = extension;
@@ -25,6 +25,7 @@ class ExtensionMusicFileStream : public Extension {
             HttpStreamedMultiOutput *out = new HttpStreamedMultiOutput(mime, nullptr, nullptr, 0);
             this->streaming = new ExtensionStreamShared(url,  *out, GET);
             this->sd_cs = cspin;
+            this->delay_ms = delay;
 
         }
 
@@ -54,6 +55,7 @@ class ExtensionMusicFileStream : public Extension {
                     // we just write the current data from the file to all open streams            
                     int len = file.read(buffer,buffer_size);
                     streaming->write(buffer, len);
+                    delay(delay_ms);
                 }
             }
         }
@@ -71,6 +73,7 @@ class ExtensionMusicFileStream : public Extension {
         int loop_limit = 10;
         int loop_count;
         int sd_cs;
+        int delay_ms;
         bool is_open = false;
 
         void setupSD() {

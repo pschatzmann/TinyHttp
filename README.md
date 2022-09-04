@@ -130,9 +130,10 @@ void loop(){
 
 Further extension examples can be found in the [examples directory](https://github.com/pschatzmann/TinyHttp/tree/main/examples)!
 
+
 ## Documentation
 
-- Here is the generated [Class Documentation](https://pschatzmann.github.io/TinyHttp/html/annotated.html). 
+- Here is the [Class Documentation](https://pschatzmann.github.io/TinyHttp/html/annotated.html). 
 - Please also check out the [Information in the Wiki](https://github.com/pschatzmann/TinyHttp/wiki)
 
 
