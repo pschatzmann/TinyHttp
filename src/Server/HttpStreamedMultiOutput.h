@@ -4,6 +4,7 @@
 #include "Server/HttpStreamedOutput.h"
 #include "WiFi.h"
 #include "Basic/Vector.h"
+#include "Basic/StrExt.h"
 
 namespace tinyhttp {
 
@@ -100,7 +101,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    Log.log(Info,"HttpStreamedMultiOutput","write");
+                    Log.log(Debug,"HttpStreamedMultiOutput","write");
                     writer.writeChunk(client,(const char*) content, len);
                 }
             }  
@@ -114,7 +115,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    Log.log(Info,"HttpStreamedMultiOutput","print");
+                    Log.log(Debug,"HttpStreamedMultiOutput","print");
                     writer.writeChunk(client,(const char*) str, len);
               }
             }  
@@ -129,7 +130,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    Log.log(Info,"HttpStreamedMultiOutput","println");
+                    Log.log(Debug,"HttpStreamedMultiOutput","println");
                     writer.writeChunk(client, str, len,"<br>",4);   
                 }
             } 
@@ -144,12 +145,12 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
     protected:
         HttpChunkWriter writer;
         Vector<WiFiClient> clients;
-        StrExt *history;
+        StrExt *history = nullptr;
         int max_history_length;
-        const char *start;
-        const char *end;
-        const char *mime_type;
-        int id_value;
+        const char *start = nullptr;
+        const char *end = nullptr;
+        const char *mime_type = nullptr;
+        int id_value = 0;
 
         // clenaup closed clients
         void cleanup() {

@@ -10,7 +10,6 @@ namespace tinyhttp {
 /**
  * @brief Extension which serves the files which are available on the SD card
  * We return the full file content - so use this class only for small files!
- * You need to call SD.begin() yourself before registering the extension.
  */
 class ExtensionSD : public Extension {
     public:    

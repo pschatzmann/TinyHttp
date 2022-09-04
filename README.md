@@ -128,7 +128,7 @@ void loop(){
 
 ```
 
-Further extension examples can be found in the examples directory!
+Further extension examples can be found in the [examples directory](https://github.com/pschatzmann/TinyHttp/tree/main/examples)!
 
 ## Documentation
 

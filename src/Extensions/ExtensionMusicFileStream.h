@@ -67,7 +67,7 @@ class ExtensionMusicFileStream : public Extension {
         File empty;
         uint8_t* buffer;
         int buffer_size;
-        int loop_limit = 2;
+        int loop_limit = 10;
         int loop_count;
         int sd_cs;
         bool is_open = false;
@@ -86,9 +86,10 @@ class ExtensionMusicFileStream : public Extension {
         // provides the current file if it is not finished yet otherwise we move to the 
         // next music file or restart at the start directory when we reach the end
         File &getNextMusicFile() {
-            Log.log(Info,"ExtensionMusicFileStream::getNextMusicFile",file_extension);
+            Log.log(Debug,"ExtensionMusicFileStream::getNextMusicFile",file_extension);
             if ((current_file).available()>0){
-                Log.log(Info,"ExtensionMusicFileStream::getNextMusicFile", current_file.name());
+                loop_count = 0;
+                //Log.log(Debug,"ExtensionMusicFileStream::getNextMusicFile", current_file.name());
                 return current_file;
             }
             current_file.close();

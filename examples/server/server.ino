@@ -61,7 +61,6 @@ void setup() {
     
 }
 
-int count;
 void loop(){
     server.doLoop();
 }

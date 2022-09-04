@@ -293,6 +293,10 @@ class HttpServer {
             return *client_ptr;
         }
 
+        operator bool(){
+            return is_active;
+        }
+
     protected:
         // data
         HttpRequestHeader request_header;

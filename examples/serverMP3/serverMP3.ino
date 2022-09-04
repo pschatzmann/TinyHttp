@@ -23,7 +23,7 @@ const char* ssid = "SSID";
 const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionMusicFileStream sdMp3("/music/mp3", "/", "audio/mpeg", ".mp3", 512, PIN_AUDIO_KIT_SD_CARD_CS);
+ExtensionMusicFileStream sdMp3("/music/mp3", "/TomWaits", "audio/mpeg", ".mp3", 512, PIN_AUDIO_KIT_SD_CARD_CS);
 
 void setup() {
     Serial.begin(115200);

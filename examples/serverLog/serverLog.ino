@@ -16,8 +16,8 @@ const char* ssid = "SSID";
 const char* password = "PASSWORD";
 WiFiServer wifi;
 HttpServer server(wifi);
-ExtensionLoggingStream stream("/");
-Ticker ticker;
+ExtensionLoggingStream logger("/");
+Ticker ticker; 
 
 void printMsg(void*){
     static int count;
@@ -34,10 +34,11 @@ void setup() {
     // connect to WIFI
     Log.setLogger(Serial,Info);
 
-    // generate test messages
+    // generate test messages every second
     ticker.schedule(1000,&printMsg);
 
-    server.addExtension(stream);
+    // register logger extension and start server
+    server.addExtension(logger);
     server.begin(80, ssid, password);
     
 }
