@@ -129,3 +129,21 @@ void loop(){
 ```
 
 Further extension examples can be found in the examples directory!
+
+## Documentation
+
+- Here is the generated [Class Documentation](https://pschatzmann.github.io/TinyHttp/html/annotated.html). 
+- Please also check out the [Information in the Wiki](https://github.com/pschatzmann/TinyHttp/wiki)
+
+
+## Installation in Arduino
+
+You can download the library as zip and call include Library -> zip library. Or you can git clone this project into the Arduino libraries folder e.g. with
+
+```
+cd  ~/Documents/Arduino/libraries
+git clone pschatzmann/TinyHttp.git
+```
+
+I recommend to use git because you can easily update to the latest version just by executing the ```git pull``` command in the project folder.
+
