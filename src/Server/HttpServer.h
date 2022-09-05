@@ -39,18 +39,22 @@ class HttpServer {
         }
 
         /// Starts the server on the indicated port - calls WiFi.begin(ssid, password);
-        void begin(int port, const char* ssid, const char* password){
-            WiFi.begin(ssid, password);
-            while (WiFi.status() != WL_CONNECTED) {        
-                delay(500);
-                Serial.print(".");
+        bool begin(int port, const char* ssid, const char* password){
+            if (WiFi.status() != WL_CONNECTED && ssid!=nullptr && password!=nullptr){
+                WiFi.begin(ssid, password);
+                while (WiFi.status() != WL_CONNECTED) {        
+                    delay(500);
+                    Serial.print(".");
+                }
+
+                Serial.println();
+                Serial.print("Started Server at ");
+                Serial.print(WiFi.localIP());
+                Serial.print(":");
+                Serial.println(port);
+
             }
-            Serial.println();
-            Serial.print("Started Server at ");
-            Serial.print(WiFi.localIP());
-            Serial.print(":");
-            Serial.println(port);
-            begin(port);
+            return begin(port);
         }
 
         IPAddress &localIP() {
@@ -60,10 +64,11 @@ class HttpServer {
         }
 
         /// Starts the server on the indicated port
-        void begin(int port){
+        bool begin(int port){
             Log.log(Info,"HttpServer","begin");
             is_active = true;
             server_ptr->begin(port);
+            return true;
         }
 
         /// stops the server_ptr
@@ -267,8 +272,13 @@ class HttpServer {
             handler_collection.push_back(handlerLinePtr);
         }
 
-        // Call this method from your loop!
+        /// Legacy method: same as copy();
         void doLoop(){
+            copy();
+        }
+
+        /// Call this method from your loop!
+        void copy(){
             // get the actual client_ptr
             if (is_active) {
                 WiFiClient client;
