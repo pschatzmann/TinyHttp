@@ -19,27 +19,22 @@ typedef void (*web_callback_fn)(HttpServer *server, const char* requestPath, Htt
 class HttpRequestHandlerLine {
     public:
         HttpRequestHandlerLine(int ctxSize=0){
-            Log.log(Info,"HttpRequestHandlerLine");
+            HttpLogger.log(Info,"HttpRequestHandlerLine");
             contextCount = ctxSize;
             context = new void*[ctxSize];
         }
 
         ~HttpRequestHandlerLine(){
-            Log.log(Info,"~HttpRequestHandlerLine");
-            for (int j=0;j<contextCount;j++){
-                // if (context[j]!=nullptr){
-                //     Log.log(Info,"HttpRequestHandlerLine","delete context");
-                //     delete[]  context[j];
-                // }
-            }
+            HttpLogger.log(Info,"~HttpRequestHandlerLine");
             if (contextCount>0){
-                Log.log(Info,"HttpRequestHandlerLine","free");
+                HttpLogger.log(Info,"HttpRequestHandlerLine","free");
                 delete[] context;
             }
         }
 
         MethodID method;
         const char* path = nullptr;
+        const char* mime = nullptr;
         web_callback_fn fn;
         void** context;
         int contextCount;

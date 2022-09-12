@@ -19,11 +19,11 @@ namespace tinyhttp {
 class HttpRequest{
     public:
         HttpRequest() {
-             Log.log(Info,"HttpRequest");
+             HttpLogger.log(Info,"HttpRequest");
         }
 
         HttpRequest(Client &client){
-            Log.log(Info,"HttpRequest");
+            HttpLogger.log(Info,"HttpRequest");
             setClient(client);
         }
 
@@ -33,7 +33,7 @@ class HttpRequest{
 
         // the requests usually need a host. This needs to be set if we did not provide a URL
         void setHost(const char* host){
-            Log.log(Info,"setHost", host);
+            HttpLogger.log(Info,"setHost", host);
             this->host_name = host;
         }
 
@@ -53,33 +53,33 @@ class HttpRequest{
         }
 
         virtual void stop(){
-            Log.log(Info,"stop");
+            HttpLogger.log(Info,"stop");
             client_ptr->stop();
         }
 
         virtual int post(Url &url, const char* mime, const char *data, int len=-1){
-            Log.log(Info,"post", url.url());
+            HttpLogger.log(Info,"post", url.url());
             return process(POST, url, mime, data, len);
         }
 
         virtual int put(Url &url, const char* mime, const char *data, int len=-1){
-            Log.log(Info,"put", url.url());
+            HttpLogger.log(Info,"put", url.url());
             return process(PUT, url, mime, data, len);
         }
 
         virtual int del(Url &url,const char* mime=nullptr, const char *data=nullptr, int len=-1) {
-            Log.log(Info,"del", url.url());
+            HttpLogger.log(Info,"del", url.url());
             return process(DELETE, url, mime, data, len);
         }
 
         virtual int get(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
-            Log.log(Info,"get", url.url());
+            HttpLogger.log(Info,"get", url.url());
             this->accept = acceptMime;
             return process(GET, url, nullptr, data, len);
         }
 
         virtual int head(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
-            Log.log(Info,"head", url.url());
+            HttpLogger.log(Info,"head", url.url());
             this->accept = acceptMime;
             return process(HEAD, url, nullptr, data, len);
         }
@@ -134,7 +134,7 @@ class HttpRequest{
 
         // opens a connection to the indicated host
         virtual int connect(const char *ip, uint16_t port) {
-            Log.log(Info,"connect", ip);
+            HttpLogger.log(Info,"connect", ip);
             return this->client_ptr->connect(ip, port);
         }
 
@@ -143,7 +143,7 @@ class HttpRequest{
             if (!connected()){
                 char msg[1024];
                 sprintf(msg, "connecting to host %s port %d", url.host(), url.port());
-                Log.log(Info,"process", msg);
+                HttpLogger.log(Info,"process", msg);
 
                 connect(url.host(), url.port());
                 if (host_name==nullptr){
@@ -165,7 +165,7 @@ class HttpRequest{
             request_header.write(*client_ptr);
 
             if (len>0){
-                Log.log(Info,"process - writing data");
+                HttpLogger.log(Info,"process - writing data");
                 client_ptr->write((const uint8_t*)data,len);
             }
 

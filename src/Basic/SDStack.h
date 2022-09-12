@@ -15,7 +15,7 @@ namespace tinyhttp {
 class SDStack {
     public:
         SDStack(const char* fileName, bool resume=false){
-            Log.log(Info,"SDStack", fileName);
+            HttpLogger.log(Info,"SDStack", fileName);
             this->file_name = fileName;
             if (resume) {
                 File file = SD.open(fileName);
@@ -35,7 +35,7 @@ class SDStack {
 
         // push a string
         void* push(const char* data){
-            Log.log(Info,"SDStack", "push", data);
+            HttpLogger.log(Info,"SDStack", "push", data);
             int len = strlen(data);
             // write with trailing 0
             push(data, len+1);
@@ -43,7 +43,7 @@ class SDStack {
 
         // adds some data and the record size to the end
         void* push(const void* data, int len){
-            Log.log(Info,"SDStack", "push");
+            HttpLogger.log(Info,"SDStack", "push");
             File file = SD.open(file_name, FILE_WRITE);
             if (file){
                 file.seek(max_position);
@@ -53,7 +53,7 @@ class SDStack {
                 max_position += (len + position_size);
                 file.close();
             } else {
-                Log.log(Error,"SDStack::push - Could not open file:", file_name);
+                HttpLogger.log(Error,"SDStack::push - Could not open file:", file_name);
             }
         } 
 
@@ -66,7 +66,7 @@ class SDStack {
             if (file && max_position > 0){
                 // read last size
                 if (!file.seek(max_position - position_size)){
-                    Log.log(Error,"SDStack::pop", "seek failed");
+                    HttpLogger.log(Error,"SDStack::pop", "seek failed");
                 }
                 // read record length
                 int len;
@@ -84,13 +84,13 @@ class SDStack {
                 file.close();
 
                 if (max_position<=position_size) {
-                    Log.log(Info,"SDStack::pop", "last entry");
+                    HttpLogger.log(Info,"SDStack::pop", "last entry");
                     max_position = 0;
                     len = 0;
                 }
 
             } else {
-                Log.log(Info,"SDStack::pop", "no data");
+                HttpLogger.log(Info,"SDStack::pop", "no data");
                 len = 0;
             }
             return result;
@@ -99,7 +99,7 @@ class SDStack {
 
         // convinience function to pop for a c strings
         const Str popStr() {
-            Log.log(Info,"SDStack", "popStr");
+            HttpLogger.log(Info,"SDStack", "popStr");
             int len;
             char* str = (char*)pop(len);
             return Str(str, len, len);

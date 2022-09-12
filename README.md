@@ -47,7 +47,7 @@ void setup() {
         "</body>"
         "</html>";
 
-    auto countLambda = [](HttpServer *server, HttpRequestHandlerLine *hl) { 
+    auto countLambda = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
         char buffer[2048];
         Str str(buffer, 2048);
         str += "<!DOCTYPE html>";

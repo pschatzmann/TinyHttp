@@ -24,7 +24,7 @@ class ExtensionESPTask : public Extension {
         }
 
         virtual void open(HttpServer *server) {
-            Log.log(Info,"ExtensionESPTask", "open");
+            HttpLogger.log(Info,"ExtensionESPTask", "open");
 
             BaseType_t xReturned = xTaskCreatePinnedToCore( 
                 (TaskFunction_t) task,  /* global Task function. */
@@ -36,9 +36,9 @@ class ExtensionESPTask : public Extension {
                 core_no);        /* Task handle. */
 
             if( xReturned != pdPASS ){
-                Log.log(Error, "The task could not be created");
+                HttpLogger.log(Error, "The task could not be created");
             } else {
-                Log.log(Info, "task created");
+                HttpLogger.log(Info, "task created");
             }
         };
 

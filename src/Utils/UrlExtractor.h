@@ -80,7 +80,7 @@ class UrlExtractor {
                 } else  if (str[pos]=='\''){
                     end = str.indexOf('\'',pos+prefix_len);
                 } else {
-                    //Log.log(Error, "Invalid string delimiter");
+                    //HttpLogger.log(Error, "Invalid string delimiter");
                 }
             }
             return end;

@@ -25,7 +25,7 @@ namespace tinyhttp {
 class HttpStreamedMultiOutput : public HttpStreamedOutput {
     public:
         HttpStreamedMultiOutput(const char* mime, const char* startHtml = nullptr, const char* endHtml = nullptr, int maxHistoryLength=0) {
-            Log.log(Info,"HttpStreamedMultiOutput");
+            HttpLogger.log(Info,"HttpStreamedMultiOutput");
             this->start = startHtml;
             this->end = endHtml;
             this->mime_type = mime;
@@ -49,7 +49,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
 
         // content that is written when the request is opened
         virtual void open(WiFiClient &client){
-            Log.log(Info,"HttpStreamedMultiOutput","open");
+            HttpLogger.log(Info,"HttpStreamedMultiOutput","open");
             if (client.connected()){
                 // create a copy
                 // we handle only valid clents
@@ -62,13 +62,14 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
                 }
 
                 // add client to list of open clients
+                HttpLogger.log(Warning,"new client");
                 clients.push_back(client);
             }
         }
 
 
         // checks if we have any open clients
-       virtual  bool isOpen(){
+       virtual bool isOpen(){
             cleanup();
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = (*i);
@@ -94,14 +95,20 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             cleanup();
         }
 
+        /// Do not accept any writes if we are not connected
+        virtual int availableForWrite() {
+            return isOpen() ? 1024 : 0;
+        }
+
 
         // write the content to the HttpStreamedMultiOutput
         virtual size_t write( uint8_t *content, int len){
+            HttpLogger.log(Debug,"write");
             cleanup();
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    Log.log(Debug,"HttpStreamedMultiOutput","write");
+                    HttpLogger.log(Debug,"HttpStreamedMultiOutput","write");
                     writer.writeChunk(client,(const char*) content, len);
                 }
             }  
@@ -115,7 +122,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    Log.log(Debug,"HttpStreamedMultiOutput","print");
+                    HttpLogger.log(Debug,"HttpStreamedMultiOutput","print");
                     writer.writeChunk(client,(const char*) str, len);
               }
             }  
@@ -130,7 +137,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    Log.log(Debug,"HttpStreamedMultiOutput","println");
+                    HttpLogger.log(Debug,"HttpStreamedMultiOutput","println");
                     writer.writeChunk(client, str, len,"<br>",4);   
                 }
             } 
@@ -157,7 +164,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (int pos=clients.size()-1; pos>=0; pos--) {
                 WiFiClient client = clients[pos];
                 if (!isValid(client)){
-                    Log.log(Info,"HttpStreamedMultiOutput","cleanup");
+                    HttpLogger.log(Warning,"HttpStreamedMultiOutput","closed");
                     clients.erase(clients.begin()+pos);
                 }
             }
@@ -167,7 +174,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
         /// content that is written when the request is opened
         void onClose(WiFiClient &client){
             if (end!=nullptr){
-                Log.log(Info,"HttpStreamedMultiOutput","onClose");
+                HttpLogger.log(Info,"HttpStreamedMultiOutput","onClose");
                 int len = strlen(end);
                 writer.writeChunk(client, end, len);  
             } 

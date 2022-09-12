@@ -18,7 +18,7 @@ class ExtensionStreamBasic : public Extension  {
     public:
         /// Default Constructor
         ExtensionStreamBasic( const char* url,  HttpStreamedOutput &out, MethodID method=GET){
-            Log.log(Info,"ExtensionStreamBasic");
+            HttpLogger.log(Info,"ExtensionStreamBasic");
             this->url = url;
             this->method = method;
             this->out = &out;
@@ -30,29 +30,32 @@ class ExtensionStreamBasic : public Extension  {
         }
 
         virtual void open(HttpServer *server){
-            Log.log(Info,"ExtensionStreamBasic","open");
+            HttpLogger.log(Info,"ExtensionStreamBasic","open");
 
             auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl){ 
                 HttpReplyHeader reply_header;
                 ExtensionStreamBasic *ext = static_cast<ExtensionStreamBasic*>(hl->context[0]);
                 HttpStreamedOutput *out = ext->getOutput();
                 if (out==nullptr){
-                    Log.log(Error,"ExtensionStreamBasic","out must not be null");
+                    HttpLogger.log(Error,"ExtensionStreamBasic","out must not be null");
                     return;
                 }
-                Log.log(Error,"mime",out->mime());
+                HttpLogger.log(Error,"mime",out->mime());
 
                 reply_header.setValues(200, "OK");
                 reply_header.put(TRANSFER_ENCODING,CHUNKED);
                 reply_header.put(CONTENT_TYPE,out->mime());
                 reply_header.put(CONNECTION,CON_KEEP_ALIVE);
                 reply_header.write(server_ptr->client());
+
                 out->open(server_ptr->client());
 
-                // if a replay header is define we write it out
+                // if a replay header is defined we write it out
                 if (hl->header!=nullptr){
+                    HttpLogger.log(Info,"ExtensionStreamBasic","writing content header");
                     out->write((uint8_t*)hl->header->c_str(), hl->header->length());
                 }
+                
             };
      
             // register new handler

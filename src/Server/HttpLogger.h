@@ -20,14 +20,17 @@ enum LogLevel {
  * 
  */
 
-class HttpLogger {
+class HttpLoggerClass {
     public:
-        HttpLogger(){}
-        ~HttpLogger(){}
+        HttpLoggerClass()= default;
         // activate the logging
-        virtual void setLogger(Stream& out, LogLevel level=Error){
+        virtual void begin(Stream& out, LogLevel level=Error){
             this->log_stream_ptr = &out;
             this->log_level = level;
+        }
+
+        void setLevel(LogLevel l){
+            log_level = l;
         }
 
         // checks if the logging is active
@@ -55,12 +58,12 @@ class HttpLogger {
         }
 
     protected:
-        Stream *log_stream_ptr;
-        LogLevel log_level;  
+        Stream *log_stream_ptr=&Serial;
+        LogLevel log_level = Warning;  
 
 };
 
-HttpLogger Log;
+HttpLoggerClass HttpLogger;
 
 }
 

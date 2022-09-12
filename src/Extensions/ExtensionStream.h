@@ -18,7 +18,7 @@ class ExtensionStream : public Stream, public Extension  {
     public:
         /// Default Constructor
         ExtensionStream(const char* url, MethodID action,  const char* mime, const char* startHtml=nullptr, const char* endHtml=nullptr, int bufferSize=256, int historySize=1024){
-            Log.log(Info,"ExtensionStream");
+            HttpLogger.log(Info,"ExtensionStream");
             out = new HttpStreamedMultiOutput(mime, startHtml, endHtml, historySize);
             ext = new ExtensionStreamBasic(url, *out, action);
             this->bufferSize = bufferSize;
@@ -33,7 +33,7 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
         ~ExtensionStream(){
-            Log.log(Info,"~ExtensionStream");
+            HttpLogger.log(Info,"~ExtensionStream");
             delete out;
             delete ringBuffer;
         }
@@ -45,7 +45,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         // delegate processing to ExtensionStreamBasic
         virtual void open(HttpServer *server){     
-            Log.log(Info,"ExtensionStream","open");
+            HttpLogger.log(Info,"ExtensionStream","open");
             ext->open(server);
             is_open = true;
         }
@@ -68,7 +68,7 @@ class ExtensionStream : public Stream, public Extension  {
             if (out!=nullptr && out->isOpen()) {
                 int readLen = ringBuffer->available();
                 if (readLen>0){
-                    Log.log(Info,"ExtensionStream","flush");
+                    HttpLogger.log(Info,"ExtensionStream","flush");
                     uint8_t buffer[readLen];
                     readLen = ringBuffer->read(buffer, readLen);
                     out->write(buffer, readLen);
@@ -85,7 +85,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         size_t write(uint8_t *str, int len) {
             if (out!=nullptr && out->isOpen()) {
-                Log.log(Info,"ExtensionStream","write");
+                HttpLogger.log(Info,"ExtensionStream","write");
                 flush();
                 return out->write(str, len);
             } 
@@ -94,7 +94,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         size_t print(const char str[]){
             if (out!=nullptr && out->isOpen()) {
-                Log.log(Info,"ExtensionStream","print");
+                HttpLogger.log(Info,"ExtensionStream","print");
                 flush();
                 return out->print(str);
             }
@@ -103,11 +103,20 @@ class ExtensionStream : public Stream, public Extension  {
 
         size_t println(const char str[]){
             if (out!=nullptr && out->isOpen()) {
-                Log.log(Info,"ExtensionStream","println");
+                HttpLogger.log(Info,"ExtensionStream","println");
                 flush();
                 return out->println(str);
             }
             return 0;
+        }
+
+        int availableForWrite() {
+            return out->availableForWrite();
+        }
+
+        /// Checks if we have any open clients
+        virtual bool isOpen(){
+            return is_open && out==nullptr ? false : out->isOpen();
         }
 
     protected:
@@ -120,7 +129,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         virtual void doLoop() override {
             // only do something after open
-            if (is_open){
+            if (isOpen()){
                 copyFromAltSource(); // optinally
                 ext->doLoop();
             }

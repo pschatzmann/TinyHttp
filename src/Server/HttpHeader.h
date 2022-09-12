@@ -55,14 +55,14 @@ struct HttpHeaderLine {
 class HttpHeader {
     public:
         HttpHeader(){
-            Log.log(Info,"HttpHeader");
+            HttpLogger.log(Debug,"HttpHeader");
            // set default values
             protocol_str = "HTTP/1.1";
             url_path = "/";
             status_msg = "";
         }
         ~HttpHeader(){
-            Log.log(Info,"~HttpHeader");
+            HttpLogger.log(Debug,"~HttpHeader");
             clear(true);
         }
 
@@ -88,47 +88,47 @@ class HttpHeader {
             if (value!=nullptr){
                 HttpHeaderLine *hl = headerLine(key);
                 if (hl==nullptr){
-                    Log.log(Error,"HttpHeader::put - did not add HttpHeaderLine for", key);
+                    HttpLogger.log(Error,"HttpHeader::put - did not add HttpHeaderLine for", key);
                     return *this;
                 }
 
                 // log entry
                 char msg[160];
                 sprintf(msg, "-> '%s' : '%s' ", key, value);
-                Log.log(Debug,"HttpHeader::put", msg);
+                HttpLogger.log(Debug,"HttpHeader::put", msg);
 
                 hl->value = value;
                 hl->active = true;
 
                 if (Str(key) == TRANSFER_ENCODING &&  Str(value) == CHUNKED){
-                    Log.log(Info,"HttpHeader::put -> is_chunked!!!");
+                    HttpLogger.log(Info,"HttpHeader::put -> is_chunked!!!");
                     this->is_chunked = true;
                 }
             } else {
-                Log.log(Info,"HttpHeader::put - value ignored because it is null for ", key);
+                HttpLogger.log(Info,"HttpHeader::put - value ignored because it is null for ", key);
             }
             return *this;
         }
 
         /// adds a new line to the header - e.g. for content size
         HttpHeader& put(const char* key, int value){
-            Log.log(Debug,"HttpHeader::put", key);
+            HttpLogger.log(Debug,"HttpHeader::put", key);
             HttpHeaderLine *hl = headerLine(key);
 
             if (value>1000){
-                Log.log(Warning,"value is > 1000");
+                HttpLogger.log(Warning,"value is > 1000");
             }
 
             // add value
             hl->value = value;
             hl->active = true;
-            Log.log(Info,key, hl->value.c_str());
+            HttpLogger.log(Info,key, hl->value.c_str());
             return *this;
         }
 
         /// adds a  received new line to the header
         HttpHeader& put(const char* line){
-            Log.log(Debug,"HttpHeader::put -> ", (const char*) line);
+            HttpLogger.log(Debug,"HttpHeader::put -> ", (const char*) line);
             Str keyStr(line);
             int pos = keyStr.indexOf(":");
             char *key = (char*)line;
@@ -158,22 +158,22 @@ class HttpHeader {
         // reads a single header line 
         void readLine(Client &in, char* str, int len){
             reader.readlnInternal(in, (uint8_t*) str, len, false);
-            Log.log(Info,"HttpHeader::readLine ->",str);
+            HttpLogger.log(Info,"HttpHeader::readLine ->",str);
         }
 
         // writes a lingle header line
         void writeHeaderLine(Client &out,HttpHeaderLine *header ){
             if (header==nullptr){
-                Log.log(Info,"HttpHeader::writeHeaderLine", "the value must not be null");
+                HttpLogger.log(Info,"HttpHeader::writeHeaderLine", "the value must not be null");
                 return;
             }
-            //Log.log(Info,"HttpHeader::writeHeaderLine: ",header->key.c_str());
+            //HttpLogger.log(Info,"HttpHeader::writeHeaderLine: ",header->key.c_str());
             if (!header->active){
-                //Log.log(Info,"HttpHeader::writeHeaderLine - not active");
+                //HttpLogger.log(Info,"HttpHeader::writeHeaderLine - not active");
                 return;
             }
             if (header->value.c_str() == nullptr){
-                //Log.log(Info,"HttpHeader::writeHeaderLine - ignored because value is null");
+                //HttpLogger.log(Info,"HttpHeader::writeHeaderLine - ignored because value is null");
                 return;
             }
 
@@ -188,7 +188,7 @@ class HttpHeader {
             // remove crlf from log
             int len = strnlen(msg,200);
             msg[len-2] = 0;
-            Log.log(Info," -> ", msg);
+            HttpLogger.log(Info," -> ", msg);
 
             // marke as processed
             header->active = false;
@@ -207,6 +207,10 @@ class HttpHeader {
             return method_id;
         }
 
+        const char* accept(){
+            return get(ACCEPT);
+        }
+
         int statusCode() {
             return status_code;
         }
@@ -222,14 +226,14 @@ class HttpHeader {
 
         // reads the full header from the request (stream)
         void read(Client &in) {
-            Log.log(Info,"HttpHeader::read");
+            HttpLogger.log(Info,"HttpHeader::read");
             // remove all existing value
             clear();
 
             char line[MaxHeaderLineLength];   
             if (in.connected()){
                 if (in.available()==0) {
-                    Log.log(Warning, "Waiting for data...");
+                    HttpLogger.log(Warning, "Waiting for data...");
                     while(in.available()==0){
                         delay(500);
                     }
@@ -252,7 +256,7 @@ class HttpHeader {
 
         // writes the full header to the indicated HttpStreamedMultiOutput stream
         void write(Client &out){
-            Log.log(Info,"HttpHeader::write");
+            HttpLogger.log(Info,"HttpHeader::write");
             write1stLine(out);
             for (auto it = lines.begin() ; it != lines.end(); ++it){
                 writeHeaderLine(out, *it);
@@ -295,7 +299,7 @@ class HttpHeader {
         // the headers need to delimited with CR LF
         void crlf(Client &out) {
             out.print(CRLF);
-            Log.log(Info," -> ", "<CR LF>");
+            HttpLogger.log(Info," -> ", "<CR LF>");
 
         }
 
@@ -313,14 +317,14 @@ class HttpHeader {
                 }
                 if (create_new_lines){
                     HttpHeaderLine *newLine = new HttpHeaderLine();
-                    Log.log(Error,"HttpHeader::headerLine - new line created for",key);
+                    HttpLogger.log(Debug,"HttpHeader::headerLine - new line created for",key);
                     newLine->active = true;
                     newLine->key = key;
                     lines.push_back(newLine);
                     return newLine;
                 }
             } else {
-                Log.log(Error,"HttpHeader::headerLine", "The key must not be null");
+                HttpLogger.log(Error,"HttpHeader::headerLine", "The key must not be null");
             }
             return nullptr;            
         }
@@ -355,7 +359,7 @@ class HttpRequestHeader : public HttpHeader {
             this->method_id = id;
             this->url_path = urlPath;
             
-            Log.log(Info,"HttpRequestHeader::setValues - path:",this->url_path.c_str());
+            HttpLogger.log(Info,"HttpRequestHeader::setValues - path:",this->url_path.c_str());
             if (protocol!=nullptr){
                 this->protocol_str = protocol;
             }
@@ -364,7 +368,7 @@ class HttpRequestHeader : public HttpHeader {
 
         // action path protocol
         void write1stLine(Client &out){
-            Log.log(Info,"HttpRequestHeader::write1stLine");
+            HttpLogger.log(Info,"HttpRequestHeader::write1stLine");
             char msg[200];
             Str msg_str(msg,200);
 
@@ -379,13 +383,13 @@ class HttpRequestHeader : public HttpHeader {
 
             int len = strnlen(msg, 200);
             msg[len-2]=0;
-            Log.log(Info,"->", msg);
+            HttpLogger.log(Info,"->", msg);
         }
 
         // parses the requestline 
         // Request-Line = Method SP Request-URI SP HTTP-Version CRLF
         void parse1stLine(const char *line){
-            Log.log(Info,"HttpRequestHeader::parse1stLine", line);
+            HttpLogger.log(Info,"HttpRequestHeader::parse1stLine", line);
             Str line_str(line);
             int space1 = line_str.indexOf(" ");
             int space2 = line_str.indexOf(" ", space1+1);
@@ -395,9 +399,9 @@ class HttpRequestHeader : public HttpHeader {
             this->url_path.substring(line_str,space1+1,space2);
             this->url_path.trim();
   
-            Log.log(Info,"->method", methods[this->method_id]);
-            Log.log(Info,"->protocol", protocol_str.c_str());
-            Log.log(Info,"->url_path", url_path.c_str());
+            HttpLogger.log(Info,"->method", methods[this->method_id]);
+            HttpLogger.log(Info,"->protocol", protocol_str.c_str());
+            HttpLogger.log(Info,"->url_path", url_path.c_str());
         }
 
 };
@@ -410,7 +414,7 @@ class HttpReplyHeader : public HttpHeader  {
     public:
         // defines the values for the rely
         void setValues(int statusCode, const char* msg="", const char* protocol=nullptr){
-            Log.log(Info,"HttpReplyHeader::setValues");
+            HttpLogger.log(Info,"HttpReplyHeader::setValues");
             status_msg = msg;
             status_code = statusCode;
             if (protocol!=nullptr){
@@ -420,7 +424,7 @@ class HttpReplyHeader : public HttpHeader  {
 
         // reads the final chunked reply headers 
         void readExt(Client &in) {
-            Log.log(Info,"HttpReplyHeader::readExt");
+            HttpLogger.log(Info,"HttpReplyHeader::readExt");
             char line[MaxHeaderLineLength];   
             readLine(in, line, MaxHeaderLineLength);
             while(strlen(line)!=0){
@@ -431,7 +435,7 @@ class HttpReplyHeader : public HttpHeader  {
 
         // HTTP-Version SP Status-Code SP Reason-Phrase CRLF
         void write1stLine(Client &out){
-            Log.log(Info,"HttpReplyHeader::write1stLine");
+            HttpLogger.log(Info,"HttpReplyHeader::write1stLine");
             char msg[200];
             Str msg_str(msg,200);
             msg_str = this->protocol_str.c_str();
@@ -439,7 +443,7 @@ class HttpReplyHeader : public HttpHeader  {
             msg_str += this->status_code;
             msg_str += " ";
             msg_str += this->status_msg.c_str();
-            Log.log(Info,"->", msg);
+            HttpLogger.log(Info,"->", msg);
             out.print(msg);
             crlf(out);
         }
@@ -449,7 +453,7 @@ class HttpReplyHeader : public HttpHeader  {
         // we just update the pointers to point to the correct position in the
         // http_status_line
         void parse1stLine(const char *line){
-            Log.log(Info,"HttpReplyHeader::parse1stLine",line);
+            HttpLogger.log(Info,"HttpReplyHeader::parse1stLine",line);
             Str line_str(line);
             int space1 = line_str.indexOf(' ',0);
             int space2 = line_str.indexOf(' ',space1+1);

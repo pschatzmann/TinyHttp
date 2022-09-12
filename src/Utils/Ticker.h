@@ -90,7 +90,7 @@ class Ticker {
 
         // protected methods
         static void cleanup(void*) {
-            Log.log(Info,"Ticker","cleanup");
+            HttpLogger.log(Info,"Ticker","cleanup");
             long count=0;
             long now = millis();
             for (int pos=ticker_entries.size()-1; pos>=0; pos--) {
@@ -103,7 +103,7 @@ class Ticker {
 
             char msg[160];
             sprintf(msg, "cleaned up %d ticker_entries", count);
-            Log.log(Info,"Ticker",msg);
+            HttpLogger.log(Info,"Ticker",msg);
         }
 
 };

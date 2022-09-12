@@ -23,14 +23,14 @@ namespace tinyhttp {
 class HttpServer {
     public:
         HttpServer(WiFiServer &server_ptr, int bufferSize=1024){
-            Log.log(Info,"HttpServer");
+            HttpLogger.log(Info,"HttpServer");
             this->server_ptr = &server_ptr;
             this->buffer_size = bufferSize;
             this->buffer = new char[bufferSize];
         }
 
         ~HttpServer(){
-            Log.log(Info,"~HttpServer");
+            HttpLogger.log(Info,"~HttpServer");
             delete []buffer;
             handler_collection.clear();
             request_header.clear(false);
@@ -65,7 +65,7 @@ class HttpServer {
 
         /// Starts the server on the indicated port
         bool begin(int port){
-            Log.log(Info,"HttpServer","begin");
+            HttpLogger.log(Info,"HttpServer","begin");
             is_active = true;
             server_ptr->begin(port);
             return true;
@@ -73,7 +73,7 @@ class HttpServer {
 
         /// stops the server_ptr
         void stop(){
-            Log.log(Info,"HttpServer","stop");
+            HttpLogger.log(Info,"HttpServer","stop");
             is_active = false;
         }
 
@@ -86,7 +86,7 @@ class HttpServer {
 
         /// register a generic handler
         void on(const char* url, MethodID method, web_callback_fn fn,void* ctx[]=nullptr, int ctxCount=0){
-            Log.log(Info,"on-generic",url);
+            HttpLogger.log(Info,"on-generic",url);
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
             hl->path = url;
             hl->fn = fn;
@@ -96,14 +96,26 @@ class HttpServer {
             addHandler(hl);
         }
 
+        /// register a handler with mime
+        void on(const char* url, MethodID method, const char* mime, web_callback_fn fn){
+            HttpLogger.log(Info,"on-mime",url);
+            HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
+            hl->path = url;
+            hl->fn = fn;
+            hl->method = method;
+            hl->mime = mime;
+            addHandler(hl);
+        }
+
+
         /// register a handler which provides the indicated string
         void on(const char* url, MethodID method, const char* mime, const char* result) {
-            Log.log(Info,"on-strings");
+            HttpLogger.log(Info,"on-strings");
 
             auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
-                Log.log(Info,"on-strings","lambda");
+                HttpLogger.log(Info,"on-strings","lambda");
                 if (hl->contextCount<2){
-                    Log.log(Error,"The context is not available");
+                    HttpLogger.log(Error,"The context is not available");
                     return;
                 }
                 const char* mime = static_cast<Str*>(hl->context[0])->c_str();
@@ -121,13 +133,13 @@ class HttpServer {
   
         /// register a redirection
         void on(const char*url, MethodID method, Url &redirect){
-            Log.log(Info,"on-redirect");
+            HttpLogger.log(Info,"on-redirect");
             auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
                 if (hl->contextCount<1){
-                    Log.log(Error,"The context is not available");
+                    HttpLogger.log(Error,"The context is not available");
                     return;
                 }
-                Log.log(Info,"on-redirect","lambda");
+                HttpLogger.log(Info,"on-redirect","lambda");
                 HttpReplyHeader reply_header;
                 Url *url = static_cast<Url*>(hl->context[0]);
                 reply_header.setValues(301, "Moved");
@@ -147,19 +159,20 @@ class HttpServer {
 
         /// generic handler - you can overwrite this method to provide your specifc processing logic
         bool onRequest(const char* path) {
-            Log.log(Info,"onRequest", path);
+            HttpLogger.log(Info,"onRequest", path);
 
             bool result = false;
             // check in registered handlers
             Str pathStr = Str(path);
             for (auto it = handler_collection.begin() ; it != handler_collection.end(); ++it) {
                 HttpRequestHandlerLine *handler_line_ptr = *it;
-                Log.log(Info,"onRequest - checking:",handler_line_ptr->path);
+                HttpLogger.log(Info,"onRequest - checking:",handler_line_ptr->path);
 
                 if (pathStr.matches(handler_line_ptr->path) 
-                && request_header.method() == handler_line_ptr->method) {
+                && request_header.method() == handler_line_ptr->method
+                && matchesMime(handler_line_ptr->mime, request_header.accept())) {
                     // call registed handler function
-                    Log.log(Info,"onRequest","->found");
+                    HttpLogger.log(Info,"onRequest","->found");
                     handler_line_ptr->fn(this, path, handler_line_ptr);
                     result = true;
                     break;
@@ -170,7 +183,7 @@ class HttpServer {
 
         // chunked  reply with a full input stream
         void reply(const char* contentType, Stream &inputStream, int status=200, const char* msg=SUCCESS) {
-            Log.log(Info,"reply","stream");
+            HttpLogger.log(Info,"reply","stream");
             reply_header.setValues(status, msg);
             reply_header.put(TRANSFER_ENCODING,CHUNKED);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -187,7 +200,7 @@ class HttpServer {
         }
 
         void replyChunked(const char* contentType, int status=200, const char* msg=SUCCESS) {
-            Log.log(Info,"reply","replyChunked");
+            HttpLogger.log(Info,"reply","replyChunked");
             reply_header.setValues(status, msg);
             reply_header.put(TRANSFER_ENCODING,CHUNKED);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -197,7 +210,7 @@ class HttpServer {
 
         // write reply - stream with header size
         void reply(const char* contentType, Stream &inputStream, int size, int status=200, const char* msg=SUCCESS){
-            Log.log(Info,"reply","stream");
+            HttpLogger.log(Info,"reply","stream");
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_LENGTH,size);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -214,7 +227,7 @@ class HttpServer {
 
         // write reply - string with header size
         void reply(const char* contentType, const char* str, int status=200, const char* msg=SUCCESS){
-            Log.log(Info,"reply","str");
+            HttpLogger.log(Info,"reply","str");
             int len = strlen(str);
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_LENGTH,len);
@@ -226,12 +239,12 @@ class HttpServer {
         }
 
         void replyNotFound() {
-            Log.log(Info,"reply","404");
+            HttpLogger.log(Info,"reply","404");
             reply(404,"Page Not Found" );
         }
 
         void reply(int status, const char* msg) {
-            Log.log(Info,"reply","status");
+            HttpLogger.log(Info,"reply","status");
             reply_header.setValues(404, "Page Not Found");
             reply_header.write(this->client());
             endClient();
@@ -249,7 +262,7 @@ class HttpServer {
 
         /// closes the connection to the current client_ptr
         void endClient() {
-            Log.log(Info,"HttpServer","endClient");
+            HttpLogger.log(Info,"HttpServer","endClient");
             client_ptr->flush();
             client_ptr->stop();
         }
@@ -262,7 +275,7 @@ class HttpServer {
 
         // registers an extension
         void addExtension(Extension &out){
-            Log.log(Info,"HttpServer","addExtension");
+            HttpLogger.log(Info,"HttpServer","addExtension");
             out.open(this);
             extension_collection.push_back(&out);
         }
@@ -283,7 +296,7 @@ class HttpServer {
             if (is_active) {
                 WiFiClient client;
                 if (server_ptr->hasClient()){
-                    Log.log(Info,"doLoop->hasClient");
+                    HttpLogger.log(Info,"doLoop->hasClient");
                     client = server_ptr->available();
                     client_ptr = &client;
                 }
@@ -323,7 +336,7 @@ class HttpServer {
 
         // process a full request and send the reply
         void processRequest(){
-            Log.log(Info,"processRequest");
+            HttpLogger.log(Info,"processRequest");
             request_header.read(this->client());
             // provde reply with empty header
             reply_header.clear();
@@ -338,7 +351,7 @@ class HttpServer {
 
         /// executes the doLoop of all extension_collection
         void processextension_collection(){
-            //if (extension_collection.size()>0) Log.log(Info,"processextension_collection");
+            //if (extension_collection.size()>0) HttpLogger.log(Info,"processextension_collection");
             // we handle all open clients
             for (auto i = extension_collection.begin(); i != extension_collection.end(); ++i) {
                 Extension *ext = (*i);
@@ -357,6 +370,15 @@ class HttpServer {
             }    
             return from;
         }
+
+        bool matchesMime(const char *handler_mime, const char* request_mime) {
+            if (handler_mime==nullptr || request_mime==nullptr){
+                return true;
+            }
+            bool result = Str(request_mime).contains(handler_mime);
+            return result;
+        }
+
 
 };
 

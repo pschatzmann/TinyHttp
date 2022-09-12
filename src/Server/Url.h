@@ -19,11 +19,11 @@ class Url {
     public:
         // empty url
         Url() {
-            Log.log(Info,"Url");
+            HttpLogger.log(Info,"Url");
         }
         
         ~Url() {
-            Log.log(Info,"~Url");
+            HttpLogger.log(Info,"~Url");
             pathStr.clear();
             hostStr.clear();
             protocolStr.clear();
@@ -33,13 +33,13 @@ class Url {
 
         // setup url with string
         Url(const char *url){
-            Log.log(Info,"Url",url);
+            HttpLogger.log(Info,"Url",url);
             setUrl(url);
         }
 
         // copy constructor
         Url(Url &url){
-            Log.log(Info,"Url",url.url());
+            HttpLogger.log(Info,"Url",url.url());
             setUrl(url.url());
         }
 
@@ -51,7 +51,7 @@ class Url {
         int port() {return portInt;}
 
         void setUrl(const char* url){
-            Log.log(Info,"setUrl",url);
+            HttpLogger.log(Info,"setUrl",url);
             this->urlStr = url;
             parse();
         }
@@ -65,7 +65,7 @@ class Url {
         int portInt;
 
         void parse() {
-            Log.log(Info,"Url::parse");
+            HttpLogger.log(Info,"Url::parse");
             
             int protocolEnd = urlStr.indexOf("://");
             if (protocolEnd==-1){
@@ -101,8 +101,8 @@ class Url {
                 pathStr.trim();
                 urlRootStr.substring(urlStr, 0, pathStart);
             }
-            Log.log(Info,"url->",url());
-            Log.log(Info,"path->",path());
+            HttpLogger.log(Info,"url->",url());
+            HttpLogger.log(Info,"path->",path());
            
         }
 
