@@ -130,6 +130,14 @@ void loop(){
 
 Further extension examples can be found in the [examples directory](https://github.com/pschatzmann/TinyHttp/tree/main/examples)!
 
+## Logging
+
+The application has a built in logger. You can set the log level (Debug, Info, Warning, Error) with
+
+```
+  HttpLogger.begin(Serial, tinyhttp::Info);
+```
+
 
 ## Documentation
 
