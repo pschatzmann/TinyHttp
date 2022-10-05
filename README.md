@@ -81,6 +81,14 @@ void loop(){
 }
 
 ```
+## Logging
+
+The application has a built in logger. You can set the log level (Debug, Info, Warning, Error) with
+
+```
+  HttpLogger.begin(Serial, tinyhttp::Info);
+```
+
 ## Extensions
 
 In order to be able to support an unlimited number of more complex scenarios, I have designed the concept of __flexible "Extensions"__ and to proof the usefulness I have implemented the support for the following extensions:
@@ -129,14 +137,6 @@ void loop(){
 ```
 
 Further extension examples can be found in the [examples directory](https://github.com/pschatzmann/TinyHttp/tree/main/examples)!
-
-## Logging
-
-The application has a built in logger. You can set the log level (Debug, Info, Warning, Error) with
-
-```
-  HttpLogger.begin(Serial, tinyhttp::Info);
-```
 
 
 ## Documentation
