@@ -36,7 +36,7 @@ Url indexUrl("/index.html");
 
 void setup() {
     Serial.begin(115200);
-    Log.setLogger(Serial,Info);
+    HttpLogger.begin(Serial,Info);
 
     const char*htmlHallo = 
         "<!DOCTYPE html>"
@@ -113,7 +113,7 @@ Ticker ticker;
 
 void setup() {
     Serial.begin(115200);
-    Log.setLogger(Serial,Info);
+    HttpLogger.begin(Serial,Info);
 
     ticker.schedule(1000,&printMsg);
     server.addExtension(stream);

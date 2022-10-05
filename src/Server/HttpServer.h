@@ -225,9 +225,21 @@ class HttpServer {
             endClient();
         }
 
+        // write reply - using callback that writes to stream
+        void reply(const char* contentType, void(*callback)(Stream&out), int size, int status=200, const char* msg=SUCCESS){
+            HttpLogger.log(Info,"reply","stream");
+            reply_header.setValues(status, msg);
+            reply_header.put(CONTENT_TYPE,contentType);
+            reply_header.put(CONNECTION,CON_KEEP_ALIVE);
+            reply_header.write(this->client());
+            callback(*client_ptr);
+            //inputStream.close();
+            endClient();
+        }
+
         // write reply - string with header size
         void reply(const char* contentType, const char* str, int status=200, const char* msg=SUCCESS){
-            HttpLogger.log(Info,"reply","str");
+            HttpLogger.log(Info,"reply",msg);
             int len = strlen(str);
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_LENGTH,len);
@@ -239,13 +251,16 @@ class HttpServer {
         }
 
         void replyNotFound() {
-            HttpLogger.log(Info,"reply","404");
             reply(404,"Page Not Found" );
         }
 
-        void reply(int status, const char* msg) {
-            HttpLogger.log(Info,"reply","status");
-            reply_header.setValues(404, "Page Not Found");
+        void replyOK() {
+            reply(200, SUCCESS );
+        }
+
+        void reply(int status, const char* msg="") {
+            HttpLogger.log(Info,"reply",msg);
+            reply_header.setValues(status, msg);
             reply_header.write(this->client());
             endClient();
         }
@@ -338,7 +353,7 @@ class HttpServer {
         void processRequest(){
             HttpLogger.log(Info,"processRequest");
             request_header.read(this->client());
-            // provde reply with empty header
+            // provide reply with empty header
             reply_header.clear();
             // determine the path
             const char* path = request_header.urlPath();
