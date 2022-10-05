@@ -28,7 +28,7 @@ ExtensionSD sd("/*", PIN_AUDIO_KIT_SD_CARD_CS); // or use ExtensionSDStreamed
 
 void setup() {
     Serial.begin(115200);
-    Log.setLogger(Serial, Info);
+    HttpLogger.setLogger(Serial, Info);
  
     // If you use custom pins for the CD drive: Comment out if you use the standard pins
     SPI.begin(PIN_AUDIO_KIT_SD_CARD_CLK, PIN_AUDIO_KIT_SD_CARD_MISO, PIN_AUDIO_KIT_SD_CARD_MOSI, PIN_AUDIO_KIT_SD_CARD_CS);
@@ -37,14 +37,14 @@ void setup() {
     server.rewrite("/","/index.html");
     server.addExtension(sd);
     server.begin(80, ssid, password);
-    Log.log(Info,"server was started...");
+    HttpLogger.log(Info,"server was started...");
 
     // create test files
     setupTestFiles();
 }
 
 void setupTestFiles(){
-  Log.log(Info,"setupTestFiles");
+  HttpLogger.log(Info,"setupTestFiles");
   const char* index = "<html><body style='background-color:black; color:white'><h1>SD Example</h1> <a href='/test1.html'>test1</a><br/><a href='/test2.html'>test2</a><br/><a href='/test3.html'>test3</a></body></html>";
   const char* test1 = "<html><body style='background-color:black; color:white'><h1>Test1</h1> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </body></html>";
   const char* test2 = "<html><body style='background-color:black; color:white'><h1>Test2</h1> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </body></html>";
@@ -57,7 +57,7 @@ void setupTestFiles(){
 }
 
 void setupTestFile(const char* fileName, const char* content){
-    Log.log(Info,"setupTestFile", fileName);
+    HttpLogger.log(Info,"setupTestFile", fileName);
     File file = SD.open(fileName, FILE_WRITE);
     file.seek(0);
     file.write((uint8_t*)content, strlen(content));

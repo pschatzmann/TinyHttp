@@ -32,7 +32,7 @@ void printMsg(void*){
 void setup() {
     Serial.begin(115200);
     // connect to WIFI
-    Log.setLogger(Serial,Info);
+    HttpLogger.setLogger(Serial,Info);
 
     // generate test messages every second
     ticker.schedule(1000,&printMsg);

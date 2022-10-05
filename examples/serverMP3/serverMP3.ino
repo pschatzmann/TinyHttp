@@ -27,7 +27,7 @@ ExtensionMusicFileStream sdMp3("/music/mp3", "/TomWaits", "audio/mpeg", ".mp3", 
 
 void setup() {
     Serial.begin(115200);
-    Log.setLogger(Serial, Info);
+    HttpLogger.setLogger(Serial, Info);
 
     // If you use custom pins for the CD drive: Comment out if you use the standard pins
     SPI.begin(PIN_AUDIO_KIT_SD_CARD_CLK, PIN_AUDIO_KIT_SD_CARD_MISO, PIN_AUDIO_KIT_SD_CARD_MOSI, PIN_AUDIO_KIT_SD_CARD_CS);
@@ -35,7 +35,7 @@ void setup() {
     server.rewrite("/","/music/mp3");
     server.addExtension(sdMp3);
     server.begin(80, ssid, password);
-    Log.log(Info,"server was started...");
+    HttpLogger.log(Info,"server was started...");
 
 }
 

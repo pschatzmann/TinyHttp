@@ -26,7 +26,7 @@ Ticker ticker;
 
 void setup() {
     Serial.begin(115200);
-    Log.setLogger(Serial,Info);
+    HttpLogger.setLogger(Serial,Info);
 
     server.addExtension(stream);
     server.begin(80, ssid, password);
