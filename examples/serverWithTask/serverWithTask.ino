@@ -21,7 +21,7 @@ ExtensionESPTask task;  // calls server.doLoop(); in an ESP32 task
 void setup() {
     Serial.begin(115200);
     // connect to WIFI
-    HttpLogger.setLogger(Serial,Info);
+    HttpLogger.begin(Serial,Info);
 
     const char*htmlHallo = 
         "<!DOCTYPE html>"

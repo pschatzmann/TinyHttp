@@ -21,7 +21,7 @@ Url indexUrl("/index.html");
 void setup() {
     Serial.begin(115200);
     // connect to WIFI
-    HttpLogger.setLogger(Serial,Info);
+    HttpLogger.begin(Serial,Info);
 
     const char*htmlHallo = 
         "<!DOCTYPE html>"

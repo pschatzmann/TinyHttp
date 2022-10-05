@@ -23,6 +23,7 @@ enum LogLevel {
 class HttpLoggerClass {
     public:
         HttpLoggerClass()= default;
+        
         // activate the logging
         virtual void begin(Stream& out, LogLevel level=Error){
             this->log_stream_ptr = &out;

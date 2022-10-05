@@ -28,7 +28,7 @@ ExtensionSD sd("/*", PIN_AUDIO_KIT_SD_CARD_CS); // or use ExtensionSDStreamed
 
 void setup() {
     Serial.begin(115200);
-    HttpLogger.setLogger(Serial, Info);
+    HttpLogger.begin(Serial, Info);
  
     // If you use custom pins for the CD drive: Comment out if you use the standard pins
     SPI.begin(PIN_AUDIO_KIT_SD_CARD_CLK, PIN_AUDIO_KIT_SD_CARD_MISO, PIN_AUDIO_KIT_SD_CARD_MOSI, PIN_AUDIO_KIT_SD_CARD_CS);

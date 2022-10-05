@@ -16,7 +16,7 @@ Ticker ticker;
 
 void hallo(void*) {
     Serial.println("hallo...");
-    HttpLogger.setLogger(Serial,Info);
+    HttpLogger.begin(Serial,Info);
 }
 
 void setup(){
