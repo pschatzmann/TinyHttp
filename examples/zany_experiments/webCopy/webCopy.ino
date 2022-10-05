@@ -16,7 +16,7 @@ void setup() {
     }
 
     // setup logger
-    Log.setLogger(Serial, Info);
+    HttpLogger.begin(Serial, Info);
 
     // start the dump 
     WebCopy webCopy(client, false);

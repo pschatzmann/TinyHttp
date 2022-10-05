@@ -18,7 +18,7 @@ uint8_t buffer[1024];
 
 void setup() {
     Serial.begin(115200);
-    Log.setLogger(Serial,Info);
+    HttpLogger.begin(Serial,Info);
     // connect to WIFI
     WiFi.begin("SSID", "password");
     while (WiFi.status() != WL_CONNECTED) {        
