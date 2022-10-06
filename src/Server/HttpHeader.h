@@ -93,10 +93,7 @@ class HttpHeader {
                 }
 
                 // log entry
-                char msg[160];
-                sprintf(msg, "-> '%s' : '%s' ", key, value);
-                HttpLogger.log(Debug,"HttpHeader::put %s", msg);
-
+                HttpLogger.log(Debug,"HttpHeader::put '%s' : %s", key, value);
                 hl->value = value;
                 hl->active = true;
 
@@ -112,7 +109,7 @@ class HttpHeader {
 
         /// adds a new line to the header - e.g. for content size
         HttpHeader& put(const char* key, int value){
-            HttpLogger.log(Debug,"HttpHeader::put", key);
+            HttpLogger.log(Debug,"HttpHeader::put %s %d", key, value);
             HttpHeaderLine *hl = headerLine(key);
 
             if (value>1000){
@@ -169,11 +166,11 @@ class HttpHeader {
             }
             //HttpLogger.log(Info,"HttpHeader::writeHeaderLine: ",header->key.c_str());
             if (!header->active){
-                //HttpLogger.log(Info,"HttpHeader::writeHeaderLine - not active");
+                HttpLogger.log(Info,"HttpHeader::writeHeaderLine - not active");
                 return;
             }
             if (header->value.c_str() == nullptr){
-                //HttpLogger.log(Info,"HttpHeader::writeHeaderLine - ignored because value is null");
+                HttpLogger.log(Info,"HttpHeader::writeHeaderLine - ignored because value is null");
                 return;
             }
 
@@ -188,7 +185,7 @@ class HttpHeader {
             // remove crlf from log
             int len = strnlen(msg,200);
             msg[len-2] = 0;
-            HttpLogger.log(Info," -> ", msg);
+            HttpLogger.log(Info,"writeHeaderLine -> %s", msg);
 
             // marke as processed
             header->active = false;
@@ -299,7 +296,7 @@ class HttpHeader {
         // the headers need to delimited with CR LF
         void crlf(Client &out) {
             out.print(CRLF);
-            HttpLogger.log(Info," -> ", "<CR LF>");
+            HttpLogger.log(Info," -> %s", "<CR LF>");
 
         }
 
@@ -368,22 +365,17 @@ class HttpRequestHeader : public HttpHeader {
 
         // action path protocol
         void write1stLine(Client &out){
-            HttpLogger.log(Info,"HttpRequestHeader::write1stLine");
-            char msg[200];
-            Str msg_str(msg,200);
+            char msg[200]={0};
 
             const char* method_str = methods[this->method_id];
-            msg_str = method_str;
-            msg_str += " ";
-            msg_str += this->url_path.c_str();
-            msg_str += " ";
-            msg_str += this->protocol_str.c_str();
-            msg_str += CRLF;
+            strncat(msg, method_str, 200);
+            strncat(msg, " ", 200);
+            strncat(msg, this->url_path.c_str(), 200);
+            strncat(msg, " ", 200);
+            strncat(msg, this->protocol_str.c_str(), 200);
+            strncat(msg, CRLF, 200);
             out.print(msg);
-
-            int len = strnlen(msg, 200);
-            msg[len-2]=0;
-            HttpLogger.log(Info,"->", msg);
+            HttpLogger.log(Info,"HttpRequestHeader::write1stLine:  %s", msg);
         }
 
         // parses the requestline 
@@ -399,9 +391,9 @@ class HttpRequestHeader : public HttpHeader {
             this->url_path.substring(line_str,space1+1,space2);
             this->url_path.trim();
   
-            HttpLogger.log(Info,"->method %s", methods[this->method_id]);
-            HttpLogger.log(Info,"->protocol %s", protocol_str.c_str());
-            HttpLogger.log(Info,"->url_path %s", url_path.c_str());
+            HttpLogger.log(Info,"->method: %s", methods[this->method_id]);
+            HttpLogger.log(Info,"->protocol: %s", protocol_str.c_str());
+            HttpLogger.log(Info,"->url_path: %s", url_path.c_str());
         }
 
 };
@@ -414,7 +406,7 @@ class HttpReplyHeader : public HttpHeader  {
     public:
         // defines the values for the rely
         void setValues(int statusCode, const char* msg="", const char* protocol=nullptr){
-            HttpLogger.log(Info,"HttpReplyHeader::setValues");
+            HttpLogger.log(Info,"HttpReplyHeader::setValues %d", statusCode);
             status_msg = msg;
             status_code = statusCode;
             if (protocol!=nullptr){
@@ -435,7 +427,6 @@ class HttpReplyHeader : public HttpHeader  {
 
         // HTTP-Version SP Status-Code SP Reason-Phrase CRLF
         void write1stLine(Client &out){
-            HttpLogger.log(Info,"HttpReplyHeader::write1stLine");
             char msg[200];
             Str msg_str(msg,200);
             msg_str = this->protocol_str.c_str();
@@ -443,7 +434,7 @@ class HttpReplyHeader : public HttpHeader  {
             msg_str += this->status_code;
             msg_str += " ";
             msg_str += this->status_msg.c_str();
-            HttpLogger.log(Info,"->", msg);
+            HttpLogger.log(Info,"HttpReplyHeader::write1stLine: %s", msg);
             out.print(msg);
             crlf(out);
         }

@@ -57,6 +57,7 @@ class HttpServer {
             return begin(port);
         }
 
+        /// Provides the local ip address
         IPAddress &localIP() {
             static IPAddress address;
             address = WiFi.localIP();
@@ -227,7 +228,7 @@ class HttpServer {
 
         // write reply - using callback that writes to stream
         void reply(const char* contentType, void(*callback)(Stream&out), int size, int status=200, const char* msg=SUCCESS){
-            HttpLogger.log(Info,"reply %s","stream");
+            HttpLogger.log(Info,"reply %s","callback");
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_TYPE,contentType);
             reply_header.put(CONNECTION,CON_KEEP_ALIVE);
@@ -250,16 +251,19 @@ class HttpServer {
             endClient();
         }
 
+        /// write OK reply with 200 SUCCESS
         void replyOK() {
             reply(200, SUCCESS );
         }
 
 
+        /// write 404 reply 
         void replyNotFound() {
             HttpLogger.log(Info,"reply %s","404");
             reply(404,"Page Not Found" );
         }
 
+        /// Writes the status and message to the reply
         void reply(int status, const char* msg) {
             HttpLogger.log(Info,"reply %d",status);
             reply_header.setValues(404, "Page Not Found");
@@ -311,20 +315,22 @@ class HttpServer {
         void copy(){
             // get the actual client_ptr
             if (is_active) {
-                WiFiClient client;
-                if (server_ptr->hasClient()){
+                WiFiClient client = server_ptr->available();
+                if (client){
                     HttpLogger.log(Info,"doLoop->hasClient");
-                    client = server_ptr->available();
                     client_ptr = &client;
-                }
 
-                // process the new client with standard functionality
-                if (client && client.available()>10) {
-                    processRequest();
-                }
+                    // process the new client with standard functionality
+                    if (client.available()>5) {
+                        processRequest();
+                    }
 
-                // process doLoop of all registed (and opened) extension_collection 
-                processextension_collection();
+                    // process doLoop of all registed (and opened) extension_collection 
+                    processextension_collection();
+                } else {
+                    // give other tasks a chance 
+                    delay(50);
+                }
             }
         }
 
