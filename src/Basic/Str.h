@@ -412,7 +412,13 @@ class Str {
         virtual bool isEmpty(){
             return len==0;
         }
-    
+
+        virtual bool isNewLine(){
+            if (len>=1 && chars[0]=='\n') return true;
+            if (len>=2 && chars[0]=='\r' && chars[1]=='\n') return true;
+            return false;
+        }
+
         /// provides the maximum length of the string
         virtual int maxLength() {
             return maxlen;

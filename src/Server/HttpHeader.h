@@ -242,14 +242,14 @@ class HttpHeader {
                 parse1stLine(line);
                 while (in.available()){
                     readLine(in, line, MaxHeaderLineLength);
+                    Str lineStr(line);
+                    if (lineStr.isEmpty()||lineStr.isNewLine()){
+                        break;
+                    }
                     if (isValidStatus() || isRedirectStatus()){
-                        Str lineStr(line);
                         lineStr.ltrim();
-                        if (lineStr.isEmpty()){
-                            break;
-                        }
                         put(line); 
-                    }               
+                    }  
                 }
             }
         }
