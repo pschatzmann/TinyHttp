@@ -16,7 +16,7 @@ namespace tinyhttp {
 class ExtensionMusicFileStream : public Extension {
     public:
         ExtensionMusicFileStream(const char*url="/music", const char* startDir="/", const char* mime="audio/mpeg", const char* extension="mp3", int bufferSize=512, int cspin=-1, int delay=10){
-            HttpLogger.log(Info,"ExtensionMusicFileStream", url);
+            HttpLogger.log(Info,"ExtensionMusicFileStream %s", url);
             this->url = url;
             this->file_extension = extension;
             this->start_dir = startDir;
@@ -36,7 +36,7 @@ class ExtensionMusicFileStream : public Extension {
         }
 
         virtual void open(HttpServer *server) {
-            HttpLogger.log(Info,"ExtensionMusicFileStream", "open");
+            HttpLogger.log(Info,"ExtensionMusicFileStream %s", "open");
             setupSD();
             // setup handler
             streaming->open(server);
@@ -90,7 +90,7 @@ class ExtensionMusicFileStream : public Extension {
         // provides the current file if it is not finished yet otherwise we move to the 
         // next music file or restart at the start directory when we reach the end
         File &getMusicFile() {
-            HttpLogger.log(Debug,"ExtensionMusicFileStream::getMusicFile",file_extension);
+            HttpLogger.log(Debug,"ExtensionMusicFileStream::getMusicFile %s",file_extension);
             if (current_file.available()>0){
                 loop_count = 0;
                 //HttpLogger.log(Debug,"ExtensionMusicFileStream::getMusicFile", current_file.name());
@@ -110,19 +110,19 @@ class ExtensionMusicFileStream : public Extension {
                 if (current_file){
                     Str name_str = Str(current_file.name());
                     if (name_str.endsWith(file_extension) && !name_str.contains("/.")){
-                        HttpLogger.log(Info,"ExtensionMusicFileStream::getMusicFile", current_file.name());
+                        HttpLogger.log(Info,"ExtensionMusicFileStream::getMusicFile %s", current_file.name());
                         loop_count = 0;
                         nextFileCount = 0;
                         break;
                     } 
-                    HttpLogger.log(Warning,"ExtensionMusicFileStream::getMusicFile - not relevant", current_file.name());
+                    HttpLogger.log(Warning,"ExtensionMusicFileStream::getMusicFile %s - not relevant", current_file.name());
                 } else {
                     nextFileCount++;
                 }
 
                 // we restart when we did not find any vaild file in the last 20 entrie
                 if (nextFileCount>20){
-                    HttpLogger.log(Warning,"ExtensionMusicFileStream::getMusicFile", "restart");
+                    HttpLogger.log(Warning,"ExtensionMusicFileStream::getMusicFile %s", "restart");
                     // no file -> restart from the beginning
                     directory.rewindDirectory();
                     loop_count++;

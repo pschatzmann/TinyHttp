@@ -30,14 +30,14 @@ class ExtensionStreamBasic : public Extension  {
         }
 
         virtual void open(HttpServer *server){
-            HttpLogger.log(Info,"ExtensionStreamBasic","open");
+            HttpLogger.log(Info,"ExtensionStreamBasic %s","open");
 
             auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl){ 
                 HttpReplyHeader reply_header;
                 ExtensionStreamBasic *ext = static_cast<ExtensionStreamBasic*>(hl->context[0]);
                 HttpStreamedOutput *out = ext->getOutput();
                 if (out==nullptr){
-                    HttpLogger.log(Error,"ExtensionStreamBasic","out must not be null");
+                    HttpLogger.log(Error,"ExtensionStreamBasic %s","out must not be null");
                     return;
                 }
                 HttpLogger.log(Error,"mime",out->mime());
@@ -52,7 +52,7 @@ class ExtensionStreamBasic : public Extension  {
 
                 // if a replay header is defined we write it out
                 if (hl->header!=nullptr){
-                    HttpLogger.log(Info,"ExtensionStreamBasic","writing content header");
+                    HttpLogger.log(Info,"ExtensionStreamBasic %s","writing content header");
                     out->write((uint8_t*)hl->header->c_str(), hl->header->length());
                 }
                 

@@ -45,7 +45,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         // delegate processing to ExtensionStreamBasic
         virtual void open(HttpServer *server){     
-            HttpLogger.log(Info,"ExtensionStream","open");
+            HttpLogger.log(Info,"ExtensionStream %s","open");
             ext->open(server);
             is_open = true;
         }
@@ -68,7 +68,7 @@ class ExtensionStream : public Stream, public Extension  {
             if (out!=nullptr && out->isOpen()) {
                 int readLen = ringBuffer->available();
                 if (readLen>0){
-                    HttpLogger.log(Info,"ExtensionStream","flush");
+                    HttpLogger.log(Info,"ExtensionStream %s","flush");
                     uint8_t buffer[readLen];
                     readLen = ringBuffer->read(buffer, readLen);
                     out->write(buffer, readLen);
@@ -85,7 +85,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         size_t write(uint8_t *str, int len) {
             if (out!=nullptr && out->isOpen()) {
-                HttpLogger.log(Info,"ExtensionStream","write");
+                HttpLogger.log(Info,"ExtensionStream %s","write");
                 flush();
                 return out->write(str, len);
             } 
@@ -94,7 +94,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         size_t print(const char str[]){
             if (out!=nullptr && out->isOpen()) {
-                HttpLogger.log(Info,"ExtensionStream","print");
+                HttpLogger.log(Info,"ExtensionStream %s","print");
                 flush();
                 return out->print(str);
             }
@@ -103,7 +103,7 @@ class ExtensionStream : public Stream, public Extension  {
 
         size_t println(const char str[]){
             if (out!=nullptr && out->isOpen()) {
-                HttpLogger.log(Info,"ExtensionStream","println");
+                HttpLogger.log(Info,"ExtensionStream %s","println");
                 flush();
                 return out->println(str);
             }

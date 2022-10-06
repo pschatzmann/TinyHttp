@@ -65,7 +65,7 @@ class HttpServer {
 
         /// Starts the server on the indicated port
         bool begin(int port){
-            HttpLogger.log(Info,"HttpServer","begin");
+            HttpLogger.log(Info,"HttpServer %s","begin");
             is_active = true;
             server_ptr->begin(port);
             return true;
@@ -73,7 +73,7 @@ class HttpServer {
 
         /// stops the server_ptr
         void stop(){
-            HttpLogger.log(Info,"HttpServer","stop");
+            HttpLogger.log(Info,"HttpServer %s","stop");
             is_active = false;
         }
 
@@ -86,7 +86,7 @@ class HttpServer {
 
         /// register a generic handler
         void on(const char* url, MethodID method, web_callback_fn fn,void* ctx[]=nullptr, int ctxCount=0){
-            HttpLogger.log(Info,"on-generic",url);
+            HttpLogger.log(Info,"on-generic %s",url);
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
             hl->path = url;
             hl->fn = fn;
@@ -98,7 +98,7 @@ class HttpServer {
 
         /// register a handler with mime
         void on(const char* url, MethodID method, const char* mime, web_callback_fn fn){
-            HttpLogger.log(Info,"on-mime",url);
+            HttpLogger.log(Info,"on-mime %s",url);
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
             hl->path = url;
             hl->fn = fn;
@@ -113,7 +113,7 @@ class HttpServer {
             HttpLogger.log(Info,"on-strings");
 
             auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
-                HttpLogger.log(Info,"on-strings","lambda");
+                HttpLogger.log(Info,"on-strings %s","lambda");
                 if (hl->contextCount<2){
                     HttpLogger.log(Error,"The context is not available");
                     return;
@@ -139,7 +139,7 @@ class HttpServer {
                     HttpLogger.log(Error,"The context is not available");
                     return;
                 }
-                HttpLogger.log(Info,"on-redirect","lambda");
+                HttpLogger.log(Info,"on-redirect %s","lambda");
                 HttpReplyHeader reply_header;
                 Url *url = static_cast<Url*>(hl->context[0]);
                 reply_header.setValues(301, "Moved");
@@ -166,13 +166,13 @@ class HttpServer {
             Str pathStr = Str(path);
             for (auto it = handler_collection.begin() ; it != handler_collection.end(); ++it) {
                 HttpRequestHandlerLine *handler_line_ptr = *it;
-                HttpLogger.log(Info,"onRequest - checking:",handler_line_ptr->path);
+                HttpLogger.log(Info,"onRequest - checking: %s",handler_line_ptr->path);
 
                 if (pathStr.matches(handler_line_ptr->path) 
                 && request_header.method() == handler_line_ptr->method
                 && matchesMime(handler_line_ptr->mime, request_header.accept())) {
                     // call registed handler function
-                    HttpLogger.log(Info,"onRequest","->found");
+                    HttpLogger.log(Info,"onRequest %s","->found");
                     handler_line_ptr->fn(this, path, handler_line_ptr);
                     result = true;
                     break;
@@ -183,7 +183,7 @@ class HttpServer {
 
         // chunked  reply with a full input stream
         void reply(const char* contentType, Stream &inputStream, int status=200, const char* msg=SUCCESS) {
-            HttpLogger.log(Info,"reply","stream");
+            HttpLogger.log(Info,"reply %s","stream");
             reply_header.setValues(status, msg);
             reply_header.put(TRANSFER_ENCODING,CHUNKED);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -200,7 +200,7 @@ class HttpServer {
         }
 
         void replyChunked(const char* contentType, int status=200, const char* msg=SUCCESS) {
-            HttpLogger.log(Info,"reply","replyChunked");
+            HttpLogger.log(Info,"reply %s","replyChunked");
             reply_header.setValues(status, msg);
             reply_header.put(TRANSFER_ENCODING,CHUNKED);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -210,7 +210,7 @@ class HttpServer {
 
         // write reply - stream with header size
         void reply(const char* contentType, Stream &inputStream, int size, int status=200, const char* msg=SUCCESS){
-            HttpLogger.log(Info,"reply","stream");
+            HttpLogger.log(Info,"reply %s","stream");
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_LENGTH,size);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -227,7 +227,7 @@ class HttpServer {
 
         // write reply - string with header size
         void reply(const char* contentType, const char* str, int status=200, const char* msg=SUCCESS){
-            HttpLogger.log(Info,"reply","str");
+            HttpLogger.log(Info,"reply %s","str");
             int len = strlen(str);
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_LENGTH,len);
@@ -239,12 +239,12 @@ class HttpServer {
         }
 
         void replyNotFound() {
-            HttpLogger.log(Info,"reply","404");
+            HttpLogger.log(Info,"reply %s","404");
             reply(404,"Page Not Found" );
         }
 
         void reply(int status, const char* msg) {
-            HttpLogger.log(Info,"reply","status");
+            HttpLogger.log(Info,"reply %d",status);
             reply_header.setValues(404, "Page Not Found");
             reply_header.write(this->client());
             endClient();
@@ -262,7 +262,7 @@ class HttpServer {
 
         /// closes the connection to the current client_ptr
         void endClient() {
-            HttpLogger.log(Info,"HttpServer","endClient");
+            HttpLogger.log(Info,"HttpServer %s","endClient");
             client_ptr->flush();
             client_ptr->stop();
         }
@@ -275,7 +275,7 @@ class HttpServer {
 
         // registers an extension
         void addExtension(Extension &out){
-            HttpLogger.log(Info,"HttpServer","addExtension");
+            HttpLogger.log(Info,"HttpServer %s","addExtension");
             out.open(this);
             extension_collection.push_back(&out);
         }

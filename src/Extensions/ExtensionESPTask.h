@@ -24,7 +24,7 @@ class ExtensionESPTask : public Extension {
         }
 
         virtual void open(HttpServer *server) {
-            HttpLogger.log(Info,"ExtensionESPTask", "open");
+            HttpLogger.log(Info,"ExtensionESPTask %s", "open");
 
             BaseType_t xReturned = xTaskCreatePinnedToCore( 
                 (TaskFunction_t) task,  /* global Task function. */

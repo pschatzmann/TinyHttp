@@ -27,7 +27,7 @@ class HttpRequestHandlerLine {
         ~HttpRequestHandlerLine(){
             HttpLogger.log(Info,"~HttpRequestHandlerLine");
             if (contextCount>0){
-                HttpLogger.log(Info,"HttpRequestHandlerLine","free");
+                HttpLogger.log(Info,"HttpRequestHandlerLine %s","free");
                 delete[] context;
             }
         }

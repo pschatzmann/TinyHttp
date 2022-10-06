@@ -33,13 +33,13 @@ class Url {
 
         // setup url with string
         Url(const char *url){
-            HttpLogger.log(Info,"Url",url);
+            HttpLogger.log(Info,"Url %s",url);
             setUrl(url);
         }
 
         // copy constructor
         Url(Url &url){
-            HttpLogger.log(Info,"Url",url.url());
+            HttpLogger.log(Info,"Url %s",url.url());
             setUrl(url.url());
         }
 
@@ -51,7 +51,7 @@ class Url {
         int port() {return portInt;}
 
         void setUrl(const char* url){
-            HttpLogger.log(Info,"setUrl",url);
+            HttpLogger.log(Info,"setUrl %s",url);
             this->urlStr = url;
             parse();
         }
@@ -101,8 +101,8 @@ class Url {
                 pathStr.trim();
                 urlRootStr.substring(urlStr, 0, pathStart);
             }
-            HttpLogger.log(Info,"url->",url());
-            HttpLogger.log(Info,"path->",path());
+            HttpLogger.log(Info,"url-> %s",url());
+            HttpLogger.log(Info,"path-> %s",path());
            
         }
 

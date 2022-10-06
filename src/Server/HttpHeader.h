@@ -88,14 +88,14 @@ class HttpHeader {
             if (value!=nullptr){
                 HttpHeaderLine *hl = headerLine(key);
                 if (hl==nullptr){
-                    HttpLogger.log(Error,"HttpHeader::put - did not add HttpHeaderLine for", key);
+                    HttpLogger.log(Error,"HttpHeader::put - did not add HttpHeaderLine for %s", key);
                     return *this;
                 }
 
                 // log entry
                 char msg[160];
                 sprintf(msg, "-> '%s' : '%s' ", key, value);
-                HttpLogger.log(Debug,"HttpHeader::put", msg);
+                HttpLogger.log(Debug,"HttpHeader::put %s", msg);
 
                 hl->value = value;
                 hl->active = true;
@@ -105,7 +105,7 @@ class HttpHeader {
                     this->is_chunked = true;
                 }
             } else {
-                HttpLogger.log(Info,"HttpHeader::put - value ignored because it is null for ", key);
+                HttpLogger.log(Info,"HttpHeader::put - value ignored because it is null for %s", key);
             }
             return *this;
         }
@@ -116,7 +116,7 @@ class HttpHeader {
             HttpHeaderLine *hl = headerLine(key);
 
             if (value>1000){
-                HttpLogger.log(Warning,"value is > 1000");
+                HttpLogger.log(Warning,"value is > 1000 for %s",key);
             }
 
             // add value
@@ -128,7 +128,7 @@ class HttpHeader {
 
         /// adds a  received new line to the header
         HttpHeader& put(const char* line){
-            HttpLogger.log(Debug,"HttpHeader::put -> ", (const char*) line);
+            HttpLogger.log(Debug,"HttpHeader::put -> %s", (const char*) line);
             Str keyStr(line);
             int pos = keyStr.indexOf(":");
             char *key = (char*)line;
@@ -158,7 +158,7 @@ class HttpHeader {
         // reads a single header line 
         void readLine(Client &in, char* str, int len){
             reader.readlnInternal(in, (uint8_t*) str, len, false);
-            HttpLogger.log(Info,"HttpHeader::readLine ->",str);
+            HttpLogger.log(Info,"HttpHeader::readLine -> %s",str);
         }
 
         // writes a lingle header line
@@ -317,7 +317,7 @@ class HttpHeader {
                 }
                 if (create_new_lines){
                     HttpHeaderLine *newLine = new HttpHeaderLine();
-                    HttpLogger.log(Debug,"HttpHeader::headerLine - new line created for",key);
+                    HttpLogger.log(Debug,"HttpHeader::headerLine - new line created for %s", key);
                     newLine->active = true;
                     newLine->key = key;
                     lines.push_back(newLine);
@@ -359,7 +359,7 @@ class HttpRequestHeader : public HttpHeader {
             this->method_id = id;
             this->url_path = urlPath;
             
-            HttpLogger.log(Info,"HttpRequestHeader::setValues - path:",this->url_path.c_str());
+            HttpLogger.log(Info,"HttpRequestHeader::setValues - path: %s",this->url_path.c_str());
             if (protocol!=nullptr){
                 this->protocol_str = protocol;
             }
@@ -389,7 +389,7 @@ class HttpRequestHeader : public HttpHeader {
         // parses the requestline 
         // Request-Line = Method SP Request-URI SP HTTP-Version CRLF
         void parse1stLine(const char *line){
-            HttpLogger.log(Info,"HttpRequestHeader::parse1stLine", line);
+            HttpLogger.log(Info,"HttpRequestHeader::parse1stLine %s", line);
             Str line_str(line);
             int space1 = line_str.indexOf(" ");
             int space2 = line_str.indexOf(" ", space1+1);
@@ -399,9 +399,9 @@ class HttpRequestHeader : public HttpHeader {
             this->url_path.substring(line_str,space1+1,space2);
             this->url_path.trim();
   
-            HttpLogger.log(Info,"->method", methods[this->method_id]);
-            HttpLogger.log(Info,"->protocol", protocol_str.c_str());
-            HttpLogger.log(Info,"->url_path", url_path.c_str());
+            HttpLogger.log(Info,"->method %s", methods[this->method_id]);
+            HttpLogger.log(Info,"->protocol %s", protocol_str.c_str());
+            HttpLogger.log(Info,"->url_path %s", url_path.c_str());
         }
 
 };
@@ -453,7 +453,7 @@ class HttpReplyHeader : public HttpHeader  {
         // we just update the pointers to point to the correct position in the
         // http_status_line
         void parse1stLine(const char *line){
-            HttpLogger.log(Info,"HttpReplyHeader::parse1stLine",line);
+            HttpLogger.log(Info,"HttpReplyHeader::parse1stLine %s",line);
             Str line_str(line);
             int space1 = line_str.indexOf(' ',0);
             int space2 = line_str.indexOf(' ',space1+1);

@@ -20,7 +20,7 @@ ExtensionSDStreamed *selfExtensionSDStreamed=nullptr;
 class ExtensionSDStreamed : public Extension {
     public:    
         ExtensionSDStreamed(const char* path="/*", int cspin=-1){
-        HttpLogger.log(Info,"ExtensionSDStreamed", path);
+        HttpLogger.log(Info,"ExtensionSDStreamed %s", path);
         selfExtensionSDStreamed = this;
         this->path = path;
         this->sd_cs = cspin;
@@ -80,7 +80,7 @@ class ExtensionSDStreamed : public Extension {
         void getData(HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
             Url url(server_ptr->requestHeader().urlPath());
             const char* path = url.path();
-            HttpLogger.log(Info,"getData", path);
+            HttpLogger.log(Info,"getData %s", path);
             if (SD.exists(path)){
                 // provide reply header
                 MimeResolver resolver;

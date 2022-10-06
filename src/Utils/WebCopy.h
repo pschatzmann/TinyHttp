@@ -52,10 +52,10 @@ class WebCopy {
     virtual void start(const char* startUrlChar){
       char msg[100];
       sprintf(msg, "start %s",startUrlChar);
-      HttpLogger.log(Info,"WebCopy", msg);
+      HttpLogger.log(Info,"WebCopy %s", msg);
       this->start_url.setUrl(startUrlChar);
       const char* root = start_url.urlRoot();
-      HttpLogger.log(Info,"WebCopy->root", root);
+      HttpLogger.log(Info,"WebCopy->root %s", root);
 
 
       this->file_name_mgr.setRootUrl(root);
@@ -69,7 +69,7 @@ class WebCopy {
     }
 
     virtual void stop() {
-      HttpLogger.log(Info,"WebCopy", "stop");
+      HttpLogger.log(Info,"WebCopy %s", "stop");
       active = false;
     }
 
@@ -134,7 +134,7 @@ class WebCopy {
 
     // copies the content of the url to a file and collects the contained urls
     void processContent(Str urlStr) {
-        HttpLogger.log(Info, "processContent", urlStr.c_str());
+        HttpLogger.log(Info, "processContent %s", urlStr.c_str());
         if (!urlStr.isEmpty()){
           // Determine Mime
           url.setUrl(urlStr.c_str());
@@ -146,7 +146,7 @@ class WebCopy {
           if (file.size()==0){
               // get the data
               reportHeap();
-              HttpLogger.log(Info, "processContent", url.url());
+              HttpLogger.log(Info, "processContent %s", url.url());
               http.get(url);
               processFile(file, mimeStr);
           }
@@ -156,7 +156,7 @@ class WebCopy {
 
     // read from URL to File
     void processFile(File &file, Str &mimeStr){
-        HttpLogger.log(Info, "processFile", file.name());
+        HttpLogger.log(Info, "processFile %s", file.name());
         if (mimeStr.contains("htm")){
           processHtml(file);
         } else {
@@ -166,12 +166,12 @@ class WebCopy {
 
     // determines the mime type
     Str getMime(Url &url) {
-        HttpLogger.log(Info, "getMime", url.url());
+        HttpLogger.log(Info, "getMime %s", url.url());
         http.head(url);
         const char* mime = http.reply().get(CONTENT_TYPE);
         // text/html; charset=UTF-8 -> html
         Str mimeStr(mime);
-        HttpLogger.log(Info, "getMime->", mimeStr.c_str());
+        HttpLogger.log(Info, "getMime-> %s", mimeStr.c_str());
         return mimeStr;
     }
 
@@ -190,10 +190,10 @@ class WebCopy {
 
     // creates the directoy and the file on the SD drive
     File createFile(Str &urlStr, Str &mime){
-        HttpLogger.log(Info, "createFile", urlStr.c_str());
+        HttpLogger.log(Info, "createFile %s", urlStr.c_str());
         // determine the file name which is valid for the SD card
         Str file_name = file_name_mgr.getName(urlStr.c_str(), mime.c_str());
-        HttpLogger.log(Info, "createFile", file_name.c_str());
+        HttpLogger.log(Info, "createFile %s", file_name.c_str());
         // create directory - limit name to show only the path
         int pos = file_name.lastIndexOf("/");
         if (pos>1){
@@ -204,7 +204,7 @@ class WebCopy {
         }
         // return an real file only if it does 
         File file = SD.open(file_name.c_str());
-        HttpLogger.log(Info, "createFile", file.name());
+        HttpLogger.log(Info, "createFile %s", file.name());
 
         return file;
     }
@@ -212,7 +212,7 @@ class WebCopy {
     // process a html file by saving the content to the file and extracting the 
     // contained urls
     void processHtml(File &file) {
-        HttpLogger.log(Info, "processHtml", file.name());
+        HttpLogger.log(Info, "processHtml %s", file.name());
         // process all lines
         uint8_t buffer[buffer_size];
         while(http.available()){
@@ -249,7 +249,7 @@ class WebCopy {
         while(found){
           if (!url.isEmpty()){
             if (createEmptyFile(url)) {
-              HttpLogger.log(Info, "extractReferences",url.c_str());
+              HttpLogger.log(Info, "extractReferences %s",url.c_str());
               stack.push(url.c_str());
             }
           }

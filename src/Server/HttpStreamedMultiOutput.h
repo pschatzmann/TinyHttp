@@ -108,7 +108,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    HttpLogger.log(Debug,"HttpStreamedMultiOutput","write");
+                    HttpLogger.log(Debug,"HttpStreamedMultiOutput %s","write");
                     writer.writeChunk(client,(const char*) content, len);
                 }
             }  
@@ -122,7 +122,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    HttpLogger.log(Debug,"HttpStreamedMultiOutput","print");
+                    HttpLogger.log(Debug,"HttpStreamedMultiOutput %s","print");
                     writer.writeChunk(client,(const char*) str, len);
               }
             }  
@@ -137,7 +137,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (auto i = clients.begin(); i != clients.end(); ++i) {
                 WiFiClient client = *i;
                 if (isValid(client)){
-                    HttpLogger.log(Debug,"HttpStreamedMultiOutput","println");
+                    HttpLogger.log(Debug,"HttpStreamedMultiOutput %s","println");
                     writer.writeChunk(client, str, len,"<br>",4);   
                 }
             } 
@@ -164,7 +164,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             for (int pos=clients.size()-1; pos>=0; pos--) {
                 WiFiClient client = clients[pos];
                 if (!isValid(client)){
-                    HttpLogger.log(Warning,"HttpStreamedMultiOutput","closed");
+                    HttpLogger.log(Warning,"HttpStreamedMultiOutput %s","closed");
                     clients.erase(clients.begin()+pos);
                 }
             }
@@ -174,7 +174,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
         /// content that is written when the request is opened
         void onClose(WiFiClient &client){
             if (end!=nullptr){
-                HttpLogger.log(Info,"HttpStreamedMultiOutput","onClose");
+                HttpLogger.log(Info,"HttpStreamedMultiOutput %s","onClose");
                 int len = strlen(end);
                 writer.writeChunk(client, end, len);  
             } 

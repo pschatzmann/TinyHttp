@@ -58,28 +58,28 @@ class HttpRequest{
         }
 
         virtual int post(Url &url, const char* mime, const char *data, int len=-1){
-            HttpLogger.log(Info,"post", url.url());
+            HttpLogger.log(Info,"post %s", url.url());
             return process(POST, url, mime, data, len);
         }
 
         virtual int put(Url &url, const char* mime, const char *data, int len=-1){
-            HttpLogger.log(Info,"put", url.url());
+            HttpLogger.log(Info,"put %s", url.url());
             return process(PUT, url, mime, data, len);
         }
 
         virtual int del(Url &url,const char* mime=nullptr, const char *data=nullptr, int len=-1) {
-            HttpLogger.log(Info,"del", url.url());
+            HttpLogger.log(Info,"del %s", url.url());
             return process(DELETE, url, mime, data, len);
         }
 
         virtual int get(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
-            HttpLogger.log(Info,"get", url.url());
+            HttpLogger.log(Info,"get %s", url.url());
             this->accept = acceptMime;
             return process(GET, url, nullptr, data, len);
         }
 
         virtual int head(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
-            HttpLogger.log(Info,"head", url.url());
+            HttpLogger.log(Info,"head %s", url.url());
             this->accept = acceptMime;
             return process(HEAD, url, nullptr, data, len);
         }
@@ -134,7 +134,7 @@ class HttpRequest{
 
         // opens a connection to the indicated host
         virtual int connect(const char *ip, uint16_t port) {
-            HttpLogger.log(Info,"connect", ip);
+            HttpLogger.log(Info,"connect %s", ip);
             return this->client_ptr->connect(ip, port);
         }
 
@@ -143,7 +143,7 @@ class HttpRequest{
             if (!connected()){
                 char msg[1024];
                 sprintf(msg, "connecting to host %s port %d", url.host(), url.port());
-                HttpLogger.log(Info,"process", msg);
+                HttpLogger.log(Info,"process %s", msg);
 
                 connect(url.host(), url.port());
                 if (host_name==nullptr){
