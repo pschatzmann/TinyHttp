@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>tinyhttp: tinyhttp::MimeResolver Class Reference</title>
+<title>tinyhttp: tinyhttp::HttpLoggerClass Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,50 +61,53 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>tinyhttp</b></li><li class="navelem"><a class="el" href="classtinyhttp_1_1_mime_resolver.html">MimeResolver</a></li>  </ul>
+<li class="navelem"><b>tinyhttp</b></li><li class="navelem"><a class="el" href="classtinyhttp_1_1_http_logger_class.html">HttpLoggerClass</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="classtinyhttp_1_1_mime_resolver-members.html">List of all members</a>  </div>
+<a href="classtinyhttp_1_1_http_logger_class-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tinyhttp::MimeResolver Class Reference</div>  </div>
+<div class="title">tinyhttp::HttpLoggerClass Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Translates between file extensions and mime names.  
- <a href="classtinyhttp_1_1_mime_resolver.html#details">More...</a></p>
+<p>Logger that writes messages dependent on the log level.  
+ <a href="classtinyhttp_1_1_http_logger_class.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_mime_resolver_8h_source.html">MimeResolver.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_http_logger_8h_source.html">HttpLogger.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad223716a339e677931f2b9bae2d637bc"><td class="memItemLeft" align="right" valign="top"><a id="ad223716a339e677931f2b9bae2d637bc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MimeResolver</b> (<a class="el" href="structtinyhttp_1_1_mime_extension.html">MimeExtension</a> *mime_extensions)</td></tr>
-<tr class="separator:ad223716a339e677931f2b9bae2d637bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a145b9ad124af2e201639c03b9ba5c1bb"><td class="memItemLeft" align="right" valign="top"><a id="a145b9ad124af2e201639c03b9ba5c1bb"></a>
-virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><b>getExtension</b> (const char *mime)</td></tr>
-<tr class="separator:a145b9ad124af2e201639c03b9ba5c1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a78131efc2fac6dfef2cf6ba38907bf"><td class="memItemLeft" align="right" valign="top"><a id="a2a78131efc2fac6dfef2cf6ba38907bf"></a>
-virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_mime_resolver.html#a2a78131efc2fac6dfef2cf6ba38907bf">getMime</a> (const char *newName)</td></tr>
-<tr class="memdesc:a2a78131efc2fac6dfef2cf6ba38907bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines the mime type from the file extension <br /></td></tr>
-<tr class="separator:a2a78131efc2fac6dfef2cf6ba38907bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca234c38737c351502ae6e912d16e28b"><td class="memItemLeft" align="right" valign="top"><a id="aca234c38737c351502ae6e912d16e28b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setValues</b> (<a class="el" href="structtinyhttp_1_1_mime_extension.html">MimeExtension</a> *mime_extensions)</td></tr>
-<tr class="separator:aca234c38737c351502ae6e912d16e28b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fabd8fcd9274e215eeb34f5fff2ea2e"><td class="memItemLeft" align="right" valign="top"><a id="a4fabd8fcd9274e215eeb34f5fff2ea2e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> (<a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;out, LogLevel level=Error)</td></tr>
+<tr class="separator:a4fabd8fcd9274e215eeb34f5fff2ea2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12bc97bc83c0584ec3afd28afedf261a"><td class="memItemLeft" align="right" valign="top"><a id="a12bc97bc83c0584ec3afd28afedf261a"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>isLogging</b> ()</td></tr>
+<tr class="separator:a12bc97bc83c0584ec3afd28afedf261a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bd88841bae9816af7240a3706e8512e"><td class="memItemLeft" align="right" valign="top"><a id="a8bd88841bae9816af7240a3706e8512e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a> (LogLevel current_level, const char *fmt...)</td></tr>
+<tr class="memdesc:a8bd88841bae9816af7240a3706e8512e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print log message. <br /></td></tr>
+<tr class="separator:a8bd88841bae9816af7240a3706e8512e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec2a7dfc9153343cefb57f019391f81d"><td class="memItemLeft" align="right" valign="top"><a id="aec2a7dfc9153343cefb57f019391f81d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setLevel</b> (LogLevel l)</td></tr>
+<tr class="separator:aec2a7dfc9153343cefb57f019391f81d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:affb5cadcd894d7d23d2fd72cd7a3e6b5"><td class="memItemLeft" align="right" valign="top"><a id="affb5cadcd894d7d23d2fd72cd7a3e6b5"></a>
-const <a class="el" href="structtinyhttp_1_1_mime_extension.html">MimeExtension</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mime_extensions</b> = defaultMimeTable</td></tr>
-<tr class="separator:affb5cadcd894d7d23d2fd72cd7a3e6b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ef8c49e494bb522801a3602cace648e"><td class="memItemLeft" align="right" valign="top"><a id="a9ef8c49e494bb522801a3602cace648e"></a>
+LogLevel&#160;</td><td class="memItemRight" valign="bottom"><b>log_level</b> = Warning</td></tr>
+<tr class="separator:a9ef8c49e494bb522801a3602cace648e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad152f4491c9389ea2f337beeda3a713a"><td class="memItemLeft" align="right" valign="top"><a id="ad152f4491c9389ea2f337beeda3a713a"></a>
+<a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>log_stream_ptr</b> =&amp;Serial</td></tr>
+<tr class="separator:ad152f4491c9389ea2f337beeda3a713a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Translates between file extensions and mime names. </p>
+<div class="textblock"><p>Logger that writes messages dependent on the log level. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/Utils/<a class="el" href="_mime_resolver_8h_source.html">MimeResolver.h</a></li>
+<li>src/Server/<a class="el" href="_http_logger_8h_source.html">HttpLogger.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
