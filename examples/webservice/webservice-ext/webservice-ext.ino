@@ -1,7 +1,7 @@
 /**
  * @file webservice
  * @author Phil Schatzmann
- * @brief A simple webservice using json using ArduinoJson
+ * @brief A simple webservice that supports GET and POST using ArduinoJson 
  * @version 0.1
  * @date 2022-10-05
  * 

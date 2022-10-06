@@ -1,7 +1,7 @@
 /**
  * @file webservice
  * @author Phil Schatzmann
- * @brief A very simple webservice using json
+ * @brief A very simple webservice that is providing the result as json
  * @version 0.1
  * @date 2022-10-05
  * 

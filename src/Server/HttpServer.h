@@ -159,7 +159,7 @@ class HttpServer {
 
         /// generic handler - you can overwrite this method to provide your specifc processing logic
         bool onRequest(const char* path) {
-            HttpLogger.log(Info,"onRequest", path);
+            HttpLogger.log(Info,"onRequest %s", path);
 
             bool result = false;
             // check in registered handlers
@@ -227,7 +227,7 @@ class HttpServer {
 
         // write reply - using callback that writes to stream
         void reply(const char* contentType, void(*callback)(Stream&out), int size, int status=200, const char* msg=SUCCESS){
-            HttpLogger.log(Info,"reply","stream");
+            HttpLogger.log(Info,"reply %s","stream");
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_TYPE,contentType);
             reply_header.put(CONNECTION,CON_KEEP_ALIVE);
