@@ -427,13 +427,13 @@ class Str {
         /// Replaces the first instance of toReplace with  replaced
         virtual bool replace(const char* toReplace, const int replaced){
             char number[50];
-            snprintf(number, 50,"%f", replaced);
+            snprintf(number, 50,"%d", replaced);
             return replace(toReplace, number);
         }
 
         virtual bool replace(const char* toReplace, const float replaced){
             char number[50];
-            snprintf(number, 50,"%d", replaced);
+            snprintf(number, 50,"%f", replaced);
             return replace(toReplace, number);            
         }
 

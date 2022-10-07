@@ -29,6 +29,7 @@ public:
 
   ~HttpParameters() { clear(); }
 
+ /// Parses the parameters in the client stream 
   void parse(Stream &in) {
     char buffer[max_len];
     while (in.available() > 0) {
@@ -56,6 +57,25 @@ public:
       }
     }
   }
+
+ /// Parses the parameters in the client stream and provides the result via a callback method
+ void parse(Stream &in, void (*callback)(const char*key, const char*value)) {
+    char buffer[max_len];
+    while (in.available() > 0) {
+      in.readBytesUntil('&', buffer, max_len);
+      Str str(buffer);
+      HttpLogger.log(Info, "parameter: %s", buffer);
+      urldecode2(buffer, buffer);
+      HttpLogger.log(Info, "parameter decoded: %s", buffer);
+      int pos = str.indexOf("=");
+      if (pos > 0) {
+        buffer[pos] = 0; // delimit key
+        const char* key = buffer;
+        const char* value = buffer + pos + 1;
+        callback(key, value);
+      }
+    }
+  } 
 
   bool hasKey(const char *key) {
     for (auto &entry : parameters) {
