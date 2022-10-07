@@ -425,6 +425,19 @@ class Str {
         }
 
         /// Replaces the first instance of toReplace with  replaced
+        virtual bool replace(const char* toReplace, const int replaced){
+            char number[50];
+            snprintf(number, 50,"%f", replaced);
+            return replace(toReplace, number);
+        }
+
+        virtual bool replace(const char* toReplace, const float replaced){
+            char number[50];
+            snprintf(number, 50,"%d", replaced);
+            return replace(toReplace, number);            
+        }
+
+        /// Replaces the first instance of toReplace with  replaced
         virtual bool replace(const char* toReplace, const char* replaced){
             bool result = false;
             if (toReplace==nullptr||replaced==nullptr){
@@ -626,6 +639,16 @@ class Str {
         /// Converts the string to a double
         double toDouble() {
             double result = 0;
+            char *eptr;
+            if (!isEmpty()){
+                result = strtod(chars, &eptr);
+            }
+            return result;
+        }
+
+        /// Converts the string to a double
+        float toFloat() {
+            float result = 0;
             char *eptr;
             if (!isEmpty()){
                 result = strtod(chars, &eptr);

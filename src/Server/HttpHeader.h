@@ -364,7 +364,7 @@ class HttpRequestHeader : public HttpHeader {
 
         // action path protocol
         void write1stLine(Client &out){
-            char msg[200]={0};
+            char msg[201]={0};
 
             const char* method_str = methods[this->method_id];
             strncat(msg, method_str, 200);

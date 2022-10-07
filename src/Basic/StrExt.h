@@ -61,10 +61,15 @@ class StrExt : public Str {
 
 
         ~StrExt() {
+            clear();
+        }
+
+        void clear() {
             if (chars!=nullptr){
                 delete [] chars;
                 chars = nullptr;
             }
+            len = 0;
         }
 
         bool isOnHeap() {
