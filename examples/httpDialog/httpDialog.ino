@@ -59,6 +59,12 @@ const char* htmlForm =
     </html>";
 
 
+void printValues() {
+    char msg[120];
+    snprintf(msg, 120, "====> updated values %f %d %f %d %d %f",volumeControl, clipThreashold, fuzzEffectValue, distortionControl, tremoloDuration,tremoloDepth);
+    Serial.println(msg);        
+}
+
 // Arduino Setup
 void setup(void) {
     Serial.begin(115200);
@@ -66,14 +72,15 @@ void setup(void) {
     
     auto getHtml = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
         // provide data as json using callback 
-        StrExt html.set(htmlForm);
+        StrExt html(1024);
+        html.set(htmlForm);
         html.replace("%volumeControl%",volumeControl);
         html.replace("%clipThreashold%",clipThreashold);
         html.replace("%fuzzEffectValue%",fuzzEffectValue);
         html.replace("%distortionControl%",distortionControl);
         html.replace("%tremoloDuration%",tremoloDuration);
         html.replace("%tremoloDepth%",tremoloDepth);
-        server->reply("text/html", html.c_str, 200);
+        server->reply("text/html", html.c_str(), 200);
     };
     
     auto postData = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
@@ -86,6 +93,7 @@ void setup(void) {
         tremoloDuration = parameters.getFloat("tremoloDuration");
         tremoloDepth = parameters.getFloat("tremoloDepth");        
         server->replyOK();
+        printValues();
     };
 
     server.on("/",GET, getHtml);
