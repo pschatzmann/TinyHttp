@@ -74,7 +74,7 @@ void printValues() {
 }
 
 void getHtml(HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
-    // provide data as json using callback 
+    // provide html and replace variables with actual values
     StrExt html(2500);
     html.set(htmlForm);
     html.replace("%volumeControl%",volumeControl);
@@ -87,6 +87,7 @@ void getHtml(HttpServer *server, const char*requestPath, HttpRequestHandlerLine 
 };
 
 void postData(HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
+    // parse the parameters
     parameters.parse(server->client());
     // update parameters
     volumeControl = parameters.getFloat("volumeControl");
