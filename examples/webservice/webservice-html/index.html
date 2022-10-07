@@ -1,5 +1,6 @@
 <!╌ 
   Example Html Dialog which uses the webservice from https://github.com/pschatzmann/TinyHttp/blob/main/examples/webservice/webservice-ext/webservice-ext.ino 
+  Update the ip address in serive_url!
 ╌> 
 <!DOCTYPE html>
 <html>
@@ -7,9 +8,10 @@
         <title>Effects</title>
         <script src = 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
         <script>
+            const serive_url = 'http://192.168.1.40/service';
             $(document).ready(function() {
 	            // load values
-                $.getJSON('http://192.168.1.40/service', function(data) {
+                $.getJSON(serive_url, function(data) {
                     $('#volumeControl').val(data.volumeControl);
                     $('#clipThreashold').val(data.clipThreashold);
                     $('#fuzzEffectValue').val(data.fuzzEffectValue);
@@ -24,7 +26,7 @@
     				const json = JSON.stringify(value);
 		            // send ajax
 		            $.ajax({
-						url: 'http://192.168.1.40/service',
+						url: serive_url,
 						type: 'POST',
 						dataType: 'json',
 						data: json,
