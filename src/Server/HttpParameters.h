@@ -33,6 +33,7 @@ public:
   void parse(Stream &in) {
     char buffer[max_len];
     while (in.available() > 0) {
+      memset(buffer,0,max_len);
       in.readBytesUntil('&', buffer, max_len);
       Str str(buffer);
       HttpLogger.log(Info, "parameter: %s", buffer);
@@ -62,6 +63,7 @@ public:
  void parse(Stream &in, void (*callback)(const char*key, const char*value)) {
     char buffer[max_len];
     while (in.available() > 0) {
+      memset(buffer,0,max_len);
       in.readBytesUntil('&', buffer, max_len);
       Str str(buffer);
       HttpLogger.log(Info, "parameter: %s", buffer);
