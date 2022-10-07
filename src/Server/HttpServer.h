@@ -157,6 +157,11 @@ class HttpServer {
             addHandler(hl);
         }
 
+        /// Converts null to an empty string
+        const char* nullstr(const char* in){
+            return in==nullptr ? "":in;
+        }
+
 
         /// generic handler - you can overwrite this method to provide your specifc processing logic
         bool onRequest(const char* path) {
@@ -167,7 +172,7 @@ class HttpServer {
             Str pathStr = Str(path);
             for (auto it = handler_collection.begin() ; it != handler_collection.end(); ++it) {
                 HttpRequestHandlerLine *handler_line_ptr = *it;
-                HttpLogger.log(Info,"onRequest - checking: %s",handler_line_ptr->path);
+                HttpLogger.log(Info,"onRequest - checking: %s %s %s", nullstr(handler_line_ptr->path), methods[handler_line_ptr->method], nullstr(handler_line_ptr->mime));
 
                 if (pathStr.matches(handler_line_ptr->path) 
                 && request_header.method() == handler_line_ptr->method
@@ -227,7 +232,7 @@ class HttpServer {
         }
 
         // write reply - using callback that writes to stream
-        void reply(const char* contentType, void(*callback)(Stream&out), int size, int status=200, const char* msg=SUCCESS){
+        void reply(const char* contentType, void(*callback)(Stream&out), int status=200, const char* msg=SUCCESS){
             HttpLogger.log(Info,"reply %s","callback");
             reply_header.setValues(status, msg);
             reply_header.put(CONTENT_TYPE,contentType);
@@ -256,7 +261,6 @@ class HttpServer {
             reply(200, SUCCESS );
         }
 
-
         /// write 404 reply 
         void replyNotFound() {
             HttpLogger.log(Info,"reply %s","404");
@@ -266,7 +270,7 @@ class HttpServer {
         /// Writes the status and message to the reply
         void reply(int status, const char* msg) {
             HttpLogger.log(Info,"reply %d",status);
-            reply_header.setValues(404, "Page Not Found");
+            reply_header.setValues(status, msg);
             reply_header.write(this->client());
             endClient();
         }

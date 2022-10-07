@@ -24,83 +24,83 @@ WiFiServer wifi;
 HttpServer server(wifi);
 const char *ssid = "SSID";
 const char *password = "password";
+
 const char* htmlForm = 
-    "<!DOCTYPE html>\
-    <html>\
-        <head>\
-            <title>Effect Parameters</title>\
-            <script src = \"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\
-            <script>\
-                // load values\
-                $(document).ready(function() {\
-                    $.getJSON('./service', function(data) {\
-                        $(\"input[name='volumeControl']\").val(data.volumeControl);\
-                        $(\"input[name='clipThreashold']\").val(data.clipThreashold);\
-                        $(\"input[name='fuzzEffectValue']\").val(data.fuzzEffectValue);\
-                        $(\"input[name='distortionControl']\").val(data.distortionControl);\
-                        $(\"input[name='tremoloDuration']\").val(data.tremoloDuration);\
+    "<!DOCTYPE html>\n\
+    <html>\n\
+        <head>\n\
+            <title>Effects</title>\n\
+            <script src = \"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n\
+            <script>\n\
+                $(document).ready(function() {\n\
+                    // load values\n\
+                    $.getJSON('./service', function(data) {\n\
+                        $('#volumeControl').val(data.volumeControl);\n\
+                        $('#clipThreashold').val(data.clipThreashold);\n\
+                        $('#fuzzEffectValue').val(data.fuzzEffectValue);\n\
+                        $('#distortionControl').val(data.distortionControl);\n\
+                        $('#tremoloDuration').val(data.tremoloDuration);\n\
+                    });\n\
+                    // submit form\n\
+                    $( '#effect-form' ).submit(function( event ) {\n\
+                        event.preventDefault();\n\
+                        const data = new FormData(event.target);\n\
+                        const value = Object.fromEntries(data.entries());\n\
+                        const json = JSON.stringify(value);\n\
+                        // send ajax\n\
+                        $.ajax({\n\
+                            url: './service',\n\
+                            type: 'POST',\n\
+                            dataType: 'json',\n\
+                            data: json,\n\
+                            contentType: 'text/json',\n\
+                            success : function(result) {console.log(json);},\n\
+                            error: function(xhr, resp, text) {\n\
+                                console.log(json, xhr, resp, text);\n\
+                                alert(text);\n\
+                            }\n\
+                        });\
                     });\
                 });\
-                // submit form\
-                $( '#effect-form' ).submit(function( event ) {\
-                    // Stop form from submitting normally\
-                    event.preventDefault();\
-                    // Get the values from elements on the page:\
-                    var $form = $( this ),\
-                        clipThreashold = $form.find( \"input[name='clipThreashold']\" ).val(),\
-                        fuzzEffectValue = $form.find( \"input[name='fuzzEffectValue']\" ).val(),\
-                        distortionControl = $form.find( \"input[name='distortionControl']\" ).val(),\
-                        tremoloDuration = $form.find( \"input[name='tremoloDuration']\" ).val(),\
-                        tremoloDepth = $form.find( \"input[name='tremoloDepth']\" ).val(),\
-                        url = $form.attr( 'action' );\
-                    // Send the data using post\
-                    var posting = $.post( url, { volumeControl: volumeControl,\ 
-                        clipThreashold: clipThreashold,\
-                        fuzzEffectValue : fuzzEffectValue,\
-                        distortionControl: distortionControl,\
-                        tremoloDuration: tremoloDuration,\
-                        tremoloDepth: tremoloDepth\
-                    } );\
-                });\
             </script>\
-        </head>\
-        <body>\
-            <h1>Effect Parameters:</h1>\
-            <form id='effect-form' action='/service' >\
+        </head>\n\
+        <body>\n\
+            <h1>Effects:</h1>\
+            <form id='effect-form' method='post' >\n\
                 <div>\
-                    <input type='range' id='volume' name='volumeControl'\
-                            min='0' max='1' step='0.01' value='0'>\
+                    <input type='range' id='volumeControl' name='volumeControl'\
+                            min='0' max='1' step='0.01' value='0' onchange=\"$('#effect-form').submit();\">\
                     <label for='volume'>Volume</label>\
-                </div>\
+                </div>\n\
                 <div>\
                     <input type='range' id='clipThreashold' name='clipThreashold' \
-                            min='0' max='6000' step='100' value='0'>\
+                            min='0' max='6000' step='100' value='0' onchange=\"$('#effect-form').submit();\">\
                     <label for='clipThreashold'>Clip Threashold</label>\
-                </div>\
+                </div>\n\
                 <div>\
-                    <input type='range' id='fuzzEffectValue' name='clipThfuzzEffectValuereashold' \
-                            min='0' max='12' step='0.1' value='0'>\
+                    <input type='range' id='fuzzEffectValue' name='fuzzEffectValue' \
+                            min='0' max='12' step='0.1' value='0' onchange=\"$('#effect-form').submit();\">\
                     <label for='fuzzEffectValue'>Fuzz</label>\
-                </div>\
+                </div>\n\
                 <div>\
                     <input type='range' id='distortionControl' name='distortionControl' \
-                            min='0' max='8000' step='100' value='0'>\
+                            min='0' max='8000' step='100' value='0' onchange=\"$('#effect-form').submit();\">\
                     <label for='distortionControl'>Distortion</label>\
-                </div>\
+                </div>\n\
                 <div>\
                     <input type='range' id='tremoloDuration' name='tremoloDuration' \
-                            min='0' max='500' step='1' value='0'>\
+                            min='0' max='500' step='1' value='0' onchange=\"$('#effect-form').submit();\">\
                     <label for='tremoloDuration'>Tremolo Duration</label>\
-                </div>\
+                </div>\n\
                 <div>\
                     <input type='range' id='tremoloDepth' name='tremoloDepth' \
-                            min='0' max='1' step='0.1' value='0'>\
+                            min='0' max='1' step='0.1' value='0' onchange=\"$('#effect-form').submit();\">\
                     <label for='tremoloDepth'>Tremolo Depth</label>\
-                </div>\
-                <button type='submit'>Submit</button>\
-            </form>\
-        </body>\
-    </html>";
+                </div>\n\
+            </form>\n\
+        </body>\n\
+    </html>\n";
+
 
 void parameters2Json(Stream &out) {
     DynamicJsonDocument doc(1024);
@@ -124,6 +124,19 @@ void json2Parameters(Stream &in) {
     tremoloDepth = doc["tremoloDepth"];
 }
 
+void addCors(HttpReplyHeader &header){
+    header.put("Access-Control-Allow-Origin","*");
+    header.put("Access-Control-Allow-Credentials", "true");
+    header.put("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    header.put("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+}
+
+void printValues() {
+    char msg[120];
+    snprintf(msg, 120, "====> updated values %f %d %f %d %d %f",volumeControl, clipThreashold, fuzzEffectValue, distortionControl, tremoloDuration,tremoloDepth);
+    Serial.println(msg);        
+}
+
 // Arduino Setup
 void setup(void) {
     Serial.begin(115200);
@@ -131,18 +144,30 @@ void setup(void) {
     
     auto getJson = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
         // provide data as json using callback 
+        addCors(server->replyHeader());
         server->reply("text/json", parameters2Json, 200);
     };
     
     auto postJson = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
         // post json to server
         json2Parameters(server->client());
+        addCors(server->replyHeader());
+        server->reply("text/json","{}",200);
+
+        // log updated result
+        printValues();
+    };
+
+    auto replyOK = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
+        addCors(server->replyHeader());
         server->replyOK();
     };
 
     server.on("/",GET,"text/html", htmlForm);
+    server.on("/service",OPTIONS, replyOK);
     server.on("/service",GET, getJson);
     server.on("/service",POST, postJson);
+    server.on("/favicon.ico",GET, replyOK);
     server.begin(80, ssid, password);
 
 }

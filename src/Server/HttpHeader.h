@@ -113,7 +113,7 @@ class HttpHeader {
             HttpHeaderLine *hl = headerLine(key);
 
             if (value>1000){
-                HttpLogger.log(Warning,"value is > 1000 for %s",key);
+                HttpLogger.log(Warning,"value is > %d for %s",value, key);
             }
 
             // add value
@@ -164,9 +164,8 @@ class HttpHeader {
                 HttpLogger.log(Info,"HttpHeader::writeHeaderLine", "the value must not be null");
                 return;
             }
-            //HttpLogger.log(Info,"HttpHeader::writeHeaderLine: ",header->key.c_str());
             if (!header->active){
-                HttpLogger.log(Info,"HttpHeader::writeHeaderLine - not active");
+                HttpLogger.log(Info,"HttpHeader::writeHeaderLine %s - not active", header->key.c_str());
                 return;
             }
             if (header->value.c_str() == nullptr){
@@ -460,9 +459,7 @@ class HttpReplyHeader : public HttpHeader  {
 
             // get reason-phrase after last SP
             status_msg.substring(line_str, space2+1, line_str.length());
-
         }
-
 
 };
 
