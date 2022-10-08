@@ -10,6 +10,7 @@
 #include "Server/HttpRequestRewrite.h"
 #include "Extensions/Extension.h"
 #include "Server/HttpChunkWriter.h"
+#include "Server/HttpTunnel.h"
 #include <WiFi.h>
 
 
@@ -145,18 +146,49 @@ class HttpServer {
                 Url *url = static_cast<Url*>(hl->context[0]);
                 reply_header.setValues(301, "Moved");
                 reply_header.put(LOCATION, url->url());
+                reply_header.put("X-Forwarded-Host",(const char*)hl->context[1]);
                 reply_header.write(server_ptr->client());
                 server_ptr->endClient(); 
             };
 
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine(1);
+            const char* lh = localHost();
             hl->context[0] = new Url(redirect);
+            hl->context[1] = (void*) lh;
             hl->path = url;
             hl->fn = lambda;
             hl->method = method;
             addHandler(hl);
         }
 
+        /// register a redirection
+        void on(const char*url, MethodID method, HttpTunnel &tunnel){
+            HttpLogger.log(Info,"on-HttpTunnel %s",url);
+
+            auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
+                HttpLogger.log(Info,"on-strings %s","lambda");
+                HttpTunnel *p_tunnel = static_cast<HttpTunnel*>(hl->context[1]);
+                const char* mime = p_tunnel->mime();
+                // execute GET request 
+                Stream *p_in = p_tunnel->get();
+                if (p_in!=nullptr){
+                    const char* content_len = p_tunnel->request().reply().get(CONTENT_LENGTH);
+                    Str content_len_str{content_len};
+                    // provide result
+                    server_ptr->reply(mime, *p_in, content_len_str.toInt());
+                } else {
+                    server_ptr->replyNotFound();
+                }
+            };
+
+            HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
+            hl->path = url;
+            hl->method = method;
+            hl->mime = tunnel.mime();
+            hl->context[0] = &tunnel;
+            hl->fn = lambda;
+            addHandler(hl);
+        }
 
         /// generic handler - you can overwrite this method to provide your specifc processing logic
         bool onRequest(const char* path) {
@@ -183,7 +215,7 @@ class HttpServer {
         }
 
         /// chunked reply with data from an input stream
-        void reply(const char* contentType, Stream &inputStream, int status=200, const char* msg=SUCCESS) {
+        void replyChunked(const char* contentType, Stream &inputStream, int status=200, const char* msg=SUCCESS) {
             replyChunked(contentType, status, msg);
             HttpChunkWriter chunk_writer;
             while (inputStream.available()){
@@ -339,6 +371,14 @@ class HttpServer {
             return is_active;
         }
 
+        /// Determines the local ip address 
+        const char *localHost() {
+            if (local_host==nullptr){
+                local_host = WiFi.localIP().toString().c_str();
+            }
+            return local_host;
+        }
+
     protected:
         // data
         HttpRequestHeader request_header;
@@ -350,6 +390,7 @@ class HttpServer {
         WiFiServer *server_ptr;
         bool is_active;
         char* buffer;
+        const char* local_host=nullptr;
         int buffer_size;
 
         /// Converts null to an empty string

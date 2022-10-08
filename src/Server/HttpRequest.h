@@ -119,6 +119,10 @@ class HttpRequest{
         virtual void setAcceptsEncoding(const char* enc){
             this->accept_encoding = enc;
         }
+
+        Client *client() {
+            return client_ptr;
+        }
    
     protected:
         Client *client_ptr;
