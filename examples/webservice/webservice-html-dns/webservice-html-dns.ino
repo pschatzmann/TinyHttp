@@ -1,7 +1,7 @@
 /**
  * @file webservice
  * @author Phil Schatzmann
- * @brief We extend the webservice into an application with a form
+ * @brief We extend the webservice by using mdsn to publish the service name and use a html page from an external server (github)
  * @version 0.1
  * @date 2022-10-05
  * 
@@ -10,6 +10,7 @@
  */
 #include "HttpServer.h"
 #include "ArduinoJson.h"
+#include <ESPmDNS.h>
 
 // json parameters
 float volumeControl = 1.0;
@@ -66,12 +67,12 @@ void setup(void) {
     Serial.begin(115200);
     HttpLogger.begin(Serial, Warning);
 
+    // register the service name
     if (!MDNS.begin("esp32-service")) {
         Serial.println("Could not set up DNS");
         return;
     }
 
-    
     auto getJson = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
         // provide data as json using callback 
         addCors(server->replyHeader());
@@ -93,8 +94,9 @@ void setup(void) {
         server->replyOK();
     };
 
-    Url url("");
-    server.on("/",GET,"text/html", url);
+    // forward address
+    Url get_url("https://pschatzmann.github.io/TinyHttp/app/webservice-example.html");
+    server.on("/",GET, get_url);
     server.on("/service",OPTIONS, replyOK);
     server.on("/service",GET, getJson);
     server.on("/service",POST, postJson);
