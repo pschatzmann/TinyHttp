@@ -9,7 +9,8 @@ var searchData=
   ['list_3c_20tinyhttp_3a_3ahttprequestrewrite_20_2a_20_3e_6',['List&lt; tinyhttp::HttpRequestRewrite * &gt;',['../classtinyhttp_1_1_list.html',1,'tinyhttp']]],
   ['list_3c_20tinyhttp_3a_3ahttpstreamcopy_20_2a_20_3e_7',['List&lt; tinyhttp::HttpStreamCopy * &gt;',['../classtinyhttp_1_1_list.html',1,'tinyhttp']]],
   ['list_3c_20tinyhttp_3a_3awificlient_20_3e_8',['List&lt; tinyhttp::WiFiClient &gt;',['../classtinyhttp_1_1_list.html',1,'tinyhttp']]],
-  ['localip_9',['localIP',['../classtinyhttp_1_1_http_server.html#a43b1773580c00cf847f78753177234bb',1,'tinyhttp::HttpServer']]],
-  ['log_10',['log',['../classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e',1,'tinyhttp::HttpLoggerClass']]],
-  ['ltrim_11',['ltrim',['../classtinyhttp_1_1_str.html#a70873099391e6dde364f424d24fc1fb5',1,'tinyhttp::Str']]]
+  ['localhost_9',['localHost',['../classtinyhttp_1_1_http_server.html#a7b66f3ae2446ba90a31b4bedc99310ec',1,'tinyhttp::HttpServer']]],
+  ['localip_10',['localIP',['../classtinyhttp_1_1_http_server.html#a43b1773580c00cf847f78753177234bb',1,'tinyhttp::HttpServer']]],
+  ['log_11',['log',['../classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e',1,'tinyhttp::HttpLoggerClass']]],
+  ['ltrim_12',['ltrim',['../classtinyhttp_1_1_str.html#a70873099391e6dde364f424d24fc1fb5',1,'tinyhttp::Str']]]
 ];

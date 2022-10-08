@@ -128,6 +128,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>doLoop</b> ()</td></t
 void&#160;</td><td class="memItemRight" valign="bottom"><b>endClient</b> ()</td></tr>
 <tr class="memdesc:a5d63c8f7170d736f3623f6d9c99cc5aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">closes the connection to the current client_ptr <br /></td></tr>
 <tr class="separator:a5d63c8f7170d736f3623f6d9c99cc5aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b66f3ae2446ba90a31b4bedc99310ec"><td class="memItemLeft" align="right" valign="top"><a id="a7b66f3ae2446ba90a31b4bedc99310ec" name="a7b66f3ae2446ba90a31b4bedc99310ec"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>localHost</b> ()</td></tr>
+<tr class="memdesc:a7b66f3ae2446ba90a31b4bedc99310ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the local ip address. <br /></td></tr>
+<tr class="separator:a7b66f3ae2446ba90a31b4bedc99310ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b1773580c00cf847f78753177234bb"><td class="memItemLeft" align="right" valign="top"><a id="a43b1773580c00cf847f78753177234bb" name="a43b1773580c00cf847f78753177234bb"></a>
 IPAddress &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>localIP</b> ()</td></tr>
 <tr class="memdesc:a43b1773580c00cf847f78753177234bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the local ip address. <br /></td></tr>
@@ -140,6 +144,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>on</b> (const char *u
 void&#160;</td><td class="memItemRight" valign="bottom"><b>on</b> (const char *url, MethodID method, const char *mime, web_callback_fn fn)</td></tr>
 <tr class="memdesc:a4a9b7149d06cf7ad964328eb9a992955"><td class="mdescLeft">&#160;</td><td class="mdescRight">register a handler with mime <br /></td></tr>
 <tr class="separator:a4a9b7149d06cf7ad964328eb9a992955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a615183d98332fd30c1f02672946f34a5"><td class="memItemLeft" align="right" valign="top"><a id="a615183d98332fd30c1f02672946f34a5" name="a615183d98332fd30c1f02672946f34a5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>on</b> (const char *url, MethodID method, <a class="el" href="classtinyhttp_1_1_http_tunnel.html">HttpTunnel</a> &amp;tunnel)</td></tr>
+<tr class="memdesc:a615183d98332fd30c1f02672946f34a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">register a redirection <br /></td></tr>
+<tr class="separator:a615183d98332fd30c1f02672946f34a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5fe000a9d703136f70043200e8816c8"><td class="memItemLeft" align="right" valign="top"><a id="af5fe000a9d703136f70043200e8816c8" name="af5fe000a9d703136f70043200e8816c8"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>on</b> (const char *url, MethodID method, <a class="el" href="classtinyhttp_1_1_url.html">Url</a> &amp;redirect)</td></tr>
 <tr class="memdesc:af5fe000a9d703136f70043200e8816c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">register a redirection <br /></td></tr>
@@ -164,10 +172,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char *contentType, <a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;inputStream, int size, int status=200, const char *msg=SUCCESS)</td></tr>
 <tr class="memdesc:afa4406edfd3eb45409d6fdd7d54c4626"><td class="mdescLeft">&#160;</td><td class="mdescRight">write reply - copies data from input stream with header size <br /></td></tr>
 <tr class="separator:afa4406edfd3eb45409d6fdd7d54c4626"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b162a859770d33ccebab55eda278823"><td class="memItemLeft" align="right" valign="top"><a id="a6b162a859770d33ccebab55eda278823" name="a6b162a859770d33ccebab55eda278823"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char *contentType, <a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;inputStream, int status=200, const char *msg=SUCCESS)</td></tr>
-<tr class="memdesc:a6b162a859770d33ccebab55eda278823"><td class="mdescLeft">&#160;</td><td class="mdescRight">chunked reply with data from an input stream <br /></td></tr>
-<tr class="separator:a6b162a859770d33ccebab55eda278823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a18a8cd3f3d28c82c4b4f5eef28f5cd"><td class="memItemLeft" align="right" valign="top"><a id="a1a18a8cd3f3d28c82c4b4f5eef28f5cd" name="a1a18a8cd3f3d28c82c4b4f5eef28f5cd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char *contentType, void(*callback)(<a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;out), int status=200, const char *msg=SUCCESS)</td></tr>
 <tr class="memdesc:a1a18a8cd3f3d28c82c4b4f5eef28f5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">write reply - using callback that writes to stream <br /></td></tr>
@@ -180,6 +184,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (int status
 void&#160;</td><td class="memItemRight" valign="bottom"><b>replyChunked</b> (const char *contentType, int status=200, const char *msg=SUCCESS)</td></tr>
 <tr class="memdesc:a6586dbcfead12ce220c4d52352048764"><td class="mdescLeft">&#160;</td><td class="mdescRight">start of chunked reply: use <a class="el" href="classtinyhttp_1_1_http_chunk_writer.html" title="Writes the data chunked to the actual client.">HttpChunkWriter</a> to provde the data <br /></td></tr>
 <tr class="separator:a6586dbcfead12ce220c4d52352048764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1eac40f523945e8d7845858b4efde42"><td class="memItemLeft" align="right" valign="top"><a id="ac1eac40f523945e8d7845858b4efde42" name="ac1eac40f523945e8d7845858b4efde42"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>replyChunked</b> (const char *contentType, <a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;inputStream, int status=200, const char *msg=SUCCESS)</td></tr>
+<tr class="memdesc:ac1eac40f523945e8d7845858b4efde42"><td class="mdescLeft">&#160;</td><td class="mdescRight">chunked reply with data from an input stream <br /></td></tr>
+<tr class="separator:ac1eac40f523945e8d7845858b4efde42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addbdbdc880e3244479d89cfd4d6396bb"><td class="memItemLeft" align="right" valign="top"><a id="addbdbdc880e3244479d89cfd4d6396bb" name="addbdbdc880e3244479d89cfd4d6396bb"></a>
 <a class="el" href="classtinyhttp_1_1_http_reply_header.html">HttpReplyHeader</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>replyHeader</b> ()</td></tr>
 <tr class="memdesc:addbdbdc880e3244479d89cfd4d6396bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">provides the reply header <br /></td></tr>
@@ -247,6 +255,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></
 <tr class="memitem:a304e386f9fba6dfb0037daaad11f4ecc"><td class="memItemLeft" align="right" valign="top"><a id="a304e386f9fba6dfb0037daaad11f4ecc" name="a304e386f9fba6dfb0037daaad11f4ecc"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_active</b></td></tr>
 <tr class="separator:a304e386f9fba6dfb0037daaad11f4ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02c61f2240cb5d6160441eee90d394a9"><td class="memItemLeft" align="right" valign="top"><a id="a02c61f2240cb5d6160441eee90d394a9" name="a02c61f2240cb5d6160441eee90d394a9"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>local_host</b> =nullptr</td></tr>
+<tr class="separator:a02c61f2240cb5d6160441eee90d394a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43698c96c9994d7a5c257866a62c992f"><td class="memItemLeft" align="right" valign="top"><a id="a43698c96c9994d7a5c257866a62c992f" name="a43698c96c9994d7a5c257866a62c992f"></a>
 <a class="el" href="classtinyhttp_1_1_http_reply_header.html">HttpReplyHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><b>reply_header</b></td></tr>
 <tr class="separator:a43698c96c9994d7a5c257866a62c992f"><td class="memSeparator" colspan="2">&#160;</td></tr>

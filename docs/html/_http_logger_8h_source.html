@@ -114,7 +114,7 @@ $(function() {
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">   48</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(LogLevel current_level, <span class="keyword">const</span> <span class="keywordtype">char</span> *fmt...) {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            <span class="keywordflow">if</span> (current_level &gt;= log_level &amp;&amp; log_stream_ptr!=<span class="keyword">nullptr</span>){</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            <span class="keywordflow">if</span> (current_level &gt;= log_level &amp;&amp; log_stream_ptr!=<span class="keyword">nullptr</span>&amp;&amp; fmt!=<span class="keyword">nullptr</span>){</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                <span class="keywordtype">char</span> log_buffer[200];</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                strcpy(log_buffer,<span class="stringliteral">&quot;TinyHttp - &quot;</span>);  </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                strcat(log_buffer, HttpLogLevelStr[current_level]);</div>
