@@ -1,5 +1,4 @@
 #include "HttpServer.h"
-#include "ArduinoJson.h"
 
 // parameters
 float volumeControl = 1.0;
