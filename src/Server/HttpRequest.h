@@ -76,7 +76,7 @@ class HttpRequest{
         }
 
         virtual int get(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
-            //HttpLogger.log(Info,"get %s", str(url.url()));
+            HttpLogger.log(Info,"get %s", str(url.url()));
             this->accept = acceptMime;
             return process(GET, url, nullptr, data, len);
         }
@@ -133,7 +133,7 @@ class HttpRequest{
         Url url;
         HttpRequestHeader request_header;
         HttpReplyHeader reply_header;
-        HttpChunkReader chunk_reader = HttpChunkReader(reply_header);
+        HttpChunkReader chunk_reader{reply_header};
         const char *agent = nullptr;
         const char *host_name=nullptr;
         const char *connection = CON_CLOSE;
