@@ -166,7 +166,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char
 <tr class="separator:afa4406edfd3eb45409d6fdd7d54c4626"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b162a859770d33ccebab55eda278823"><td class="memItemLeft" align="right" valign="top"><a id="a6b162a859770d33ccebab55eda278823" name="a6b162a859770d33ccebab55eda278823"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char *contentType, <a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;inputStream, int status=200, const char *msg=SUCCESS)</td></tr>
-<tr class="memdesc:a6b162a859770d33ccebab55eda278823"><td class="mdescLeft">&#160;</td><td class="mdescRight">chunked reply with data from input stream <br /></td></tr>
+<tr class="memdesc:a6b162a859770d33ccebab55eda278823"><td class="mdescLeft">&#160;</td><td class="mdescRight">chunked reply with data from an input stream <br /></td></tr>
 <tr class="separator:a6b162a859770d33ccebab55eda278823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a18a8cd3f3d28c82c4b4f5eef28f5cd"><td class="memItemLeft" align="right" valign="top"><a id="a1a18a8cd3f3d28c82c4b4f5eef28f5cd" name="a1a18a8cd3f3d28c82c4b4f5eef28f5cd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reply</b> (const char *contentType, void(*callback)(<a class="el" href="classtinyhttp_1_1_stream.html">Stream</a> &amp;out), int status=200, const char *msg=SUCCESS)</td></tr>
@@ -209,15 +209,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>stop</b> ()</td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:abeb95826a84ea16c48556336a06dc26b"><td class="memItemLeft" align="right" valign="top"><a id="abeb95826a84ea16c48556336a06dc26b" name="abeb95826a84ea16c48556336a06dc26b"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>matchesMime</b> (const char *handler_mime, const char *request_mime)</td></tr>
+<tr class="memdesc:abeb95826a84ea16c48556336a06dc26b"><td class="mdescLeft">&#160;</td><td class="mdescRight">compares mime of handler with mime of request: provides true if they match of one is null (=any value) <br /></td></tr>
 <tr class="separator:abeb95826a84ea16c48556336a06dc26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad147ccd06262d7f07a3ae9f72ce7107a"><td class="memItemLeft" align="right" valign="top"><a id="ad147ccd06262d7f07a3ae9f72ce7107a" name="ad147ccd06262d7f07a3ae9f72ce7107a"></a>
 const char *&#160;</td><td class="memItemRight" valign="bottom"><b>nullstr</b> (const char *in)</td></tr>
 <tr class="memdesc:ad147ccd06262d7f07a3ae9f72ce7107a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts null to an empty string. <br /></td></tr>
 <tr class="separator:ad147ccd06262d7f07a3ae9f72ce7107a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ff6db5a079f081d5d8ad21902bf5085"><td class="memItemLeft" align="right" valign="top"><a id="a2ff6db5a079f081d5d8ad21902bf5085" name="a2ff6db5a079f081d5d8ad21902bf5085"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>processextension_collection</b> ()</td></tr>
-<tr class="memdesc:a2ff6db5a079f081d5d8ad21902bf5085"><td class="mdescLeft">&#160;</td><td class="mdescRight">executes the doLoop of all extension_collection <br /></td></tr>
-<tr class="separator:a2ff6db5a079f081d5d8ad21902bf5085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d08f7da72f29f2f5604277540f45865"><td class="memItemLeft" align="right" valign="top"><a id="a3d08f7da72f29f2f5604277540f45865" name="a3d08f7da72f29f2f5604277540f45865"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>processExtensions</b> ()</td></tr>
+<tr class="memdesc:a3d08f7da72f29f2f5604277540f45865"><td class="mdescLeft">&#160;</td><td class="mdescRight">executes the doLoop of all extension_collection <br /></td></tr>
+<tr class="separator:a3d08f7da72f29f2f5604277540f45865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab20c78030e45b0c4cd856bca17f7b882"><td class="memItemLeft" align="right" valign="top"><a id="ab20c78030e45b0c4cd856bca17f7b882" name="ab20c78030e45b0c4cd856bca17f7b882"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>processRequest</b> ()</td></tr>
 <tr class="separator:ab20c78030e45b0c4cd856bca17f7b882"><td class="memSeparator" colspan="2">&#160;</td></tr>

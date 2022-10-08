@@ -182,7 +182,7 @@ class HttpServer {
             return result;
         }
 
-        /// chunked reply with data from  input stream
+        /// chunked reply with data from an input stream
         void reply(const char* contentType, Stream &inputStream, int status=200, const char* msg=SUCCESS) {
             replyChunked(contentType, status, msg);
             HttpChunkWriter chunk_writer;
@@ -321,7 +321,7 @@ class HttpServer {
                     }
 
                     // process doLoop of all registed (and opened) extension_collection 
-                    processextension_collection();
+                    processExtensions();
                 } else {
                     // give other tasks a chance 
                     delay(50);
@@ -374,8 +374,8 @@ class HttpServer {
         }
 
         /// executes the doLoop of all extension_collection
-        void processextension_collection(){
-            //if (extension_collection.size()>0) HttpLogger.log(Info,"processextension_collection");
+        void processExtensions(){
+            //if (extension_collection.size()>0) HttpLogger.log(Info,"processExtensions");
             // we handle all open clients
             for (auto i = extension_collection.begin(); i != extension_collection.end(); ++i) {
                 Extension *ext = (*i);
@@ -395,6 +395,7 @@ class HttpServer {
             return from;
         }
 
+        /// compares mime of handler with mime of request: provides true if they match of one is null (=any value)
         bool matchesMime(const char *handler_mime, const char* request_mime) {
             if (handler_mime==nullptr || request_mime==nullptr){
                 return true;
