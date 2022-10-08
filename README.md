@@ -19,6 +19,8 @@ The basic HttpServer class just provides the functionality to
 - register reply handlers (callbacks)
 - register extensions
 - provide replys 
+- forward to URL
+- tunnel to URL
 
 I also added a small http client implementation by re-using the same functionality which was needed for the Server.
 
@@ -142,7 +144,7 @@ Further extension examples can be found in the [examples directory](https://gith
 ## Documentation
 
 - Here is the [Class Documentation](https://pschatzmann.github.io/TinyHttp/html/annotated.html). 
-- Please also check out the [Information in the Wiki](https://github.com/pschatzmann/TinyHttp/wiki)
+- Please also check out the [Information in the Wiki](https://github.com/pschatzmann/TinyHttp/wiki) and [my TinyHttp Blogs](https://www.pschatzmann.ch/home/tag/tinyhttp/)
 
 
 ## Installation in Arduino
