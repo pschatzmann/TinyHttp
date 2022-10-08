@@ -25,15 +25,17 @@ class HttpParameters {
   };
 
 public:
+  /// Default Constructor
   HttpParameters(const int maxLen = 256) { max_len = maxLen; };
 
+  /// Destructor
   ~HttpParameters() { clear(); }
 
- /// Parses the parameters in the client stream 
+  /// Parses the parameters in the client stream
   void parse(Stream &in) {
     char buffer[max_len];
     while (in.available() > 0) {
-      memset(buffer,0,max_len);
+      memset(buffer, 0, max_len);
       in.readBytesUntil('&', buffer, max_len);
       Str str(buffer);
       HttpLogger.log(Info, "parameter: %s", buffer);
@@ -42,28 +44,29 @@ public:
       int pos = str.indexOf("=");
       if (pos > 0) {
         buffer[pos] = 0; // delimit key
-        const char* key = buffer;
-        const char* value = buffer + pos + 1;
+        const char *key = buffer;
+        const char *value = buffer + pos + 1;
         HttpLogger.log(Debug, "key: %s", key);
         HttpLogger.log(Debug, "value: %s", value);
         HttpParameterEntry *entry = getParameter(key);
-        if (entry!=nullptr){
-            entry->value = value;
+        if (entry != nullptr) {
+          entry->value = value;
         } else {
-            entry = new HttpParameterEntry();
-            entry->key = key;
-            entry->value = value;
-            parameters.push_back(entry);
+          entry = new HttpParameterEntry();
+          entry->key = key;
+          entry->value = value;
+          parameters.push_back(entry);
         }
       }
     }
   }
 
- /// Parses the parameters in the client stream and provides the result via a callback method
- void parse(Stream &in, void (*callback)(const char*key, const char*value)) {
+  /// Parses the parameters in the client stream and provides the result via a
+  /// callback method
+  void parse(Stream &in, void (*callback)(const char *key, const char *value)) {
     char buffer[max_len];
     while (in.available() > 0) {
-      memset(buffer,0,max_len);
+      memset(buffer, 0, max_len);
       in.readBytesUntil('&', buffer, max_len);
       Str str(buffer);
       HttpLogger.log(Info, "parameter: %s", buffer);
@@ -72,13 +75,14 @@ public:
       int pos = str.indexOf("=");
       if (pos > 0) {
         buffer[pos] = 0; // delimit key
-        const char* key = buffer;
-        const char* value = buffer + pos + 1;
+        const char *key = buffer;
+        const char *value = buffer + pos + 1;
         callback(key, value);
       }
     }
-  } 
+  }
 
+  /// Checks if the parameter exists
   bool hasKey(const char *key) {
     for (auto &entry : parameters) {
       if (entry->key.equals(key)) {
@@ -88,6 +92,7 @@ public:
     return false;
   }
 
+  /// Returns a HttpParameterEntry for a parameter id
   HttpParameterEntry *getParameter(const char *key) {
     for (auto &entry : parameters) {
       if (entry->key.equals(key)) {
@@ -97,6 +102,7 @@ public:
     return nullptr;
   }
 
+  /// Returns the value for a parameter id as string
   const char *getValue(const char *key) {
     for (auto &entry : parameters) {
       if (entry->key.equals(key)) {
@@ -106,6 +112,7 @@ public:
     return nullptr;
   }
 
+  /// Returns the value for a parameter id as float
   float getFloat(const char *key) {
     for (auto &entry : parameters) {
       if (entry->key.equals(key)) {
@@ -115,6 +122,7 @@ public:
     return 0;
   }
 
+  /// Returns the value for a parameter id as int
   int getInt(const char *key) {
     for (auto &entry : parameters) {
       if (entry->key.equals(key)) {
@@ -123,6 +131,8 @@ public:
     }
     return 0;
   }
+
+  /// Clears all values
   void clear() {
     for (auto entry : parameters) {
       delete entry;
@@ -131,7 +141,7 @@ public:
   }
 
 protected:
-  Vector<HttpParameterEntry*> parameters;
+  Vector<HttpParameterEntry *> parameters;
   int max_len;
 
   void urldecode2(char *dst, const char *src) {
