@@ -116,9 +116,9 @@ $(function() {
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                reply_header.put(TRANSFER_ENCODING,CHUNKED);</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                reply_header.put(CONTENT_TYPE,out-&gt;mime());</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                reply_header.put(CONNECTION,CON_KEEP_ALIVE);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                reply_header.write(server_ptr-&gt;client());</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                reply_header.write(server_ptr-&gt;<a class="code hl_function" href="classtinyhttp_1_1_http_server.html#a383e121d7dffb4c8b63f7a485f678195">client</a>());</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                out-&gt;open(server_ptr-&gt;client());</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                out-&gt;open(server_ptr-&gt;<a class="code hl_function" href="classtinyhttp_1_1_http_server.html#a383e121d7dffb4c8b63f7a485f678195">client</a>());</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                <span class="comment">// if a replay header is defined we write it out</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                <span class="keywordflow">if</span> (hl-&gt;header!=<span class="keyword">nullptr</span>){</div>
@@ -133,7 +133,7 @@ $(function() {
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            hl.path = url;</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            hl.fn = lambda;</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            hl.method = method;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            server-&gt;addHandler(&amp;hl);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            server-&gt;<a class="code hl_function" href="classtinyhttp_1_1_http_server.html#aa1f45b4e3eec52076a4f167e23777de2">addHandler</a>(&amp;hl);</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        }</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="comment">// checks if the output is currently open in order to determie if we need to wwrite any data</span></div>
@@ -204,6 +204,8 @@ $(function() {
 <div class="ttc" id="aclasstinyhttp_1_1_http_reply_header_html"><div class="ttname"><a href="classtinyhttp_1_1_http_reply_header.html">tinyhttp::HttpReplyHeader</a></div><div class="ttdoc">Reading and Writing of Http Replys.</div><div class="ttdef"><b>Definition:</b> HttpHeader.h:404</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_request_handler_line_html"><div class="ttname"><a href="classtinyhttp_1_1_http_request_handler_line.html">tinyhttp::HttpRequestHandlerLine</a></div><div class="ttdoc">Used to register and process callbacks.</div><div class="ttdef"><b>Definition:</b> HttpRequestHandlerLine.h:19</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_server_html"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html">tinyhttp::HttpServer</a></div><div class="ttdoc">A Simple Header only implementation of Http Server that allows the registration of callback functions...</div><div class="ttdef"><b>Definition:</b> HttpServer.h:23</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_http_server_html_a383e121d7dffb4c8b63f7a485f678195"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#a383e121d7dffb4c8b63f7a485f678195">tinyhttp::HttpServer::client</a></div><div class="ttdeci">WiFiClient &amp; client()</div><div class="ttdoc">Provides the current client.</div><div class="ttdef"><b>Definition:</b> HttpServer.h:333</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_http_server_html_aa1f45b4e3eec52076a4f167e23777de2"><div class="ttname"><a href="classtinyhttp_1_1_http_server.html#aa1f45b4e3eec52076a4f167e23777de2">tinyhttp::HttpServer::addHandler</a></div><div class="ttdeci">void addHandler(HttpRequestHandlerLine *handlerLinePtr)</div><div class="ttdoc">adds a new handler</div><div class="ttdef"><b>Definition:</b> HttpServer.h:300</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_streamed_output_html"><div class="ttname"><a href="classtinyhttp_1_1_http_streamed_output.html">tinyhttp::HttpStreamedOutput</a></div><div class="ttdoc">Abstract class for handling streamed output.</div><div class="ttdef"><b>Definition:</b> HttpStreamedOutput.h:12</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:16</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_str_html_a0b1af13d57d1d1cd8d6294a384983d39"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">tinyhttp::Str::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdoc">provides the current length (filled with characters) of the string - excluding the terminating 0</div><div class="ttdef"><b>Definition:</b> Str.h:407</div></div>

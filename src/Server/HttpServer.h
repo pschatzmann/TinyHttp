@@ -157,11 +157,6 @@ class HttpServer {
             addHandler(hl);
         }
 
-        /// Converts null to an empty string
-        const char* nullstr(const char* in){
-            return in==nullptr ? "":in;
-        }
-
 
         /// generic handler - you can overwrite this method to provide your specifc processing logic
         bool onRequest(const char* path) {
@@ -187,14 +182,9 @@ class HttpServer {
             return result;
         }
 
-        // chunked  reply with a full input stream
+        /// chunked reply with data from  input stream
         void reply(const char* contentType, Stream &inputStream, int status=200, const char* msg=SUCCESS) {
-            HttpLogger.log(Info,"reply %s","stream");
-            reply_header.setValues(status, msg);
-            reply_header.put(TRANSFER_ENCODING,CHUNKED);
-            reply_header.put(CONTENT_TYPE,contentType);
-            reply_header.put(CONNECTION,CON_KEEP_ALIVE);
-            reply_header.write(this->client());
+            replyChunked(contentType, status, msg);
             HttpChunkWriter chunk_writer;
             while (inputStream.available()){
                 int len = inputStream.readBytes(buffer, buffer_size);
@@ -205,6 +195,7 @@ class HttpServer {
             endClient();
         }
 
+        /// start of chunked reply: use HttpChunkWriter to provde the data 
         void replyChunked(const char* contentType, int status=200, const char* msg=SUCCESS) {
             HttpLogger.log(Info,"reply %s","replyChunked");
             reply_header.setValues(status, msg);
@@ -214,7 +205,7 @@ class HttpServer {
             reply_header.write(this->client());
         }
 
-        // write reply - stream with header size
+        /// write reply - copies data from input stream with header size
         void reply(const char* contentType, Stream &inputStream, int size, int status=200, const char* msg=SUCCESS){
             HttpLogger.log(Info,"reply %s","stream");
             reply_header.setValues(status, msg);
@@ -231,7 +222,7 @@ class HttpServer {
             endClient();
         }
 
-        // write reply - using callback that writes to stream
+        /// write reply - using callback that writes to stream
         void reply(const char* contentType, void(*callback)(Stream&out), int status=200, const char* msg=SUCCESS){
             HttpLogger.log(Info,"reply %s","callback");
             reply_header.setValues(status, msg);
@@ -243,7 +234,7 @@ class HttpServer {
             endClient();
         }
 
-        // write reply - string with header size
+        /// write reply - string with header size
         void reply(const char* contentType, const char* str, int status=200, const char* msg=SUCCESS){
             HttpLogger.log(Info,"reply %s","str");
             int len = strlen(str);
@@ -292,20 +283,20 @@ class HttpServer {
             client_ptr->stop();
         }
 
-        // print a CR LF
+        /// print a CR LF
         void crlf() {
             client_ptr->print("\r\n");
             client_ptr->flush();
         }
 
-        // registers an extension
+        /// registers an extension
         void addExtension(Extension &out){
             HttpLogger.log(Info,"HttpServer %s","addExtension");
             out.open(this);
             extension_collection.push_back(&out);
         }
 
-        // adds a new handler
+        /// adds a new handler
         void addHandler(HttpRequestHandlerLine *handlerLinePtr){
             handler_collection.push_back(handlerLinePtr);
         }
@@ -338,11 +329,12 @@ class HttpServer {
             }
         }
 
-        // return the current client
+        /// Provides the current client
         WiFiClient &client() {
             return *client_ptr;
         }
 
+        /// Provides true if the server has been started
         operator bool(){
             return is_active;
         }
@@ -359,6 +351,11 @@ class HttpServer {
         bool is_active;
         char* buffer;
         int buffer_size;
+
+        /// Converts null to an empty string
+        const char* nullstr(const char* in){
+            return in==nullptr ? "":in;
+        }
 
 
         // process a full request and send the reply
