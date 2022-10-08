@@ -46,7 +46,7 @@ class HttpLoggerClass {
 
         /// Print log message
         void log(LogLevel current_level, const char *fmt...) {
-            if (current_level >= log_level && log_stream_ptr!=nullptr){
+            if (current_level >= log_level && log_stream_ptr!=nullptr&& fmt!=nullptr){
                 char log_buffer[200];
                 strcpy(log_buffer,"TinyHttp - ");  
                 strcat(log_buffer, HttpLogLevelStr[current_level]);

@@ -63,7 +63,7 @@ class HttpHeader {
         }
         ~HttpHeader(){
             HttpLogger.log(Debug,"~HttpHeader");
-            clear(true);
+            clear(false);
         }
 
         /// clears the data - usually we do not delete but we just set the active flag
@@ -72,10 +72,12 @@ class HttpHeader {
             is_chunked = false;
             url_path = "/";
             for (auto it = lines.begin() ; it != lines.end(); ++it){
-                if (activeFlag){
-                    (*it)->active = false;
-                } else {
-                    delete *it;
+                if (it!=nullptr){
+                    if (activeFlag){
+                        (*it)->active = false;
+                    } else {
+                        delete *it;
+                    }
                 }
             }
             if (!activeFlag){

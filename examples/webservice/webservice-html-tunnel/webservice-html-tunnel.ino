@@ -1,9 +1,7 @@
 /**
  * @file webservice
  * @author Phil Schatzmann
- * @brief We extend the webservice by using mdsn to publish the service name and use a html page from an external server (github).
- * Please note that this is only working when you allow insecure content in your browser: The web page is using https, but the webservice
- * is communicating with insecure http!
+ * @brief We extend the webservice and get the http form from an external server using a tunnel
  * @version 0.1
  * @date 2022-10-05
  * 
@@ -12,7 +10,6 @@
  */
 #include "HttpServer.h"
 #include "ArduinoJson.h"
-#include <ESPmDNS.h>
 
 // json parameters
 float volumeControl = 1.0;
@@ -69,12 +66,6 @@ void setup(void) {
     Serial.begin(115200);
     HttpLogger.begin(Serial, Warning);
 
-    // register the service name
-    if (!MDNS.begin("esp32-service")) {
-        Serial.println("Could not set up DNS");
-        return;
-    }
-
     auto getJson = [](HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
         // provide data as json using callback 
         addCors(server->replyHeader());
@@ -97,8 +88,8 @@ void setup(void) {
     };
 
     // forward address
-    static Url forward_url("https://pschatzmann.github.io/TinyHttp/app/webservice-example.html");
-    server.on("/",GET, forward_url);
+    static HttpTunnel tunnel_url("https://pschatzmann.github.io/TinyHttp/app/webservice-example-local.html");
+    server.on("/",GET, tunnel_url);
     server.on("/service",OPTIONS, replyOK);
     server.on("/service",GET, getJson);
     server.on("/service",POST, postJson);

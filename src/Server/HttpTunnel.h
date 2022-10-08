@@ -11,12 +11,14 @@ namespace tinyhttp {
 class HttpTunnel {
     public:
         HttpTunnel(const char* url, const char* mime="text/html"){
+            HttpLogger.log(Info,"HttpTunnel: %s", url);
             v_url.setUrl(url);
             v_mime = mime;
         }
 
         /// Executes the get request
         Stream *get() {
+            HttpLogger.log(Info,"HttpTunnel::get");
             if (isOk(v_request.get(v_url, v_mime))){
                 return v_request.client();
             }
@@ -38,7 +40,7 @@ class HttpTunnel {
         const char* v_mime;
 
         bool isOk(int code){
-            return code==200;
+            return code>=200 && code<300;
         }
 
 };

@@ -3,6 +3,7 @@
 #include "Server/HttpHeader.h" 
 #include "Platform/AltClient.h"
 #include "Server/HttpChunkReader.h"
+#include <WiFiClientSecure.h>
 
 namespace tinyhttp {
 
@@ -19,7 +20,9 @@ namespace tinyhttp {
 class HttpRequest{
     public:
         HttpRequest() {
-             HttpLogger.log(Info,"HttpRequest");
+            HttpLogger.log(Info,"HttpRequest");
+            default_client.setInsecure();
+            setClient(default_client);
         }
 
         HttpRequest(Client &client){
@@ -38,7 +41,7 @@ class HttpRequest{
         }
 
         operator bool() {
-            return (bool)*client_ptr;
+            return client_ptr!=nullptr && (bool)*client_ptr;
         }
 
         virtual bool connected(){
@@ -73,7 +76,7 @@ class HttpRequest{
         }
 
         virtual int get(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
-            HttpLogger.log(Info,"get %s", url.url());
+            //HttpLogger.log(Info,"get %s", str(url.url()));
             this->accept = acceptMime;
             return process(GET, url, nullptr, data, len);
         }
@@ -125,6 +128,7 @@ class HttpRequest{
         }
    
     protected:
+        WiFiClientSecure default_client;
         Client *client_ptr;
         Url url;
         HttpRequestHeader request_header;
@@ -135,6 +139,10 @@ class HttpRequest{
         const char *connection = CON_CLOSE;
         const char *accept = ACCEPT_ALL;
         const char *accept_encoding = nullptr;
+
+        const char* str(const char* in){
+            return in==nullptr ? "" : in;
+        }
 
         // opens a connection to the indicated host
         virtual int connect(const char *ip, uint16_t port) {
@@ -159,12 +167,21 @@ class HttpRequest{
                 len = strlen(data);
                 request_header.put(CONTENT_LENGTH, len);
             }
-            request_header.put(HOST_C, host_name);                
+            if (host_name!=nullptr){
+                request_header.put(HOST_C, host_name);    
+            }            
+            if (agent!=nullptr) {
+                request_header.put(USER_AGENT, agent);
+            }
+            if(accept_encoding!=nullptr){
+                request_header.put(ACCEPT_ENCODING, accept_encoding);
+            }
+            if (mime!=nullptr){
+                request_header.put(CONTENT_TYPE, mime);
+            }
+
             request_header.put(CONNECTION, connection);
-            request_header.put(USER_AGENT, agent);
-            request_header.put(ACCEPT_ENCODING, accept_encoding);
             request_header.put(ACCEPT, accept);
-            request_header.put(CONTENT_TYPE, mime);
             
             request_header.write(*client_ptr);
 

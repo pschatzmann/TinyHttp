@@ -166,19 +166,25 @@ class HttpServer {
             HttpLogger.log(Info,"on-HttpTunnel %s",url);
 
             auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
-                HttpLogger.log(Info,"on-strings %s","lambda");
-                HttpTunnel *p_tunnel = static_cast<HttpTunnel*>(hl->context[1]);
-                const char* mime = p_tunnel->mime();
+                HttpLogger.log(Info,"on-HttpTunnel %s","lambda");
+                HttpTunnel *p_tunnel = static_cast<HttpTunnel*>(hl->context[0]);
+                if (p_tunnel==nullptr){
+                    HttpLogger.log(Error,"p_tunnel is null");
+                    server_ptr->replyNotFound();
+                    return;
+                }
+                const char* mime = hl->mime;
                 // execute GET request 
                 Stream *p_in = p_tunnel->get();
-                if (p_in!=nullptr){
-                    const char* content_len = p_tunnel->request().reply().get(CONTENT_LENGTH);
-                    Str content_len_str{content_len};
-                    // provide result
-                    server_ptr->reply(mime, *p_in, content_len_str.toInt());
-                } else {
+                if (p_in==nullptr){
+                    HttpLogger.log(Error,"p_in is null");
                     server_ptr->replyNotFound();
+                    return;
                 }
+                const char* content_len = p_tunnel->request().reply().get(CONTENT_LENGTH);
+                Str content_len_str{content_len};
+                // provide result
+                server_ptr->reply(mime, *p_in, content_len_str.toInt());
             };
 
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
