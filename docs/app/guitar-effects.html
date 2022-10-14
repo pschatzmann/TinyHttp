@@ -1,0 +1,83 @@
+<!╌ 
+  Example Html Dialog which uses the webservice from https://github.com/pschatzmann/TinyHttp/blob/main/examples/webservice/webservice-ext/webservice-ext.ino 
+  We use a local address for the service !
+╌> 
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Effects</title>
+        <script src = 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script>
+            const serive_url = '/service';
+            $(document).ready(function() {
+	            // load values
+                $.getJSON(serive_url, function(data) {
+                    for(var effect in data){
+                        id = "#"+effect
+                        $(id).attr({
+                            "max" : data[effect].max,
+                            "min" : data[effect].min,
+                            "value": data[effect].value,
+                            "step" : data[effect].step
+                         });
+                    }
+                });
+	            // submit form
+                $( '#effect-form' ).submit(function( event ) {
+		        	event.preventDefault();
+    				const data = new FormData(event.target);
+    				const value = Object.fromEntries(data.entries());
+    				const json = JSON.stringify(value);
+		            // send ajax
+		            $.ajax({
+						url: serive_url,
+						type: 'POST',
+						dataType: 'json',
+						data: json,
+						contentType: 'text/json',
+						success : function(result) {console.log(json);},
+						error: function(xhr, resp, text) {
+							console.log(json, xhr, resp, text);
+							alert(text);
+						}
+					});
+		        });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Effects:</h1>
+        <form id="effect-form" method='post' >
+            <div>
+                <input type='range' id='volumeControl' name='volumeControl'
+                        min='0' max='1' step='0.01' value='0' onchange="$( '#effect-form').submit();">
+                <label for='volume'>Volume</label>
+            </div>
+            <div>
+                <input type='range' id='clipThreashold' name='clipThreashold' 
+                        min='0' max='6000' step='100' value='0' onchange="$( '#effect-form').submit();">
+                <label for='clipThreashold'>Clip Threashold</label>
+            </div>
+            <div>
+                <input type='range' id='fuzzEffectValue' name='fuzzEffectValue' 
+                        min='0' max='12' step='0.1' value='0' onchange="$( '#effect-form').submit();">
+                <label for='fuzzEffectValue'>Fuzz</label>
+            </div>
+            <div>
+                <input type='range' id='distortionControl' name='distortionControl' 
+                        min='0' max='8000' step='100' value='0' onchange="$( '#effect-form').submit();">
+                <label for='distortionControl'>Distortion</label>
+            </div>
+            <div>
+                <input type='range' id='tremoloDuration' name='tremoloDuration' 
+                        min='0' max='500' step='1' value='0' onchange="$( '#effect-form').submit();">
+                <label for='tremoloDuration'>Tremolo Duration</label>
+            </div>
+            <div>
+                <input type='range' id='tremoloDepth' name='tremoloDepth' 
+                        min='0' max='1' step='0.1' value='0' onchange="$( '#effect-form').submit();">
+                <label for='tremoloDepth'>Tremolo Depth</label>
+            </div>
+        </form>
+    </body>
+</html>
