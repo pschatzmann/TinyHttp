@@ -14,7 +14,7 @@ namespace tinyhttp {
 class ExtensionLoggingStream : public ExtensionStream {
 
   public:
-    ExtensionLoggingStream(const char* url, MethodID action=GET,  const char* mime="text/html", const char* startHtml=HTML_HEADER, const char* endHtml=HTML_END, int bufferSize=256, int historySize=1024)
+    ExtensionLoggingStream(const char* url, TinyMethodID action=T_GET,  const char* mime="text/html", const char* startHtml=HTML_HEADER, const char* endHtml=HTML_END, int bufferSize=256, int historySize=1024)
     : ExtensionStream (url, action, mime, startHtml, endHtml, bufferSize, historySize){
     }
 };

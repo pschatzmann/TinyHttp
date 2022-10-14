@@ -1,7 +1,7 @@
 /**
  * @file webservice
  * @author Phil Schatzmann
- * @brief A simple webservice that supports GET and POST using ArduinoJson 
+ * @brief A simple webservice that supports T_GET and T_POST using ArduinoJson 
  * @version 0.1
  * @date 2022-10-05
  * 
@@ -64,8 +64,8 @@ void setup(void) {
     };
 
     server.rewrite("/","/service");
-    server.on("/service",GET, getJson);
-    server.on("/service",POST, postJson);
+    server.on("/service",T_GET, getJson);
+    server.on("/service",T_POST, postJson);
     server.begin(80, ssid, password);
 
 }

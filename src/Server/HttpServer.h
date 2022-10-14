@@ -87,7 +87,7 @@ class HttpServer {
 
 
         /// register a generic handler
-        void on(const char* url, MethodID method, web_callback_fn fn,void* ctx[]=nullptr, int ctxCount=0){
+        void on(const char* url, TinyMethodID method, web_callback_fn fn,void* ctx[]=nullptr, int ctxCount=0){
             HttpLogger.log(Info,"on-generic %s",url);
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
             hl->path = url;
@@ -99,7 +99,7 @@ class HttpServer {
         }
 
         /// register a handler with mime
-        void on(const char* url, MethodID method, const char* mime, web_callback_fn fn){
+        void on(const char* url, TinyMethodID method, const char* mime, web_callback_fn fn){
             HttpLogger.log(Info,"on-mime %s",url);
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine();
             hl->path = url;
@@ -111,7 +111,7 @@ class HttpServer {
 
 
         /// register a handler which provides the indicated string
-        void on(const char* url, MethodID method, const char* mime, const char* result) {
+        void on(const char* url, TinyMethodID method, const char* mime, const char* result) {
             HttpLogger.log(Info,"on-strings");
 
             auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
@@ -134,7 +134,7 @@ class HttpServer {
         }
   
         /// register a redirection
-        void on(const char*url, MethodID method, Url &redirect){
+        void on(const char*url, TinyMethodID method, Url &redirect){
             HttpLogger.log(Info,"on-redirect");
             auto lambda = [](HttpServer *server_ptr, const char*requestPath, HttpRequestHandlerLine *hl) { 
                 if (hl->contextCount<1){
@@ -162,7 +162,7 @@ class HttpServer {
         }
 
         /// register a redirection
-        void on(const char*url, MethodID method, HttpTunnel &tunnel){
+        void on(const char*url, TinyMethodID method, HttpTunnel &tunnel){
             HttpLogger.log(Info,"on-HttpTunnel %s",url);
 
             auto lambda = [](HttpServer *server_ptr,const char*requestPath, HttpRequestHandlerLine *hl) { 
@@ -174,7 +174,7 @@ class HttpServer {
                     return;
                 }
                 const char* mime = hl->mime;
-                // execute GET request 
+                // execute T_GET request 
                 Stream *p_in = p_tunnel->get();
                 if (p_in==nullptr){
                     HttpLogger.log(Error,"p_in is null");

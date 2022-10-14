@@ -1,5 +1,5 @@
 
-// example for the http GET request
+// example for the http T_GET request
 
 #include "HttpServer.h"
 

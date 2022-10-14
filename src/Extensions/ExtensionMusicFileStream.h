@@ -23,7 +23,7 @@ class ExtensionMusicFileStream : public Extension {
             this->buffer_size = bufferSize;
             this->buffer = new uint8_t[bufferSize];
             HttpStreamedMultiOutput *out = new HttpStreamedMultiOutput(mime, nullptr, nullptr, 0);
-            this->streaming = new ExtensionStreamBasic(url,  *out, GET);
+            this->streaming = new ExtensionStreamBasic(url,  *out, T_GET);
             this->sd_cs = cspin;
             this->delay_ms = delay;
 

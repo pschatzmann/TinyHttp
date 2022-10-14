@@ -35,7 +35,7 @@ void setup() {
     // define urls
     server.rewrite("/","/hallo.html");
     server.rewrite("/index.html","/hallo.html");
-    server.on("/hallo.html",GET,"text/html",htmlHallo);
+    server.on("/hallo.html",T_GET,"text/html",htmlHallo);
 
     // start server with task
     server.addExtension(task);

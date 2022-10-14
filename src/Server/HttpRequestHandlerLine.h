@@ -32,7 +32,7 @@ class HttpRequestHandlerLine {
             }
         }
 
-        MethodID method;
+        TinyMethodID method;
         const char* path = nullptr;
         const char* mime = nullptr;
         web_callback_fn fn;

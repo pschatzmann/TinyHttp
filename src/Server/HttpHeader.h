@@ -32,7 +32,7 @@ const char* LOCATION = "Location";
 
 
 // Http methods
-enum MethodID {UNDEFINED, GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,CONNECT,PATCH};
+enum TinyMethodID {T_UNDEFINED, T_GET, T_HEAD, T_POST, T_PUT, T_DELETE, T_TRACE, T_OPTIONS, T_CONNECT, T_PATCH};
 const char* methods[] = {"?","GET","HEAD","POST","PUT","DELETE","TRACE","OPTIONS","CONNECT","PATCH",nullptr};
 
 /**
@@ -201,7 +201,7 @@ class HttpHeader {
             return protocol_str.c_str(); 
         }
 
-        MethodID method(){
+        TinyMethodID method(){
             return method_id;
         }
 
@@ -280,11 +280,11 @@ class HttpHeader {
 
 
     protected:
-        int status_code = UNDEFINED;
+        int status_code = T_UNDEFINED;
         bool is_written = false;
         bool is_chunked = false;
         bool create_new_lines = true;
-        MethodID method_id;
+        TinyMethodID method_id;
         // we store the values on the heap. this is acceptable because we just have one instance for the
         // requests and one for the replys: which needs about 2*100 bytes 
         StrExt protocol_str = StrExt(10);
@@ -327,16 +327,16 @@ class HttpHeader {
             return nullptr;            
         }
 
-        MethodID getMethod(const char* line){
+        TinyMethodID getMethod(const char* line){
             // set action
             for (int j=0; methods[j]!=nullptr;j++){
                 const char *action = methods[j];
                 int len = strlen(action);
                 if (strncmp(action,line,len)==0){
-                    return (MethodID) j;
+                    return (TinyMethodID) j;
                 }
             }
-            return (MethodID)0;
+            return (TinyMethodID)0;
         }
 
 
@@ -353,7 +353,7 @@ class HttpHeader {
 class HttpRequestHeader : public HttpHeader {
     public:
         // Defines the action id, url path and http version for an request
-        HttpHeader& setValues(MethodID id, const char* urlPath, const char* protocol=nullptr){
+        HttpHeader& setValues(TinyMethodID id, const char* urlPath, const char* protocol=nullptr){
             this->method_id = id;
             this->url_path = urlPath;
             

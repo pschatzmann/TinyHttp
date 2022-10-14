@@ -37,7 +37,7 @@ void setup(void) {
     };
     
     server.rewrite("/","/service");
-    server.on("/service",GET, getJson);
+    server.on("/service",T_GET, getJson);
     server.begin(80, ssid, password);
 }
 

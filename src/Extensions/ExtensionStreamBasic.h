@@ -17,7 +17,7 @@ class ExtensionStreamBasic : public Extension  {
     friend class ExtensionStream;
     public:
         /// Default Constructor
-        ExtensionStreamBasic( const char* url,  HttpStreamedOutput &out, MethodID method=GET){
+        ExtensionStreamBasic( const char* url,  HttpStreamedOutput &out, TinyMethodID method=T_GET){
             HttpLogger.log(Info,"ExtensionStreamBasic");
             this->url = url;
             this->method = method;
@@ -109,7 +109,7 @@ class ExtensionStreamBasic : public Extension  {
         }
 
     protected:
-        MethodID method;
+        TinyMethodID method;
         HttpStreamedOutput *out = nullptr;
         HttpRequestHandlerLine hl{1};
         const char* url = nullptr;

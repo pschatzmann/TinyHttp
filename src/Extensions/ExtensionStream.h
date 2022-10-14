@@ -17,7 +17,7 @@ namespace tinyhttp {
 class ExtensionStream : public Stream, public Extension  {
     public:
         /// Default Constructor
-        ExtensionStream(const char* url, MethodID action,  const char* mime, const char* startHtml=nullptr, const char* endHtml=nullptr, int bufferSize=256, int historySize=1024){
+        ExtensionStream(const char* url, TinyMethodID action,  const char* mime, const char* startHtml=nullptr, const char* endHtml=nullptr, int bufferSize=256, int historySize=1024){
             HttpLogger.log(Info,"ExtensionStream");
             out = new HttpStreamedMultiOutput(mime, startHtml, endHtml, historySize);
             ext = new ExtensionStreamBasic(url, *out, action);
@@ -28,7 +28,7 @@ class ExtensionStream : public Stream, public Extension  {
         /// Alternative way to provide data by reading from another stream
         ExtensionStream(const char* url, const char* mime, Stream &source){
             out = new HttpStreamedMultiOutput(mime);
-            ext = new ExtensionStreamBasic(url, *out, GET);
+            ext = new ExtensionStreamBasic(url, *out, T_GET);
             pAltSource = &source;
         }
 

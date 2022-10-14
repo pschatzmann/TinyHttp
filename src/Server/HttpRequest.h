@@ -62,29 +62,29 @@ class HttpRequest{
 
         virtual int post(Url &url, const char* mime, const char *data, int len=-1){
             HttpLogger.log(Info,"post %s", url.url());
-            return process(POST, url, mime, data, len);
+            return process(T_POST, url, mime, data, len);
         }
 
         virtual int put(Url &url, const char* mime, const char *data, int len=-1){
             HttpLogger.log(Info,"put %s", url.url());
-            return process(PUT, url, mime, data, len);
+            return process(T_PUT, url, mime, data, len);
         }
 
         virtual int del(Url &url,const char* mime=nullptr, const char *data=nullptr, int len=-1) {
             HttpLogger.log(Info,"del %s", url.url());
-            return process(DELETE, url, mime, data, len);
+            return process(T_DELETE, url, mime, data, len);
         }
 
         virtual int get(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
             HttpLogger.log(Info,"get %s", str(url.url()));
             this->accept = acceptMime;
-            return process(GET, url, nullptr, data, len);
+            return process(T_GET, url, nullptr, data, len);
         }
 
         virtual int head(Url &url,const char* acceptMime=nullptr, const char *data=nullptr, int len=-1) {
             HttpLogger.log(Info,"head %s", url.url());
             this->accept = acceptMime;
-            return process(HEAD, url, nullptr, data, len);
+            return process(T_HEAD, url, nullptr, data, len);
         }
 
         // reads the reply data
@@ -151,7 +151,7 @@ class HttpRequest{
         }
 
         // sends request and reads the reply_header from the server
-        virtual int process(MethodID action, Url &url, const char* mime, const char *data, int len=-1){
+        virtual int process(TinyMethodID action, Url &url, const char* mime, const char *data, int len=-1){
             if (!connected()){
                 char msg[1024];
                 sprintf(msg, "connecting to host %s port %d", url.host(), url.port());

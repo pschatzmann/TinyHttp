@@ -24,7 +24,7 @@ const char* htmlForm =
         </head>\
         <body>\
             <h1>Effect Parameters:</h1>\
-            <form id='effect-form' method='POST' >\
+            <form id='effect-form' method='T_POST' >\
                 <div>\
                     <input type='range' id='volumeControl' name='volumeControl'\
                             onchange='this.form.submit()'\
@@ -105,8 +105,8 @@ void setup(void) {
     Serial.begin(115200);
     HttpLogger.begin(Serial, Warning);
     
-    server.on("/",GET, getHtml);
-    server.on("/",POST, postData);
+    server.on("/",T_GET, getHtml);
+    server.on("/",T_POST, postData);
     server.begin(80, ssid, password);
 }
 

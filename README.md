@@ -70,9 +70,9 @@ void setup() {
     server.rewrite("/","/hallo.html");
     server.rewrite("/index.html","/hallo.html");
 
-    server.on("/hallo.html",GET,"text/html",htmlHallo);
-    server.on("/count",GET, countLambda);
-    server.on("/moved", GET, indexUrl);
+    server.on("/hallo.html",T_GET,"text/html",htmlHallo);
+    server.on("/count", T_GET, countLambda);
+    server.on("/moved", T_GET, indexUrl);
 
     server.begin(80, "SSID", "password");
     

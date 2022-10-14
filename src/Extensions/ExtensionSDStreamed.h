@@ -34,7 +34,7 @@ class ExtensionSDStreamed : public Extension {
             };
 
             // register default SD File handler
-            server->on(path, GET, lambda);
+            server->on(path, T_GET, lambda);
         }
 
         // remove closed output from further processing

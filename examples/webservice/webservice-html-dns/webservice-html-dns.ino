@@ -54,7 +54,7 @@ void json2Parameters(Stream &in) {
 void addCors(HttpReplyHeader &header){
     header.put("Access-Control-Allow-Origin","*");
     header.put("Access-Control-Allow-Credentials", "true");
-    header.put("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    header.put("Access-Control-Allow-Methods", "T_GET,HEAD,OPTIONS,T_POST,PUT");
     header.put("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 }
 
@@ -98,11 +98,11 @@ void setup(void) {
 
     // forward address
     static Url forward_url("https://pschatzmann.github.io/TinyHttp/app/webservice-example.html");
-    server.on("/",GET, forward_url);
-    server.on("/service",OPTIONS, replyOK);
-    server.on("/service",GET, getJson);
-    server.on("/service",POST, postJson);
-    server.on("/favicon.ico",GET, replyOK);
+    server.on("/",T_GET, forward_url);
+    server.on("/service",T_OPTIONS, replyOK);
+    server.on("/service",T_GET, getJson);
+    server.on("/service",T_POST, postJson);
+    server.on("/favicon.ico",T_GET, replyOK);
     server.begin(80, ssid, password);
 
 }
