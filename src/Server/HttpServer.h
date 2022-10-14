@@ -362,7 +362,7 @@ class HttpServer {
                     processExtensions();
                 } else {
                     // give other tasks a chance 
-                    delay(50);
+                    delay(no_connect_dela);
                 }
             }
         }
@@ -385,6 +385,10 @@ class HttpServer {
             return local_host;
         }
 
+        void setNoConnectDelay(int delay){
+            no_connect_dela = delay;
+        }
+
     protected:
         // data
         HttpRequestHeader request_header;
@@ -398,6 +402,7 @@ class HttpServer {
         char* buffer;
         const char* local_host=nullptr;
         int buffer_size;
+        int no_connect_dela = 50;
 
         /// Converts null to an empty string
         const char* nullstr(const char* in){
