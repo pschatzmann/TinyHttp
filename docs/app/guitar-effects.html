@@ -49,23 +49,23 @@
         <h1>Guitar Effects:</h1>
         <form id="effect-form" method='post' >
             <div>
-                <input type='range' id='volumeControl' name='volumeControl' onchange="$( '#effect-form').submit();">
+                <input type='range' id='volumeControl' name='volumeControl' onchange="$( '#effect-form').submit();" min='0' max='0' step='0' value='0' >
                 <label for='volume'>Volume</label>
             </div>
             <div>
-                <input type='range' id='clipThreashold' name='clipThreashold'  onchange="$( '#effect-form').submit();">
+                <input type='range' id='clipThreashold' name='clipThreashold'  onchange="$( '#effect-form').submit();" min='0' max='0' step='0' value='0'>
                 <label for='clipThreashold'>Distortion Clip Threashold</label>
             </div>
             <div>
-                <input type='range' id='fuzzEffectValue' name='fuzzEffectValue' onchange="$( '#effect-form').submit();">
+                <input type='range' id='fuzzEffectValue' name='fuzzEffectValue' onchange="$( '#effect-form').submit();" min='0' max='0' step='0' value='0'>
                 <label for='fuzzEffectValue'>Fuzz</label>
             </div>
             <div>
-                <input type='range' id='tremoloDuration' name='tremoloDuration' onchange="$( '#effect-form').submit();">
+                <input type='range' id='tremoloDuration' name='tremoloDuration' onchange="$( '#effect-form').submit();" min='0' max='0' step='0' value='0'>
                 <label for='tremoloDuration'>Tremolo Duration</label>
             </div>
             <div>
-                <input type='range' id='tremoloDepth' name='tremoloDepth' onchange="$( '#effect-form').submit();">
+                <input type='range' id='tremoloDepth' name='tremoloDepth' onchange="$( '#effect-form').submit();" min='0' max='0' step='0' value='0'>
                 <label for='tremoloDepth'>Tremolo Depth</label>
             </div>
         </form>
