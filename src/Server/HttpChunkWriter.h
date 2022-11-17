@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Client.h"
+#include "Server/HttpLogger.h"
 
 namespace tinyhttp {
 

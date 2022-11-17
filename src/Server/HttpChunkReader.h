@@ -2,6 +2,7 @@
 
 #include "Server/HttpHeader.h"
 #include "Server/HttpLineReader.h"
+#include "Server/HttpLogger.h"
 
 namespace tinyhttp {
 
