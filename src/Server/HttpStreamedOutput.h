@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Wifi.h"
+#include "WiFi.h"
 
 namespace tinyhttp {
 
