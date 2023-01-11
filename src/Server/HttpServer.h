@@ -4,7 +4,7 @@
 #include "Basic/List.h"
 #include "Server.h"
 #include "Client.h"
-#include "HttpClient.h"
+#include "HTTPClient.h"
 #include "Server/HttpHeader.h"
 #include "Server/HttpRequestHandlerLine.h"
 #include "Server/HttpRequestRewrite.h"
