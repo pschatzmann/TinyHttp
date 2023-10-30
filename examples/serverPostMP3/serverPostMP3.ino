@@ -21,18 +21,17 @@ HttpServer server(wifi);
 void setup() {
   Serial.begin(115200);
   AudioLogger::instance().begin(Serial, AudioLogger::Info);  
-  HttpLogger.begin(Serial, tinyhttp::Info);
+  HttpLogger.begin(Serial, tinyhttp::Debug);
+
+  dec.begin();
+  i2s.begin();
 
   auto playMP3 = [](HttpServer *server_ptr, const char *requestPath,
                    HttpRequestHandlerLine *hl) {
-    if (!tinyhttp::Str("audio/mp4").equals(hl->mime)) {
-      LOGE("Data is not mp3: %s",hl->mime);
-      server->replayNotFound();
-      return;
-    }
+    LOGI("Playing mp3");
     copier.begin(dec, server_ptr->client());
     copier.copyAll();
-    server->replayOK();
+    server_ptr->replyOK();
   };
 
   server.on("/play", T_POST, playMP3);
