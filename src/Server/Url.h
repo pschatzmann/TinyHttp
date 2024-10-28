@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Basic/StrExt.h"
+#include "Basic/Str.h"
 #include "Server/HttpLogger.h"
 
 namespace tinyhttp {
@@ -57,11 +57,11 @@ class Url {
         }
 
     protected:
-        StrExt pathStr = StrExt(40);
-        StrExt hostStr = StrExt(20);
-        StrExt protocolStr = StrExt(6);
-        StrExt urlRootStr = StrExt(40);
-        StrExt urlStr = StrExt(40);
+        Str pathStr = Str(40);
+        Str hostStr = Str(20);
+        Str protocolStr = Str(6);
+        Str urlRootStr = Str(40);
+        Str urlStr = Str(40);
         int portInt;
 
         void parse() {

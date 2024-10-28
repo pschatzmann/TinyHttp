@@ -34,7 +34,7 @@ void setup() {
 
     auto countLambda = [](HttpServer *server, const char* requestPath, HttpRequestHandlerLine *hl) { 
         char buffer[2048];
-        Str str(buffer, 2048);
+        StrView str(buffer, 2048);
         str += "<!DOCTYPE html>";
         str += "<html>";
         str += "<body style='background-color:black; color:white'>";

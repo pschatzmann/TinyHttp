@@ -4,7 +4,7 @@
 #include "Server/HttpStreamedOutput.h"
 #include "WiFi.h"
 #include "Basic/List.h"
-#include "Basic/StrExt.h"
+#include "Basic/Str.h"
 
 namespace tinyhttp {
 
@@ -31,7 +31,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
             this->mime_type = mime;
             this->max_history_length = maxHistoryLength;
             if (maxHistoryLength>0){
-                this->history = new StrExt(maxHistoryLength);
+                this->history = new Str(maxHistoryLength);
             }
 
         }
@@ -151,7 +151,7 @@ class HttpStreamedMultiOutput : public HttpStreamedOutput {
     protected:
         HttpChunkWriter writer;
         List<WiFiClient> clients;
-        StrExt *history = nullptr;
+        Str *history = nullptr;
         int max_history_length;
         const char *start = nullptr;
         const char *end = nullptr;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Basic/Str.h"
+#include "Basic/StrView.h"
 
 namespace tinyhttp {
 
@@ -32,7 +32,7 @@ class UrlExtractor {
             this->start = startPos;            
         }
 
-        bool nextUrl(Str& result){
+        bool nextUrl(StrView& result){
             // find all URLs which need to be replaced
             while(true){
                 start = str.indexOf(this->prefix, start);
@@ -67,7 +67,7 @@ class UrlExtractor {
     protected:
         const char* prefix;
         int prefix_len;
-        Str str;
+        StrView str;
         int start;
 
     

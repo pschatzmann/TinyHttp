@@ -38,7 +38,7 @@ class HttpRequestHandlerLine {
         web_callback_fn fn;
         void** context;
         int contextCount;
-        Str *header = nullptr;
+        StrView *header = nullptr;
 };
 
 }

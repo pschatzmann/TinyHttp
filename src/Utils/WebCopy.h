@@ -81,7 +81,7 @@ class WebCopy {
     void doLoop(){
       if (processing_in_do_loop){
         HttpLogger.log(Info, "startDump");
-        Str url = stack.popStr();
+        StrView url = stack.popStr();
         if(active && !url.isEmpty()){
           reportHeap();
           // extract the content
@@ -114,7 +114,7 @@ class WebCopy {
     /// dumps the url to a file while for all stack
     virtual void startDump(){
       HttpLogger.log(Info, "startDump");
-      Str url = stack.popStr();
+      StrView url = stack.popStr();
       while(active && !url.isEmpty()){
         reportHeap();
         // extract the content
@@ -133,12 +133,12 @@ class WebCopy {
     }
 
     // copies the content of the url to a file and collects the contained urls
-    void processContent(Str urlStr) {
+    void processContent(StrView urlStr) {
         HttpLogger.log(Info, "processContent %s", urlStr.c_str());
         if (!urlStr.isEmpty()){
           // Determine Mime
           url.setUrl(urlStr.c_str());
-          Str mimeStr = getMime(url);
+          StrView mimeStr = getMime(url);
           // optional filter by requested mime type
           // create file 
           bool exists = false;
@@ -155,7 +155,7 @@ class WebCopy {
     }
 
     // read from URL to File
-    void processFile(File &file, Str &mimeStr){
+    void processFile(File &file, StrView &mimeStr){
         HttpLogger.log(Info, "processFile %s", file.name());
         if (mimeStr.contains("htm")){
           processHtml(file);
@@ -165,21 +165,21 @@ class WebCopy {
     }
 
     // determines the mime type
-    Str getMime(Url &url) {
+    StrView getMime(Url &url) {
         HttpLogger.log(Info, "getMime %s", url.url());
         http.head(url);
         const char* mime = http.reply().get(CONTENT_TYPE);
         // text/html; charset=UTF-8 -> html
-        Str mimeStr(mime);
+        StrView mimeStr(mime);
         HttpLogger.log(Info, "getMime-> %s", mimeStr.c_str());
         return mimeStr;
     }
 
     // creates an empty file for the url - returns true if an empty file was created
-    bool createEmptyFile(Str urlStr){
+    bool createEmptyFile(StrView urlStr){
         Url url(urlStr.c_str());
-        Str mime = getMime(url);
-        Str fileName = this->file_name_mgr.getName(urlStr.c_str(), mime.c_str());
+        StrView mime = getMime(url);
+        StrView fileName = this->file_name_mgr.getName(urlStr.c_str(), mime.c_str());
         bool exists = SD.exists(fileName.c_str());
         if (!exists){
           File file = SD.open(fileName.c_str(), FILE_WRITE);
@@ -189,10 +189,10 @@ class WebCopy {
     }
 
     // creates the directoy and the file on the SD drive
-    File createFile(Str &urlStr, Str &mime){
+    File createFile(StrView &urlStr, StrView &mime){
         HttpLogger.log(Info, "createFile %s", urlStr.c_str());
         // determine the file name which is valid for the SD card
-        Str file_name = file_name_mgr.getName(urlStr.c_str(), mime.c_str());
+        StrView file_name = file_name_mgr.getName(urlStr.c_str(), mime.c_str());
         HttpLogger.log(Info, "createFile %s", file_name.c_str());
         // create directory - limit name to show only the path
         int pos = file_name.lastIndexOf("/");
@@ -240,7 +240,7 @@ class WebCopy {
     void extractReferences(uint8_t* buffer, int len) {
         HttpLogger.log(Info, "extractReferences");
         char url_buffer[200];
-        Str url(url_buffer,200);
+        StrView url(url_buffer,200);
         // read a single line
         url_extractor.setString((const char*)buffer);
         

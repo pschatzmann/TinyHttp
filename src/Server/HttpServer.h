@@ -120,13 +120,13 @@ class HttpServer {
                     HttpLogger.log(Error,"The context is not available");
                     return;
                 }
-                const char* mime = static_cast<Str*>(hl->context[0])->c_str();
-                const char* msg = static_cast<Str*>(hl->context[1])->c_str();
+                const char* mime = static_cast<StrView*>(hl->context[0])->c_str();
+                const char* msg = static_cast<StrView*>(hl->context[1])->c_str();
                 server_ptr->reply(mime, msg, 200);
             };
             HttpRequestHandlerLine *hl = new HttpRequestHandlerLine(2);
-            hl->context[0] = new Str(mime);
-            hl->context[1] = new Str(result);
+            hl->context[0] = new StrView(mime);
+            hl->context[1] = new StrView(result);
             hl->path = url;
             hl->fn = lambda;
             hl->method = method;
@@ -182,7 +182,7 @@ class HttpServer {
                     return;
                 }
                 const char* content_len = p_tunnel->request().reply().get(CONTENT_LENGTH);
-                Str content_len_str{content_len};
+                StrView content_len_str{content_len};
                 // provide result
                 server_ptr->reply(mime, *p_in, content_len_str.toInt());
             };
@@ -202,7 +202,7 @@ class HttpServer {
 
             bool result = false;
             // check in registered handlers
-            Str pathStr = Str(path);
+            StrView pathStr = StrView(path);
             for (auto it = handler_collection.begin() ; it != handler_collection.end(); ++it) {
                 HttpRequestHandlerLine *handler_line_ptr = *it;
                 HttpLogger.log(Info,"onRequest - checking: %s %s %s", nullstr(handler_line_ptr->path), methods[handler_line_ptr->method], nullstr(handler_line_ptr->mime));
@@ -317,14 +317,14 @@ class HttpServer {
         /// closes the connection to the current client_ptr
         void endClient() {
             HttpLogger.log(Info,"HttpServer %s","endClient");
-            client_ptr->flush();
+            client_ptr->clear();
             client_ptr->stop();
         }
 
         /// print a CR LF
         void crlf() {
             client_ptr->print("\r\n");
-            client_ptr->flush();
+            client_ptr->clear();
         }
 
         /// registers an extension
@@ -348,7 +348,7 @@ class HttpServer {
         void copy(){
             // get the actual client_ptr
             if (is_active) {
-                WiFiClient client = server_ptr->available();
+                WiFiClient client = server_ptr->accept();
                 if (client){
                     HttpLogger.log(Info,"doLoop->hasClient");
                     client_ptr = &client;
@@ -452,7 +452,7 @@ class HttpServer {
             if (handler_mime==nullptr || request_mime==nullptr){
                 return true;
             }
-            bool result = Str(request_mime).contains(handler_mime);
+            bool result = StrView(request_mime).contains(handler_mime);
             return result;
         }
 

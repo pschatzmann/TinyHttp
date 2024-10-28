@@ -25,7 +25,7 @@ class ExtensionStreamBasic : public Extension  {
         }
 
         /// Defines a standard reply header
-        void setReplyHeader(Str &header){
+        void setReplyHeader(StrView &header){
             hl.header = &header;
         }
 

@@ -74,7 +74,7 @@ void printValues() {
 
 void getHtml(HttpServer *server, const char*requestPath, HttpRequestHandlerLine *hl) { 
     // provide html and replace variables with actual values
-    StrExt html(2500);
+    Str html(2500);
     html.set(htmlForm);
     html.replace("%volumeControl%",volumeControl);
     html.replace("%clipThreashold%",clipThreashold);

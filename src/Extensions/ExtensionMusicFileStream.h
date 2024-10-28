@@ -108,7 +108,7 @@ class ExtensionMusicFileStream : public Extension {
                 current_file = directory.openNextFile();
                 HttpLogger.log(Info,"processing", current_file.name());
                 if (current_file){
-                    Str name_str = Str(current_file.name());
+                    StrView name_str = StrView(current_file.name());
                     if (name_str.endsWith(file_extension) && !name_str.contains("/.")){
                         HttpLogger.log(Info,"ExtensionMusicFileStream::getMusicFile %s", current_file.name());
                         loop_count = 0;

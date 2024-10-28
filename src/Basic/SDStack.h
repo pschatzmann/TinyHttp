@@ -3,7 +3,7 @@
 
 #include "SPI.h"
 #include "SD.h"
-#include "Basic/StrExt.h"
+#include "Basic/Str.h"
 
 namespace tinyhttp {
 
@@ -98,18 +98,18 @@ class SDStack {
         }
 
         // convinience function to pop for a c strings
-        const Str popStr() {
+        const StrView popStr() {
             HttpLogger.log(Info,"SDStack %s", "popStr");
             int len;
             char* str = (char*)pop(len);
-            return Str(str, len, len);
+            return StrView(str, len, len);
         }
 
     protected:
         const char* file_name;
         const int position_size = sizeof(int);
         int max_position;
-        StrExt result_string = StrExt(80);
+        Str result_string = Str(80);
 
 };
 

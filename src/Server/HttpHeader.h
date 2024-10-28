@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Platform/AltClient.h"
-#include "Basic/StrExt.h"
+#include "Basic/Str.h"
 #include "Basic/List.h"
 #include "Server/Url.h"
 #include "Server/HttpLogger.h" 
@@ -40,8 +40,8 @@ const char* methods[] = {"?","GET","HEAD","POST","PUT","DELETE","TRACE","OPTIONS
  * 
  */
 struct HttpHeaderLine {
-    StrExt key;
-    StrExt value;
+    Str key;
+    Str value;
     bool active;
 };
 
@@ -99,7 +99,7 @@ class HttpHeader {
                 hl->value = value;
                 hl->active = true;
 
-                if (Str(key) == TRANSFER_ENCODING &&  Str(value) == CHUNKED){
+                if (StrView(key) == TRANSFER_ENCODING &&  StrView(value) == CHUNKED){
                     HttpLogger.log(Info,"HttpHeader::put -> is_chunked!!!");
                     this->is_chunked = true;
                 }
@@ -128,7 +128,7 @@ class HttpHeader {
         /// adds a  received new line to the header
         HttpHeader& put(const char* line){
             HttpLogger.log(Debug,"HttpHeader::put -> %s", (const char*) line);
-            Str keyStr(line);
+            StrView keyStr(line);
             int pos = keyStr.indexOf(":");
             char *key = (char*)line;
             key[pos] = 0;
@@ -176,7 +176,7 @@ class HttpHeader {
             }
 
             char msg[200];
-            Str msg_str(msg,200);
+            StrView msg_str(msg,200);
             msg_str = header->key.c_str();
             msg_str += ": ";
             msg_str += header->value.c_str();
@@ -240,7 +240,7 @@ class HttpHeader {
                 parse1stLine(line);
                 while (in.available()){
                     readLine(in, line, MaxHeaderLineLength);
-                    Str lineStr(line);
+                    StrView lineStr(line);
                     if (lineStr.isEmpty()||lineStr.isNewLine()){
                         break;
                     }
@@ -287,9 +287,9 @@ class HttpHeader {
         TinyMethodID method_id;
         // we store the values on the heap. this is acceptable because we just have one instance for the
         // requests and one for the replys: which needs about 2*100 bytes 
-        StrExt protocol_str = StrExt(10);
-        StrExt url_path = StrExt(70);
-        StrExt status_msg = StrExt(20);
+        Str protocol_str = Str(10);
+        Str url_path = Str(70);
+        Str status_msg = Str(20);
         List<HttpHeaderLine*> lines;
         HttpLineReader reader;
         const char* CRLF = "\r\n";
@@ -383,7 +383,7 @@ class HttpRequestHeader : public HttpHeader {
         // Request-Line = Method SP Request-URI SP HTTP-Version CRLF
         void parse1stLine(const char *line){
             HttpLogger.log(Info,"HttpRequestHeader::parse1stLine %s", line);
-            Str line_str(line);
+            StrView line_str(line);
             int space1 = line_str.indexOf(" ");
             int space2 = line_str.indexOf(" ", space1+1);
 
@@ -429,7 +429,7 @@ class HttpReplyHeader : public HttpHeader  {
         // HTTP-Version SP Status-Code SP Reason-Phrase CRLF
         void write1stLine(Client &out){
             char msg[200];
-            Str msg_str(msg,200);
+            StrView msg_str(msg,200);
             msg_str = this->protocol_str.c_str();
             msg_str += " ";
             msg_str += this->status_code;
@@ -446,7 +446,7 @@ class HttpReplyHeader : public HttpHeader  {
         // http_status_line
         void parse1stLine(const char *line){
             HttpLogger.log(Info,"HttpReplyHeader::parse1stLine %s",line);
-            Str line_str(line);
+            StrView line_str(line);
             int space1 = line_str.indexOf(' ',0);
             int space2 = line_str.indexOf(' ',space1+1);
 
@@ -455,7 +455,7 @@ class HttpReplyHeader : public HttpHeader  {
 
             // find response status code after the first space
             char status_c[6];
-            Str status(status_c,6);
+            StrView status(status_c,6);
             status.substring(line_str, space1+1, space2);
             status_code = atoi(status_c);
 

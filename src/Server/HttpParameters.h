@@ -1,5 +1,5 @@
 #pragma once
-#include "Basic/StrExt.h"
+#include "Basic/Str.h"
 #include "Basic/Vector.h"
 #include "Server/HttpLogger.h"
 #include "Stream.h"
@@ -16,8 +16,8 @@ namespace tinyhttp {
 class HttpParameters {
   struct HttpParameterEntry {
     HttpParameterEntry() = default;
-    StrExt key = nullptr;
-    StrExt value = nullptr;
+    Str key = nullptr;
+    Str value = nullptr;
     void clear() {
       key.clear();
       value.clear();
@@ -37,7 +37,7 @@ public:
     while (in.available() > 0) {
       memset(buffer, 0, max_len);
       in.readBytesUntil('&', buffer, max_len);
-      Str str(buffer);
+      StrView str(buffer);
       HttpLogger.log(Info, "parameter: %s", buffer);
       urldecode2(buffer, buffer);
       HttpLogger.log(Info, "parameter decoded: %s", buffer);
@@ -68,7 +68,7 @@ public:
     while (in.available() > 0) {
       memset(buffer, 0, max_len);
       in.readBytesUntil('&', buffer, max_len);
-      Str str(buffer);
+      StrView str(buffer);
       HttpLogger.log(Info, "parameter: %s", buffer);
       urldecode2(buffer, buffer);
       HttpLogger.log(Info, "parameter decoded: %s", buffer);

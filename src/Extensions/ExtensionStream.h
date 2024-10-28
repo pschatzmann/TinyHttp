@@ -39,7 +39,7 @@ class ExtensionStream : public Stream, public Extension  {
         }
 
         /// Defines a standard reply header - which can be binary data
-        void setReplyHeader(Str &header){
+        void setReplyHeader(StrView &header){
             ext->setReplyHeader(header);
         }
 

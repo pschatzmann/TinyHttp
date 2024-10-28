@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Basic/StrExt.h"
+#include "Basic/Str.h"
 
 namespace tinyhttp {
 
@@ -11,11 +11,11 @@ namespace tinyhttp {
 class HttpRequestRewrite {
     public:
         HttpRequestRewrite(const char *from, const char* to ){
-            this->from = Str(from);
-            this->to = Str(to);
+            this->from = StrView(from);
+            this->to = StrView(to);
         }
-        Str from;
-        Str to;
+        StrView from;
+        StrView to;
 
 };
 
