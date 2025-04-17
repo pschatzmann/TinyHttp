@@ -317,14 +317,14 @@ class HttpServer {
         /// closes the connection to the current client_ptr
         void endClient() {
             HttpLogger.log(Info,"HttpServer %s","endClient");
-            client_ptr->clear();
+            client_ptr->flush();
             client_ptr->stop();
         }
 
         /// print a CR LF
         void crlf() {
             client_ptr->print("\r\n");
-            client_ptr->clear();
+            client_ptr->flush();
         }
 
         /// registers an extension
