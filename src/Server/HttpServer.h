@@ -2,6 +2,7 @@
 
 #include <stdlib.h> 
 #include "Basic/List.h"
+#include "Basic/Vector.h"
 #include "Server.h"
 #include "Client.h"
 #include "HTTPClient.h"
@@ -27,12 +28,11 @@ class HttpServer {
             HttpLogger.log(Info,"HttpServer");
             this->server_ptr = &server_ptr;
             this->buffer_size = bufferSize;
-            this->buffer = new char[bufferSize];
+            this->buffer.resize(bufferSize);
         }
 
         ~HttpServer(){
             HttpLogger.log(Info,"~HttpServer");
-            delete []buffer;
             handler_collection.clear();
             request_header.clear(false);
             reply_header.clear(false);
@@ -230,8 +230,8 @@ class HttpServer {
             replyChunked(contentType, status, msg);
             HttpChunkWriter chunk_writer;
             while (inputStream.available()){
-                int len = inputStream.readBytes(buffer, buffer_size);
-                chunk_writer.writeChunk(*client_ptr,(const char*)buffer, len);
+                int len = inputStream.readBytes(buffer.data(), buffer_size);
+                chunk_writer.writeChunk(*client_ptr,(const char*)buffer.data(), len);
             }
             // final chunk
             chunk_writer.writeEnd(*client_ptr);
@@ -258,8 +258,8 @@ class HttpServer {
             reply_header.write(this->client());
 
             while (inputStream.available()){
-                int len = inputStream.readBytes(buffer, buffer_size);
-                int written = client_ptr->write((const uint8_t*)buffer, len);
+                int len = inputStream.readBytes(buffer.data(), buffer_size);
+                int written = client_ptr->write((const uint8_t*)buffer.data(), len);
             }
             //inputStream.close();
             endClient();
@@ -354,7 +354,7 @@ class HttpServer {
             // get the actual client_ptr
             if (is_active) {
                 WiFiClient client = server_ptr->accept();
-                if (client){
+                if (client.connected()) {
                     HttpLogger.log(Info,"doLoop->hasClient");
                     client_ptr = &client;
 
@@ -401,10 +401,10 @@ class HttpServer {
         List<HttpRequestHandlerLine*> handler_collection;
         List<Extension*> extension_collection;
         List<HttpRequestRewrite*> rewrite_collection;
-        WiFiClient *client_ptr;
-        WiFiServer *server_ptr;
+        WiFiClient *client_ptr = nullptr;
+        WiFiServer *server_ptr = nullptr;
         bool is_active;
-        char* buffer;
+        Vector<char> buffer{0};
         const char* local_host=nullptr;
         int buffer_size;
         int no_connect_dela = 50;
@@ -427,7 +427,7 @@ class HttpServer {
             path = resolveRewrite(path);
             bool processed = onRequest(path);
             if (!processed){
-              //  replyNotFound();
+                replyNotFound();
             }                   
         }
 
