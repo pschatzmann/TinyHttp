@@ -41,6 +41,21 @@ class HttpServer {
 
         /// Starts the server on the indicated port - calls WiFi.begin(ssid, password);
         bool begin(int port, const char* ssid, const char* password){
+            login(ssid, password);
+            return begin(port);
+        }
+
+        /// Starts the server on the indicated port
+        bool begin(int port){
+            HttpLogger.log(Info,"HttpServer %s","begin");
+            this->port = port;
+            this->is_active = true;
+            server_ptr->begin(port);
+            return true;
+        }
+
+        /// Starts the Wifi connection
+        void login(const char* ssid, const char* password){
             if (WiFi.status() != WL_CONNECTED && ssid!=nullptr && password!=nullptr){
                 WiFi.begin(ssid, password);
                 while (WiFi.status() != WL_CONNECTED) {        
@@ -53,9 +68,7 @@ class HttpServer {
                 Serial.print(WiFi.localIP());
                 Serial.print(":");
                 Serial.println(port);
-
             }
-            return begin(port);
         }
 
         /// Provides the local ip address
@@ -63,14 +76,6 @@ class HttpServer {
             static IPAddress address;
             address = WiFi.localIP();
             return address;
-        }
-
-        /// Starts the server on the indicated port
-        bool begin(int port){
-            HttpLogger.log(Info,"HttpServer %s","begin");
-            is_active = true;
-            server_ptr->begin(port);
-            return true;
         }
 
         /// stops the server_ptr
@@ -317,14 +322,14 @@ class HttpServer {
         /// closes the connection to the current client_ptr
         void endClient() {
             HttpLogger.log(Info,"HttpServer %s","endClient");
-            client_ptr->flush();
+            //client_ptr->flush();
             client_ptr->stop();
         }
 
         /// print a CR LF
         void crlf() {
             client_ptr->print("\r\n");
-            client_ptr->flush();
+            //client_ptr->flush();
         }
 
         /// registers an extension
@@ -403,6 +408,7 @@ class HttpServer {
         const char* local_host=nullptr;
         int buffer_size;
         int no_connect_dela = 50;
+        int port = 80;
 
         /// Converts null to an empty string
         const char* nullstr(const char* in){
