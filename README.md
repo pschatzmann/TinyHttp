@@ -21,7 +21,7 @@ The basic HttpServer class just provides the functionality to
 - define rewrites
 - register reply handlers (callbacks)
 - register extensions
-- provide replys 
+- provide replies 
 - forward to URL
 - tunnel to URL
 
