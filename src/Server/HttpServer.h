@@ -41,6 +41,22 @@ class HttpServer {
 
         /// Starts the server on the indicated port - calls WiFi.begin(ssid, password);
         bool begin(int port, const char* ssid, const char* password){
+            login(ssid, password);
+            return begin(port);
+        }
+
+        /// Starts the server on the indicated port
+        bool begin(int port){
+            HttpLogger.log(Info,"HttpServer %s:%d","begin", port);
+            this->port = port;
+            this->is_active = true;
+            server_ptr->begin(port);
+            buffer.resize(buffer_size);
+            return true;
+        }
+
+        /// Starts the Wifi connection
+        void login(const char* ssid, const char* password){
             if (WiFi.status() != WL_CONNECTED && ssid!=nullptr && password!=nullptr){
                 WiFi.begin(ssid, password);
                 while (WiFi.status() != WL_CONNECTED) {        
@@ -53,9 +69,7 @@ class HttpServer {
                 Serial.print(WiFi.localIP());
                 Serial.print(":");
                 Serial.println(port);
-
             }
-            return begin(port);
         }
 
         /// Provides the local ip address
@@ -65,18 +79,11 @@ class HttpServer {
             return address;
         }
 
-        /// Starts the server on the indicated port
-        bool begin(int port){
-            HttpLogger.log(Info,"HttpServer %s","begin");
-            is_active = true;
-            server_ptr->begin(port);
-            return true;
-        }
-
         /// stops the server_ptr
-        void stop(){
-            HttpLogger.log(Info,"HttpServer %s","stop");
+        void end(){
+            HttpLogger.log(Info,"HttpServer %s","end");
             is_active = false;
+            buffer.resize(0);
         }
 
         /// adds a rewrite rule
@@ -202,7 +209,14 @@ class HttpServer {
 
             bool result = false;
             // check in registered handlers
-            StrView pathStr = StrView(path);
+            Str pathStr{path};
+            // if path contains a query string, remove it
+            int pos = pathStr.indexOf("?");
+            if (pos >= 0){
+                pathStr.substring(pathStr, 0, pos);
+                HttpLogger.log(Debug, "onRequest - pathStr: %s", pathStr.c_str());
+            }       
+
             for (auto it = handler_collection.begin() ; it != handler_collection.end(); ++it) {
                 HttpRequestHandlerLine *handler_line_ptr = *it;
                 HttpLogger.log(Info,"onRequest - checking: %s %s %s", nullstr(handler_line_ptr->path), methods[handler_line_ptr->method], nullstr(handler_line_ptr->mime));
@@ -317,14 +331,14 @@ class HttpServer {
         /// closes the connection to the current client_ptr
         void endClient() {
             HttpLogger.log(Info,"HttpServer %s","endClient");
-            client_ptr->flush();
+            //client_ptr->flush();
             client_ptr->stop();
         }
 
         /// print a CR LF
         void crlf() {
             client_ptr->print("\r\n");
-            client_ptr->flush();
+            //client_ptr->flush();
         }
 
         /// registers an extension
@@ -350,7 +364,7 @@ class HttpServer {
             if (is_active) {
                 WiFiClient client = server_ptr->accept();
                 if (client.connected()) {
-                    HttpLogger.log(Info,"doLoop->hasClient");
+                    HttpLogger.log(Info,"copy: hasClient");
                     client_ptr = &client;
 
                     // process the new client with standard functionality
@@ -398,11 +412,12 @@ class HttpServer {
         List<HttpRequestRewrite*> rewrite_collection;
         WiFiClient *client_ptr = nullptr;
         WiFiServer *server_ptr = nullptr;
-        bool is_active;
+        bool is_active = false;
         Vector<char> buffer{0};
-        const char* local_host=nullptr;
+        const char* local_host = nullptr;
         int buffer_size = 0;
-        int no_connect_dela = 10;
+        int no_connect_dela = 20;
+        int port = 80;
 
         /// Converts null to an empty string
         const char* nullstr(const char* in){
