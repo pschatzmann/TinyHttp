@@ -11,7 +11,7 @@ So I decided to to investigate if it is possible to achieve the following goals:
 - __concurrent__ handling of __multiple requests__.
 - Support for __Extensions__ to add additional functionality
 
-In my alternative design I try to split the processing up into many small pieces: So instead of sending a single big reply we can use the chunked http transfer encoding to feed many clients with small replys.  
+In my alternative design I try to split the processing up into many small pieces: So instead of sending a single big reply we can use the chunked http transfer encoding to feed many clients with small replies.  
 
 This should resolve also the memory restrictions for good because we do not have any upper totoal limit for the reply any more! 
 
