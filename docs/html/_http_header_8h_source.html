@@ -72,7 +72,7 @@ $(function() {
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Platform/AltClient.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/StrExt.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Basic/Str.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Basic/List.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Server/Url.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;Server/HttpLogger.h&quot;</span> </div>
@@ -107,8 +107,8 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">const</span> <span class="keywordtype">char</span>* methods[] = {<span class="stringliteral">&quot;?&quot;</span>,<span class="stringliteral">&quot;GET&quot;</span>,<span class="stringliteral">&quot;HEAD&quot;</span>,<span class="stringliteral">&quot;POST&quot;</span>,<span class="stringliteral">&quot;PUT&quot;</span>,<span class="stringliteral">&quot;DELETE&quot;</span>,<span class="stringliteral">&quot;TRACE&quot;</span>,<span class="stringliteral">&quot;OPTIONS&quot;</span>,<span class="stringliteral">&quot;CONNECT&quot;</span>,<span class="stringliteral">&quot;PATCH&quot;</span>,<span class="keyword">nullptr</span>};</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="structtinyhttp_1_1_http_header_line.html">   42</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtinyhttp_1_1_http_header_line.html">HttpHeaderLine</a> {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a> key;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a> value;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classtinyhttp_1_1_str.html">Str</a> key;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classtinyhttp_1_1_str.html">Str</a> value;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">bool</span> active;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
@@ -158,7 +158,7 @@ $(function() {
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                hl-&gt;value = value;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                hl-&gt;active = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordflow">if</span> (Str(key) == TRANSFER_ENCODING &amp;&amp;  Str(value) == CHUNKED){</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordflow">if</span> (StrView(key) == TRANSFER_ENCODING &amp;&amp;  StrView(value) == CHUNKED){</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,<span class="stringliteral">&quot;HttpHeader::put -&gt; is_chunked!!!&quot;</span>);</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    this-&gt;is_chunked = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                }</div>
@@ -179,14 +179,14 @@ $(function() {
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="comment">// add value</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            hl-&gt;value = value;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            hl-&gt;active = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,key, hl-&gt;value.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>());</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,key, hl-&gt;value.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>());</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        }</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_header.html#a777133cacd58f3626456ab8eab2d4ffe">  129</a></span>&#160;        <a class="code" href="classtinyhttp_1_1_http_header.html">HttpHeader</a>&amp; <a class="code" href="classtinyhttp_1_1_http_header.html#a777133cacd58f3626456ab8eab2d4ffe">put</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* line){</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Debug,<span class="stringliteral">&quot;HttpHeader::put -&gt; %s&quot;</span>, (<span class="keyword">const</span> <span class="keywordtype">char</span>*) line);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <a class="code" href="classtinyhttp_1_1_str.html">Str</a> keyStr(line);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordtype">int</span> pos = keyStr.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="stringliteral">&quot;:&quot;</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> keyStr(line);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordtype">int</span> pos = keyStr.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="stringliteral">&quot;:&quot;</span>);</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordtype">char</span> *key = (<span class="keywordtype">char</span>*)line;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            key[pos] = 0;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
@@ -202,9 +202,9 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* get(<span class="keyword">const</span> <span class="keywordtype">char</span>* key){</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = lines.begin() ; it != lines.end(); ++it){</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <a class="code" href="structtinyhttp_1_1_http_header_line.html">HttpHeaderLine</a> *line = *it;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                line-&gt;key.<a class="code" href="classtinyhttp_1_1_str.html#a2e9249ebf21558d6149d3e2b1686c0a0">trim</a>();</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keywordflow">if</span> (line-&gt;key.<a class="code" href="classtinyhttp_1_1_str.html#a8bc272e0e5dafc98622064483e002c5b">equalsIgnoreCase</a>(key)){</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    <span class="keyword">const</span> <span class="keywordtype">char</span>* result = line-&gt;value.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>();</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                line-&gt;key.<a class="code" href="classtinyhttp_1_1_str_view.html#a37d1c06cd48faa67897246a4bc3ed078">trim</a>();</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keywordflow">if</span> (line-&gt;key.<a class="code" href="classtinyhttp_1_1_str_view.html#a66aaf132965b8b599c1c20b1503229f0">equalsIgnoreCase</a>(key)){</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    <span class="keyword">const</span> <span class="keywordtype">char</span>* result = line-&gt;value.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>();</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                    <span class="keywordflow">return</span> line-&gt;active ? result : <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                }</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            }</div>
@@ -233,7 +233,7 @@ $(function() {
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            }</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keywordtype">char</span> msg[200];</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            Str msg_str(msg,200);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            StrView msg_str(msg,200);</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            msg_str = header-&gt;key.c_str();</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            msg_str += <span class="stringliteral">&quot;: &quot;</span>;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            msg_str += header-&gt;value.c_str();</div>
@@ -251,11 +251,11 @@ $(function() {
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        </div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* urlPath() {</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">return</span> url_path.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>(); </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">return</span> url_path.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>(); </div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        }</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* protocol() {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">return</span> protocol_str.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>(); </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">return</span> protocol_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>(); </div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        }</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        TinyMethodID method(){</div>
@@ -271,7 +271,7 @@ $(function() {
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* statusMessage() {</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">return</span> status_msg.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>();</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">return</span> status_msg.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>();</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        }</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordtype">bool</span> isChunked(){</div>
@@ -297,7 +297,7 @@ $(function() {
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                parse1stLine(line);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                <span class="keywordflow">while</span> (in.available()){</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                    readLine(in, line, MaxHeaderLineLength);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                    Str lineStr(line);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                    StrView lineStr(line);</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                    <span class="keywordflow">if</span> (lineStr.isEmpty()||lineStr.isNewLine()){</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                        <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                    }</div>
@@ -343,9 +343,9 @@ $(function() {
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        TinyMethodID method_id;</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="comment">// we store the values on the heap. this is acceptable because we just have one instance for the</span></div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        <span class="comment">// requests and one for the replys: which needs about 2*100 bytes </span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        StrExt protocol_str = StrExt(10);</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        StrExt url_path = StrExt(70);</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        StrExt status_msg = StrExt(20);</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        Str protocol_str = Str(10);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        Str url_path = Str(70);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        Str status_msg = Str(20);</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        List&lt;HttpHeaderLine*&gt; lines;</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        HttpLineReader reader;</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* CRLF = <span class="stringliteral">&quot;\r\n&quot;</span>;</div>
@@ -435,12 +435,12 @@ $(function() {
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="comment">// Request-Line = Method SP Request-URI SP HTTP-Version CRLF</span></div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="keywordtype">void</span> parse1stLine(<span class="keyword">const</span> <span class="keywordtype">char</span> *line){</div>
 <div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,<span class="stringliteral">&quot;HttpRequestHeader::parse1stLine %s&quot;</span>, line);</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            <a class="code" href="classtinyhttp_1_1_str.html">Str</a> line_str(line);</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordtype">int</span> space1 = line_str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="stringliteral">&quot; &quot;</span>);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            <span class="keywordtype">int</span> space2 = line_str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="stringliteral">&quot; &quot;</span>, space1+1);</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> line_str(line);</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordtype">int</span> space1 = line_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="stringliteral">&quot; &quot;</span>);</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            <span class="keywordtype">int</span> space2 = line_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="stringliteral">&quot; &quot;</span>, space1+1);</div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            this-&gt;method_id = getMethod(line);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            this-&gt;protocol_str.substring(line_str, space2+1, line_str.<a class="code" href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">length</a>());</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            this-&gt;protocol_str.substring(line_str, space2+1, line_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">length</a>());</div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            this-&gt;url_path.substring(line_str,space1+1,space2);</div>
 <div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            this-&gt;url_path.trim();</div>
 <div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;  </div>
@@ -477,12 +477,12 @@ $(function() {
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="comment">// HTTP-Version SP Status-Code SP Reason-Phrase CRLF</span></div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keywordtype">void</span> write1stLine(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;out){</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;            <span class="keywordtype">char</span> msg[200];</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            <a class="code" href="classtinyhttp_1_1_str.html">Str</a> msg_str(msg,200);</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            msg_str = this-&gt;protocol_str.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>();</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> msg_str(msg,200);</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            msg_str = this-&gt;protocol_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>();</div>
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            msg_str += <span class="stringliteral">&quot; &quot;</span>;</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            msg_str += this-&gt;status_code;</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            msg_str += <span class="stringliteral">&quot; &quot;</span>;</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            msg_str += this-&gt;status_msg.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>();</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            msg_str += this-&gt;status_msg.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>();</div>
 <div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,<span class="stringliteral">&quot;HttpReplyHeader::write1stLine: %s&quot;</span>, msg);</div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            out.print(msg);</div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            crlf(out);</div>
@@ -494,21 +494,21 @@ $(function() {
 <div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        <span class="comment">// http_status_line</span></div>
 <div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;        <span class="keywordtype">void</span> parse1stLine(<span class="keyword">const</span> <span class="keywordtype">char</span> *line){</div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,<span class="stringliteral">&quot;HttpReplyHeader::parse1stLine %s&quot;</span>,line);</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            <a class="code" href="classtinyhttp_1_1_str.html">Str</a> line_str(line);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="keywordtype">int</span> space1 = line_str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="charliteral">&#39; &#39;</span>,0);</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="keywordtype">int</span> space2 = line_str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="charliteral">&#39; &#39;</span>,space1+1);</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> line_str(line);</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="keywordtype">int</span> space1 = line_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="charliteral">&#39; &#39;</span>,0);</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="keywordtype">int</span> space2 = line_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="charliteral">&#39; &#39;</span>,space1+1);</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            <span class="comment">// save http version </span></div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            protocol_str.substring(line_str,0,space1);</div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            <span class="comment">// find response status code after the first space</span></div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            <span class="keywordtype">char</span> status_c[6];</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            <a class="code" href="classtinyhttp_1_1_str.html">Str</a> status(status_c,6);</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            status.<a class="code" href="classtinyhttp_1_1_str.html#a3a5fd7485ceb83c10b56996a3c775d70">substring</a>(line_str, space1+1, space2);</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> status(status_c,6);</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            status.<a class="code" href="classtinyhttp_1_1_str_view.html#a2aeb4676446d4b82ea41fad2401696ab">substring</a>(line_str, space1+1, space2);</div>
 <div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;            status_code = atoi(status_c);</div>
 <div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;            <span class="comment">// get reason-phrase after last SP</span></div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            status_msg.substring(line_str, space2+1, line_str.<a class="code" href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">length</a>());</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            status_msg.substring(line_str, space2+1, line_str.<a class="code" href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">length</a>());</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        }</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160; </div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;};</div>
@@ -523,14 +523,14 @@ $(function() {
 <div class="ttc" id="aclasstinyhttp_1_1_http_logger_class_html_a8bd88841bae9816af7240a3706e8512e"><div class="ttname"><a href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">tinyhttp::HttpLoggerClass::log</a></div><div class="ttdeci">void log(LogLevel current_level, const char *fmt...)</div><div class="ttdoc">Print log message.</div><div class="ttdef"><b>Definition:</b> HttpLogger.h:48</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_reply_header_html"><div class="ttname"><a href="classtinyhttp_1_1_http_reply_header.html">tinyhttp::HttpReplyHeader</a></div><div class="ttdoc">Reading and Writing of Http Replys.</div><div class="ttdef"><b>Definition:</b> HttpHeader.h:406</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_request_header_html"><div class="ttname"><a href="classtinyhttp_1_1_http_request_header.html">tinyhttp::HttpRequestHeader</a></div><div class="ttdoc">Reading and writing of Http Requests.</div><div class="ttdef"><b>Definition:</b> HttpHeader.h:353</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_ext_html"><div class="ttname"><a href="classtinyhttp_1_1_str_ext.html">tinyhttp::StrExt</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> StrExt.h:22</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:16</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a0b1af13d57d1d1cd8d6294a384983d39"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">tinyhttp::Str::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdoc">provides the current length (filled with characters) of the string - excluding the terminating 0</div><div class="ttdef"><b>Definition:</b> Str.h:407</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a2e9249ebf21558d6149d3e2b1686c0a0"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a2e9249ebf21558d6149d3e2b1686c0a0">tinyhttp::Str::trim</a></div><div class="ttdeci">virtual void trim()</div><div class="ttdoc">remove leading and traling spaces</div><div class="ttdef"><b>Definition:</b> Str.h:549</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a2ea353bdcfdabdb13f06e972944ebfa2"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">tinyhttp::Str::c_str</a></div><div class="ttdeci">virtual const char * c_str()</div><div class="ttdoc">provides the string value as const char*</div><div class="ttdef"><b>Definition:</b> Str.h:402</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a3a5fd7485ceb83c10b56996a3c775d70"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a3a5fd7485ceb83c10b56996a3c775d70">tinyhttp::Str::substring</a></div><div class="ttdeci">virtual void substring(Str &amp;from, int start, int end)</div><div class="ttdoc">copies a substring into the current string</div><div class="ttdef"><b>Definition:</b> Str.h:522</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a4bdedb603822f3cbbee265519df495cd"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">tinyhttp::Str::indexOf</a></div><div class="ttdeci">virtual int indexOf(const char c, int start=0)</div><div class="ttdoc">provides the position of the the indicated character after the indicated start position</div><div class="ttdef"><b>Definition:</b> Str.h:281</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a8bc272e0e5dafc98622064483e002c5b"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a8bc272e0e5dafc98622064483e002c5b">tinyhttp::Str::equalsIgnoreCase</a></div><div class="ttdeci">virtual bool equalsIgnoreCase(const char *alt)</div><div class="ttdoc">Compares the string ignoring the case.</div><div class="ttdef"><b>Definition:</b> Str.h:610</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> Str.h:21</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html">tinyhttp::StrView</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> StrView.h:16</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a0ce3829ef2304731db3c777f60263ee4"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">tinyhttp::StrView::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdef"><b>Definition:</b> StrView.h:371</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a2aeb4676446d4b82ea41fad2401696ab"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a2aeb4676446d4b82ea41fad2401696ab">tinyhttp::StrView::substring</a></div><div class="ttdeci">virtual void substring(StrView &amp;from, int start, int end)</div><div class="ttdoc">copies a substring into the current string</div><div class="ttdef"><b>Definition:</b> StrView.h:484</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a37d1c06cd48faa67897246a4bc3ed078"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a37d1c06cd48faa67897246a4bc3ed078">tinyhttp::StrView::trim</a></div><div class="ttdeci">virtual void trim()</div><div class="ttdoc">remove leading and traling spaces</div><div class="ttdef"><b>Definition:</b> StrView.h:511</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a4c4a257c90550afd78f39fa2b006257d"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">tinyhttp::StrView::indexOf</a></div><div class="ttdeci">virtual int indexOf(const char c, int start=0)</div><div class="ttdef"><b>Definition:</b> StrView.h:268</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a5f16e081229af7a91bd94d134f1990ca"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">tinyhttp::StrView::c_str</a></div><div class="ttdeci">virtual const char * c_str()</div><div class="ttdoc">provides the string value as const char*</div><div class="ttdef"><b>Definition:</b> StrView.h:367</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a66aaf132965b8b599c1c20b1503229f0"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a66aaf132965b8b599c1c20b1503229f0">tinyhttp::StrView::equalsIgnoreCase</a></div><div class="ttdeci">virtual bool equalsIgnoreCase(const char *alt)</div><div class="ttdoc">Compares the string ignoring the case.</div><div class="ttdef"><b>Definition:</b> StrView.h:568</div></div>
 <div class="ttc" id="astructtinyhttp_1_1_http_header_line_html"><div class="ttname"><a href="structtinyhttp_1_1_http_header_line.html">tinyhttp::HttpHeaderLine</a></div><div class="ttdoc">A individual key - value header line.</div><div class="ttdef"><b>Definition:</b> HttpHeader.h:42</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

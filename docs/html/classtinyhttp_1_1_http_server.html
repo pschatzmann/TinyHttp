@@ -117,6 +117,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a2fadb077815d86abc0f704506d969439">doLoop</a> ()</td></tr>
 <tr class="memdesc:a2fadb077815d86abc0f704506d969439"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy method: same as <a class="el" href="classtinyhttp_1_1_http_server.html#a40bbe1d2254018a35d0ae381e6139fe2" title="Call this method from your loop!">copy()</a>;. <br /></td></tr>
 <tr class="separator:a2fadb077815d86abc0f704506d969439"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7925a878b142d60e709f08b808851e7"><td class="memItemLeft" align="right" valign="top"><a id="ad7925a878b142d60e709f08b808851e7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#ad7925a878b142d60e709f08b808851e7">end</a> ()</td></tr>
+<tr class="memdesc:ad7925a878b142d60e709f08b808851e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">stops the server_ptr <br /></td></tr>
+<tr class="separator:ad7925a878b142d60e709f08b808851e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d63c8f7170d736f3623f6d9c99cc5aa"><td class="memItemLeft" align="right" valign="top"><a id="a5d63c8f7170d736f3623f6d9c99cc5aa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a5d63c8f7170d736f3623f6d9c99cc5aa">endClient</a> ()</td></tr>
 <tr class="memdesc:a5d63c8f7170d736f3623f6d9c99cc5aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">closes the connection to the current client_ptr <br /></td></tr>
@@ -129,6 +133,10 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 IPAddress &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#af571a54dab30cd190b1f936dbf6a9ccd">localIP</a> ()</td></tr>
 <tr class="memdesc:af571a54dab30cd190b1f936dbf6a9ccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the local ip address. <br /></td></tr>
 <tr class="separator:af571a54dab30cd190b1f936dbf6a9ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50bd62d94267038636140056f7f702e6"><td class="memItemLeft" align="right" valign="top"><a id="a50bd62d94267038636140056f7f702e6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a50bd62d94267038636140056f7f702e6">login</a> (const char *ssid, const char *password)</td></tr>
+<tr class="memdesc:a50bd62d94267038636140056f7f702e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the Wifi connection. <br /></td></tr>
+<tr class="separator:a50bd62d94267038636140056f7f702e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0437d08afbec8182befcc63d849c7f3e"><td class="memItemLeft" align="right" valign="top"><a id="a0437d08afbec8182befcc63d849c7f3e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a0437d08afbec8182befcc63d849c7f3e">on</a> (const char *url, TinyMethodID method, const char *mime, const char *result)</td></tr>
 <tr class="memdesc:a0437d08afbec8182befcc63d849c7f3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">register a handler which provides the indicated string <br /></td></tr>
@@ -201,10 +209,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#ad084feacf1d29e1f44de0e018707d829">rewrite</a> (const char *from, const char *to)</td></tr>
 <tr class="memdesc:ad084feacf1d29e1f44de0e018707d829"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds a rewrite rule <br /></td></tr>
 <tr class="separator:ad084feacf1d29e1f44de0e018707d829"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e16bf26a351b1e297f3ba73682e1226"><td class="memItemLeft" align="right" valign="top"><a id="a5e16bf26a351b1e297f3ba73682e1226"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtinyhttp_1_1_http_server.html#a5e16bf26a351b1e297f3ba73682e1226">stop</a> ()</td></tr>
-<tr class="memdesc:a5e16bf26a351b1e297f3ba73682e1226"><td class="mdescLeft">&#160;</td><td class="mdescRight">stops the server_ptr <br /></td></tr>
-<tr class="separator:a5e16bf26a351b1e297f3ba73682e1226"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a224944659e232c8aa12cd9885efe40f4"><td class="memItemLeft" align="right" valign="top"><a id="a224944659e232c8aa12cd9885efe40f4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setNoConnectDelay</b> (int delay)</td></tr>
+<tr class="separator:a224944659e232c8aa12cd9885efe40f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -230,14 +237,14 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:abaafe81600356522f31610eb9e5cd01e"><td class="memItemLeft" align="right" valign="top"><a id="abaafe81600356522f31610eb9e5cd01e"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b></td></tr>
-<tr class="separator:abaafe81600356522f31610eb9e5cd01e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab37e0070e2e627da4760cf77d9b92022"><td class="memItemLeft" align="right" valign="top"><a id="ab37e0070e2e627da4760cf77d9b92022"></a>
+<a class="el" href="classtinyhttp_1_1_vector.html">Vector</a>&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b> {0}</td></tr>
+<tr class="separator:ab37e0070e2e627da4760cf77d9b92022"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84ddc32798ee2925a84a0fc59188966e"><td class="memItemLeft" align="right" valign="top"><a id="a84ddc32798ee2925a84a0fc59188966e"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> = 0</td></tr>
 <tr class="separator:a84ddc32798ee2925a84a0fc59188966e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec5287df5b9a10c73fe02f2b428d746c"><td class="memItemLeft" align="right" valign="top"><a id="aec5287df5b9a10c73fe02f2b428d746c"></a>
-<a class="el" href="classtinyhttp_1_1_wi_fi_client.html">WiFiClient</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>client_ptr</b></td></tr>
+<a class="el" href="classtinyhttp_1_1_wi_fi_client.html">WiFiClient</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>client_ptr</b> = nullptr</td></tr>
 <tr class="separator:aec5287df5b9a10c73fe02f2b428d746c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0e4279a40f6f147bb498eea97fd133e"><td class="memItemLeft" align="right" valign="top"><a id="af0e4279a40f6f147bb498eea97fd133e"></a>
 <a class="el" href="classtinyhttp_1_1_list.html">List</a>&lt; <a class="el" href="classtinyhttp_1_1_extension.html">Extension</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>extension_collection</b></td></tr>
@@ -246,11 +253,17 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></
 <a class="el" href="classtinyhttp_1_1_list.html">List</a>&lt; <a class="el" href="classtinyhttp_1_1_http_request_handler_line.html">HttpRequestHandlerLine</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>handler_collection</b></td></tr>
 <tr class="separator:a2f6cda6ca234f531e7cbb90c41655db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a304e386f9fba6dfb0037daaad11f4ecc"><td class="memItemLeft" align="right" valign="top"><a id="a304e386f9fba6dfb0037daaad11f4ecc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_active</b></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_active</b> = false</td></tr>
 <tr class="separator:a304e386f9fba6dfb0037daaad11f4ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02c61f2240cb5d6160441eee90d394a9"><td class="memItemLeft" align="right" valign="top"><a id="a02c61f2240cb5d6160441eee90d394a9"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>local_host</b> =nullptr</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>local_host</b> = nullptr</td></tr>
 <tr class="separator:a02c61f2240cb5d6160441eee90d394a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad775b08344a515b48c05a5b445cc1b0"><td class="memItemLeft" align="right" valign="top"><a id="aad775b08344a515b48c05a5b445cc1b0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>no_connect_dela</b> = 20</td></tr>
+<tr class="separator:aad775b08344a515b48c05a5b445cc1b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40592fb0cc5f1271f7a3b6adf4ed46d9"><td class="memItemLeft" align="right" valign="top"><a id="a40592fb0cc5f1271f7a3b6adf4ed46d9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>port</b> = 80</td></tr>
+<tr class="separator:a40592fb0cc5f1271f7a3b6adf4ed46d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43698c96c9994d7a5c257866a62c992f"><td class="memItemLeft" align="right" valign="top"><a id="a43698c96c9994d7a5c257866a62c992f"></a>
 <a class="el" href="classtinyhttp_1_1_http_reply_header.html">HttpReplyHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><b>reply_header</b></td></tr>
 <tr class="separator:a43698c96c9994d7a5c257866a62c992f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -261,7 +274,7 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>local_host</b
 <a class="el" href="classtinyhttp_1_1_list.html">List</a>&lt; <a class="el" href="classtinyhttp_1_1_http_request_rewrite.html">HttpRequestRewrite</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>rewrite_collection</b></td></tr>
 <tr class="separator:ad52e0da34787614afcd879ae3ce6f018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5adcd96e13d7cc37cdbf8783f1a52a90"><td class="memItemLeft" align="right" valign="top"><a id="a5adcd96e13d7cc37cdbf8783f1a52a90"></a>
-WiFiServer *&#160;</td><td class="memItemRight" valign="bottom"><b>server_ptr</b></td></tr>
+WiFiServer *&#160;</td><td class="memItemRight" valign="bottom"><b>server_ptr</b> = nullptr</td></tr>
 <tr class="separator:a5adcd96e13d7cc37cdbf8783f1a52a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

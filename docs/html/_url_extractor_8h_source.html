@@ -71,7 +71,7 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Basic/Str.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Basic/StrView.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>tinyhttp {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
@@ -96,12 +96,12 @@ $(function() {
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            this-&gt;start = startPos;            </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">bool</span> nextUrl(<a class="code" href="classtinyhttp_1_1_str.html">Str</a>&amp; result){</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">bool</span> nextUrl(<a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a>&amp; result){</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="comment">// find all URLs which need to be replaced</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keywordflow">while</span>(<span class="keyword">true</span>){</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                start = str.indexOf(this-&gt;prefix, start);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">if</span> (start==-1){</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    result.<a class="code" href="classtinyhttp_1_1_str.html#a1ec33d93e448886e0517ecd6e76d551f">clear</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    result.<a class="code" href="classtinyhttp_1_1_str_view.html#a8da95c13011169c4a7cd60586ecb0a50">clear</a>();</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
@@ -109,7 +109,7 @@ $(function() {
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">if</span> (end&gt;=0){</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    <span class="comment">// limit end to max characters</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    <span class="comment">//int copy_end = end-start&gt;resultMaxLen ? start+resultMaxLen-1 : end;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    result.<a class="code" href="classtinyhttp_1_1_str.html#a3a5fd7485ceb83c10b56996a3c775d70">substring</a>(str, start, end);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    result.<a class="code" href="classtinyhttp_1_1_str_view.html#a2aeb4676446d4b82ea41fad2401696ab">substring</a>(str, start, end);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    <span class="comment">// move to next pos</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    start = end+2;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
@@ -131,7 +131,7 @@ $(function() {
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* prefix;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">int</span> prefix_len;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classtinyhttp_1_1_str.html">Str</a> str;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> str;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">int</span> start;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    </div>
@@ -140,7 +140,7 @@ $(function() {
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordtype">int</span> end = -1;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">if</span> (pos&gt;=0){</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">if</span> (str[pos]==<span class="charliteral">&#39;&quot;&#39;</span>){</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    end = str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="charliteral">&#39;&quot;&#39;</span>,pos+prefix_len);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    end = str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="charliteral">&#39;&quot;&#39;</span>,pos+prefix_len);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                } <span class="keywordflow">else</span>  <span class="keywordflow">if</span> (str[pos]==<span class="charliteral">&#39;\&#39;&#39;</span>){</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    end = str.indexOf(<span class="charliteral">&#39;\&#39;&#39;</span>,pos+prefix_len);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                } <span class="keywordflow">else</span> {</div>
@@ -154,10 +154,10 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:16</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a1ec33d93e448886e0517ecd6e76d551f"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a1ec33d93e448886e0517ecd6e76d551f">tinyhttp::Str::clear</a></div><div class="ttdeci">virtual void clear()</div><div class="ttdoc">clears the string by setting the terminating 0 at the beginning</div><div class="ttdef"><b>Definition:</b> Str.h:581</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a3a5fd7485ceb83c10b56996a3c775d70"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a3a5fd7485ceb83c10b56996a3c775d70">tinyhttp::Str::substring</a></div><div class="ttdeci">virtual void substring(Str &amp;from, int start, int end)</div><div class="ttdoc">copies a substring into the current string</div><div class="ttdef"><b>Definition:</b> Str.h:522</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a4bdedb603822f3cbbee265519df495cd"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">tinyhttp::Str::indexOf</a></div><div class="ttdeci">virtual int indexOf(const char c, int start=0)</div><div class="ttdoc">provides the position of the the indicated character after the indicated start position</div><div class="ttdef"><b>Definition:</b> Str.h:281</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html">tinyhttp::StrView</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> StrView.h:16</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a2aeb4676446d4b82ea41fad2401696ab"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a2aeb4676446d4b82ea41fad2401696ab">tinyhttp::StrView::substring</a></div><div class="ttdeci">virtual void substring(StrView &amp;from, int start, int end)</div><div class="ttdoc">copies a substring into the current string</div><div class="ttdef"><b>Definition:</b> StrView.h:484</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a4c4a257c90550afd78f39fa2b006257d"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">tinyhttp::StrView::indexOf</a></div><div class="ttdeci">virtual int indexOf(const char c, int start=0)</div><div class="ttdef"><b>Definition:</b> StrView.h:268</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a8da95c13011169c4a7cd60586ecb0a50"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a8da95c13011169c4a7cd60586ecb0a50">tinyhttp::StrView::clear</a></div><div class="ttdeci">virtual void clear()</div><div class="ttdoc">clears the string by setting the terminating 0 at the beginning</div><div class="ttdef"><b>Definition:</b> StrView.h:543</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_url_extractor_html"><div class="ttname"><a href="classtinyhttp_1_1_url_extractor.html">tinyhttp::UrlExtractor</a></div><div class="ttdoc">Extraciting urls from a string the url needs to be stored with delimiting ' or &quot; characters....</div><div class="ttdef"><b>Definition:</b> UrlExtractor.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

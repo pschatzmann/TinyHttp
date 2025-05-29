@@ -74,7 +74,7 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;SPI.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;SD.h&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Basic/StrExt.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Basic/Str.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>tinyhttp {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
@@ -96,7 +96,7 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">void</span> reset() {</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            SD.remove(this-&gt;file_name);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            this-&gt;max_position = 0;   </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            this-&gt;result_string.<a class="code" href="classtinyhttp_1_1_str_ext.html#a2a7493d998f7b1a937d18e18d497547e">clear</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            this-&gt;result_string.<a class="code" href="classtinyhttp_1_1_str.html#a0712236e01bae439c252d40da0a81e15">clear</a>();</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">// push a string</span></div>
@@ -142,11 +142,11 @@ $(function() {
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                result_string.setCapacity(len);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordtype">int</span> new_position = max_position - position_size - len;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                file.seek(new_position);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                file.read((uint8_t*)result_string.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>(), len);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                file.read((uint8_t*)result_string.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>(), len);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="comment">// update end</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                max_position = new_position;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                result = (<span class="keywordtype">void</span>*)result_string.<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                len = result_string.<a class="code" href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">length</a>();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                result = (<span class="keywordtype">void</span>*)result_string.<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                len = result_string.<a class="code" href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">length</a>();</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                file.close();</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">if</span> (max_position&lt;=position_size) {</div>
@@ -164,18 +164,18 @@ $(function() {
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment">// convinience function to pop for a c strings</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">const</span> <a class="code" href="classtinyhttp_1_1_str.html">Str</a> popStr() {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">const</span> <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> popStr() {</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info,<span class="stringliteral">&quot;SDStack %s&quot;</span>, <span class="stringliteral">&quot;popStr&quot;</span>);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordtype">int</span> len;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordtype">char</span>* str = (<span class="keywordtype">char</span>*)pop(len);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classtinyhttp_1_1_str.html">Str</a>(str, len, len);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a>(str, len, len);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        }</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span>* file_name;</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">int</span> position_size = <span class="keyword">sizeof</span>(int);</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordtype">int</span> max_position;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a> result_string = <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a>(80);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <a class="code" href="classtinyhttp_1_1_str.html">Str</a> result_string = <a class="code" href="classtinyhttp_1_1_str.html">Str</a>(80);</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;};</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
@@ -183,11 +183,11 @@ $(function() {
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_logger_class_html_a8bd88841bae9816af7240a3706e8512e"><div class="ttname"><a href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">tinyhttp::HttpLoggerClass::log</a></div><div class="ttdeci">void log(LogLevel current_level, const char *fmt...)</div><div class="ttdoc">Print log message.</div><div class="ttdef"><b>Definition:</b> HttpLogger.h:48</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_s_d_stack_html"><div class="ttname"><a href="classtinyhttp_1_1_s_d_stack.html">tinyhttp::SDStack</a></div><div class="ttdoc">Using a SD file for stack operations on a entries which are potentially of different size.</div><div class="ttdef"><b>Definition:</b> SDStack.h:15</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_ext_html"><div class="ttname"><a href="classtinyhttp_1_1_str_ext.html">tinyhttp::StrExt</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> StrExt.h:22</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_ext_html_a2a7493d998f7b1a937d18e18d497547e"><div class="ttname"><a href="classtinyhttp_1_1_str_ext.html#a2a7493d998f7b1a937d18e18d497547e">tinyhttp::StrExt::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">clears the string by setting the terminating 0 at the beginning</div><div class="ttdef"><b>Definition:</b> StrExt.h:67</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:16</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a0b1af13d57d1d1cd8d6294a384983d39"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">tinyhttp::Str::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdoc">provides the current length (filled with characters) of the string - excluding the terminating 0</div><div class="ttdef"><b>Definition:</b> Str.h:407</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a2ea353bdcfdabdb13f06e972944ebfa2"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">tinyhttp::Str::c_str</a></div><div class="ttdeci">virtual const char * c_str()</div><div class="ttdoc">provides the string value as const char*</div><div class="ttdef"><b>Definition:</b> Str.h:402</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> Str.h:21</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_html_a0712236e01bae439c252d40da0a81e15"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a0712236e01bae439c252d40da0a81e15">tinyhttp::Str::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">clears the string by setting the terminating 0 at the beginning</div><div class="ttdef"><b>Definition:</b> Str.h:58</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html">tinyhttp::StrView</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> StrView.h:16</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a0ce3829ef2304731db3c777f60263ee4"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">tinyhttp::StrView::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdef"><b>Definition:</b> StrView.h:371</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a5f16e081229af7a91bd94d134f1990ca"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">tinyhttp::StrView::c_str</a></div><div class="ttdeci">virtual const char * c_str()</div><div class="ttdoc">provides the string value as const char*</div><div class="ttdef"><b>Definition:</b> StrView.h:367</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

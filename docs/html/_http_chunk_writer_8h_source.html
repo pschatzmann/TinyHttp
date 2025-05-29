@@ -72,37 +72,38 @@ $(function() {
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Client.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>tinyhttp {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_chunk_writer.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtinyhttp_1_1_http_chunk_writer.html">HttpChunkWriter</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordtype">int</span> writeChunk(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;client, <span class="keyword">const</span> <span class="keywordtype">char</span>* str, <span class="keywordtype">int</span> len, <span class="keyword">const</span> <span class="keywordtype">char</span>* str1=<span class="keyword">nullptr</span>, <span class="keywordtype">int</span> len1=0){</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Debug,<span class="stringliteral">&quot;HttpChunkWriter&quot;</span>,<span class="stringliteral">&quot;writeChunk&quot;</span>);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            client.println(len+len1, HEX);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordtype">int</span> result = client.write((uint8_t*)str, len);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keywordflow">if</span> (str1!=<span class="keyword">nullptr</span>){</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                result += client.write((uint8_t*)str1, len1);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            client.println();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        }</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">int</span> writeChunk(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;client, <span class="keyword">const</span> <span class="keywordtype">char</span>* str){</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordtype">int</span> len = strlen(str);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> writeChunk(client, str, len);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> writeEnd(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;client){</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            writeChunk(client, <span class="stringliteral">&quot;&quot;</span>,0);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Server/HttpLogger.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>tinyhttp {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_chunk_writer.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtinyhttp_1_1_http_chunk_writer.html">HttpChunkWriter</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordtype">int</span> writeChunk(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;client, <span class="keyword">const</span> <span class="keywordtype">char</span>* str, <span class="keywordtype">int</span> len, <span class="keyword">const</span> <span class="keywordtype">char</span>* str1=<span class="keyword">nullptr</span>, <span class="keywordtype">int</span> len1=0){</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Debug,<span class="stringliteral">&quot;HttpChunkWriter&quot;</span>,<span class="stringliteral">&quot;writeChunk&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            client.println(len+len1, HEX);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keywordtype">int</span> result = client.write((uint8_t*)str, len);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">if</span> (str1!=<span class="keyword">nullptr</span>){</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                result += client.write((uint8_t*)str1, len1);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            client.println();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">int</span> writeChunk(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;client, <span class="keyword">const</span> <span class="keywordtype">char</span>* str){</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordtype">int</span> len = strlen(str);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">return</span> writeChunk(client, str, len);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">void</span> writeEnd(<a class="code" href="classtinyhttp_1_1_client.html">Client</a> &amp;client){</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            writeChunk(client, <span class="stringliteral">&quot;&quot;</span>,0);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="ttc" id="aclasstinyhttp_1_1_client_html"><div class="ttname"><a href="classtinyhttp_1_1_client.html">tinyhttp::Client</a></div><div class="ttdoc">Alternative Client Implementatioin using Sockets so that the functionality can run stand alone on a s...</div><div class="ttdef"><b>Definition:</b> AltClient.h:25</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_http_chunk_writer_html"><div class="ttname"><a href="classtinyhttp_1_1_http_chunk_writer.html">tinyhttp::HttpChunkWriter</a></div><div class="ttdoc">Writes the data chunked to the actual client.</div><div class="ttdef"><b>Definition:</b> HttpChunkWriter.h:11</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_http_chunk_writer_html"><div class="ttname"><a href="classtinyhttp_1_1_http_chunk_writer.html">tinyhttp::HttpChunkWriter</a></div><div class="ttdoc">Writes the data chunked to the actual client.</div><div class="ttdef"><b>Definition:</b> HttpChunkWriter.h:12</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_logger_class_html_a8bd88841bae9816af7240a3706e8512e"><div class="ttname"><a href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">tinyhttp::HttpLoggerClass::log</a></div><div class="ttdeci">void log(LogLevel current_level, const char *fmt...)</div><div class="ttdoc">Print log message.</div><div class="ttdef"><b>Definition:</b> HttpLogger.h:48</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

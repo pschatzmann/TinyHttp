@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['schedule_280',['schedule',['../classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff',1,'tinyhttp::Ticker']]],
-  ['set_281',['set',['../classtinyhttp_1_1_str.html#ad43395fc661bc42fb7ac17da08b0cacf',1,'tinyhttp::Str::set(const char *alt)'],['../classtinyhttp_1_1_str.html#a1c60c567b964e85470bdbea16a7f83e4',1,'tinyhttp::Str::set(const Str &amp;alt)'],['../classtinyhttp_1_1_str.html#a3dd0f00f938358cd4e4a09321c4617cb',1,'tinyhttp::Str::set(char chars[], int maxlen, int len=0, bool isConst=false)']]],
-  ['setlength_282',['setLength',['../classtinyhttp_1_1_str.html#a1aa0cc870845e30eb451ba428a7a2186',1,'tinyhttp::Str']]],
-  ['setlengthundo_283',['setLengthUndo',['../classtinyhttp_1_1_str.html#abde8369e2724d1dcbbddde0cd9e8ac6d',1,'tinyhttp::Str']]],
-  ['setreplyheader_284',['setReplyHeader',['../classtinyhttp_1_1_extension_stream.html#ae305e66cb116fdf959d41726ef137bb6',1,'tinyhttp::ExtensionStream::setReplyHeader()'],['../classtinyhttp_1_1_extension_stream_basic.html#a73cda83474be560d1cfe6e37f9c70ad1',1,'tinyhttp::ExtensionStreamBasic::setReplyHeader()']]],
-  ['startdump_285',['startDump',['../classtinyhttp_1_1_web_copy.html#a19a6776ac968ca86e78ddd2132dc22b6',1,'tinyhttp::WebCopy']]],
-  ['startswith_286',['startsWith',['../classtinyhttp_1_1_str.html#a4b85d3e6dbbb2b0205c1556458ee89c6',1,'tinyhttp::Str']]],
-  ['stop_287',['stop',['../classtinyhttp_1_1_http_server.html#a5e16bf26a351b1e297f3ba73682e1226',1,'tinyhttp::HttpServer::stop()'],['../classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f',1,'tinyhttp::Ticker::stop(int id)']]],
-  ['stopall_288',['stopAll',['../classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a',1,'tinyhttp::Ticker']]],
-  ['str_289',['Str',['../classtinyhttp_1_1_str.html#a9886021dad718ce4a8b53f46c90852f3',1,'tinyhttp::Str::Str(const char *chars)'],['../classtinyhttp_1_1_str.html#a2ebaf668079264b258ef39a28565f4a0',1,'tinyhttp::Str::Str(char chars[], int maxlen, int len=0)']]],
-  ['substring_290',['substring',['../classtinyhttp_1_1_str.html#a3a5fd7485ceb83c10b56996a3c775d70',1,'tinyhttp::Str::substring(Str &amp;from, int start, int end)'],['../classtinyhttp_1_1_str.html#a0cfa4ccfecb3e94588ff4caacd44e8ab',1,'tinyhttp::Str::substring(const char *from, int start, int end)']]]
+  ['schedule_286',['schedule',['../classtinyhttp_1_1_ticker.html#a3ca0e8b7836a900167d84a2960e1e9ff',1,'tinyhttp::Ticker']]],
+  ['set_287',['set',['../classtinyhttp_1_1_str_view.html#aa742d688d70a19548d742a157dcfb9c2',1,'tinyhttp::StrView::set(const char *alt)'],['../classtinyhttp_1_1_str_view.html#a1c0159cfc5b5ef4e18c31c87c5e7d326',1,'tinyhttp::StrView::set(const StrView &amp;alt)'],['../classtinyhttp_1_1_str_view.html#afbebdfba78f3411845c8a039ae0a438e',1,'tinyhttp::StrView::set(char chars[], int maxlen, int len=0, bool isConst=false)']]],
+  ['setlength_288',['setLength',['../classtinyhttp_1_1_str_view.html#a3a4e7e033711534ecbfb957825665066',1,'tinyhttp::StrView']]],
+  ['setlengthundo_289',['setLengthUndo',['../classtinyhttp_1_1_str_view.html#a50c9b8b606745426791bafcc5bd1ec4a',1,'tinyhttp::StrView']]],
+  ['setreplyheader_290',['setReplyHeader',['../classtinyhttp_1_1_extension_stream.html#a10ac6ec59e7052ea516eb542ef2539c0',1,'tinyhttp::ExtensionStream::setReplyHeader()'],['../classtinyhttp_1_1_extension_stream_basic.html#aa0ec6e4da06b988dab689e48aa8e0074',1,'tinyhttp::ExtensionStreamBasic::setReplyHeader()']]],
+  ['startdump_291',['startDump',['../classtinyhttp_1_1_web_copy.html#a19a6776ac968ca86e78ddd2132dc22b6',1,'tinyhttp::WebCopy']]],
+  ['startswith_292',['startsWith',['../classtinyhttp_1_1_str_view.html#a688849cec0fe82ae86ee22fa370775fe',1,'tinyhttp::StrView']]],
+  ['stop_293',['stop',['../classtinyhttp_1_1_ticker.html#a8005e24ef8627b1b84286275c0df586f',1,'tinyhttp::Ticker']]],
+  ['stopall_294',['stopAll',['../classtinyhttp_1_1_ticker.html#a0c90114256432d558c8be07c0e083d1a',1,'tinyhttp::Ticker']]],
+  ['strview_295',['StrView',['../classtinyhttp_1_1_str_view.html#af6f60a3892629d73813b6caec61ebfea',1,'tinyhttp::StrView::StrView(const char *chars)'],['../classtinyhttp_1_1_str_view.html#a7bcbf378431e7386a25d9a2c4d3515bd',1,'tinyhttp::StrView::StrView(char chars[], int maxlen, int len=0)']]],
+  ['substring_296',['substring',['../classtinyhttp_1_1_str_view.html#a2aeb4676446d4b82ea41fad2401696ab',1,'tinyhttp::StrView::substring(StrView &amp;from, int start, int end)'],['../classtinyhttp_1_1_str_view.html#a18cdb12d615368de77f47a1baa8b3f8d',1,'tinyhttp::StrView::substring(const char *from, int start, int end)']]]
 ];

@@ -75,7 +75,7 @@ $(function() {
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Server/HttpStreamedOutput.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;WiFi.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Basic/List.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;Basic/StrExt.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;Basic/Str.h&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>tinyhttp {</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
@@ -88,7 +88,7 @@ $(function() {
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            this-&gt;mime_type = mime;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            this-&gt;max_history_length = maxHistoryLength;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">if</span> (maxHistoryLength&gt;0){</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                this-&gt;history = <span class="keyword">new</span> <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a>(maxHistoryLength);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                this-&gt;history = <span class="keyword">new</span> <a class="code" href="classtinyhttp_1_1_str.html">Str</a>(maxHistoryLength);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            }</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        }</div>
@@ -114,8 +114,8 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="keywordtype">int</span> len = strlen(start);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    writer.writeChunk(client, start, len);  </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordflow">if</span> (history!=<span class="keyword">nullptr</span> &amp;&amp; history-&gt;<a class="code" href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">length</a>()&gt;0) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    writer.writeChunk(client, history-&gt;<a class="code" href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">c_str</a>(), history-&gt;<a class="code" href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">length</a>());  </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordflow">if</span> (history!=<span class="keyword">nullptr</span> &amp;&amp; history-&gt;<a class="code" href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">length</a>()&gt;0) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    writer.writeChunk(client, history-&gt;<a class="code" href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">c_str</a>(), history-&gt;<a class="code" href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">length</a>());  </div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="comment">// add client to list of open clients</span></div>
@@ -207,7 +207,7 @@ $(function() {
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        HttpChunkWriter writer;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        List&lt;WiFiClient&gt; clients;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        StrExt *history = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        Str *history = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordtype">int</span> max_history_length;</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *start = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *end = <span class="keyword">nullptr</span>;</div>
@@ -270,9 +270,9 @@ $(function() {
 <div class="ttc" id="aclasstinyhttp_1_1_http_streamed_multi_output_html_ac8df95099ebb027e0ea98fe20afe3a1e"><div class="ttname"><a href="classtinyhttp_1_1_http_streamed_multi_output.html#ac8df95099ebb027e0ea98fe20afe3a1e">tinyhttp::HttpStreamedMultiOutput::availableForWrite</a></div><div class="ttdeci">virtual int availableForWrite()</div><div class="ttdoc">Do not accept any writes if we are not connected.</div><div class="ttdef"><b>Definition:</b> HttpStreamedMultiOutput.h:99</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_streamed_multi_output_html_ae587d217e85483f9472ab76437982e07"><div class="ttname"><a href="classtinyhttp_1_1_http_streamed_multi_output.html#ae587d217e85483f9472ab76437982e07">tinyhttp::HttpStreamedMultiOutput::addHistory</a></div><div class="ttdeci">void addHistory(const char *line, bool delimiter, int len)</div><div class="ttdoc">adds the line to the history - removest oldest lines</div><div class="ttdef"><b>Definition:</b> HttpStreamedMultiOutput.h:186</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_streamed_output_html"><div class="ttname"><a href="classtinyhttp_1_1_http_streamed_output.html">tinyhttp::HttpStreamedOutput</a></div><div class="ttdoc">Abstract class for handling streamed output.</div><div class="ttdef"><b>Definition:</b> HttpStreamedOutput.h:12</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_ext_html"><div class="ttname"><a href="classtinyhttp_1_1_str_ext.html">tinyhttp::StrExt</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> StrExt.h:22</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a0b1af13d57d1d1cd8d6294a384983d39"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a0b1af13d57d1d1cd8d6294a384983d39">tinyhttp::Str::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdoc">provides the current length (filled with characters) of the string - excluding the terminating 0</div><div class="ttdef"><b>Definition:</b> Str.h:407</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a2ea353bdcfdabdb13f06e972944ebfa2"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a2ea353bdcfdabdb13f06e972944ebfa2">tinyhttp::Str::c_str</a></div><div class="ttdeci">virtual const char * c_str()</div><div class="ttdoc">provides the string value as const char*</div><div class="ttdef"><b>Definition:</b> Str.h:402</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> Str.h:21</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a0ce3829ef2304731db3c777f60263ee4"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a0ce3829ef2304731db3c777f60263ee4">tinyhttp::StrView::length</a></div><div class="ttdeci">virtual int length()</div><div class="ttdef"><b>Definition:</b> StrView.h:371</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a5f16e081229af7a91bd94d134f1990ca"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a5f16e081229af7a91bd94d134f1990ca">tinyhttp::StrView::c_str</a></div><div class="ttdeci">virtual const char * c_str()</div><div class="ttdoc">provides the string value as const char*</div><div class="ttdef"><b>Definition:</b> StrView.h:367</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_wi_fi_client_html"><div class="ttname"><a href="classtinyhttp_1_1_wi_fi_client.html">tinyhttp::WiFiClient</a></div><div class="ttdoc">We provide the WiFiClient so that it complies outside of the Arduino Environment.</div><div class="ttdef"><b>Definition:</b> AltClient.h:191</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

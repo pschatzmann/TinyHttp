@@ -65,14 +65,15 @@ $(function() {
 <div class="title">TinyHttp (Media) Server </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> There is a good choice of different Http Server implementations for Arduino. Somehow however I was always fighting with some restrictions: E.g the server was crashing because it was running out of memory.</p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a> <a href="https://www.arduino.cc/reference/en/libraries/"><img src="https://img.shields.io/badge/Arduino-Library-blue.svg" alt="Arduino Library" style="pointer-events: none;" class="inline"/></a> <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3" style="pointer-events: none;" class="inline"/></a></p>
+<p>There is a good choice of different Http Server implementations for Arduino. Somehow however I was always fighting with some restrictions: E.g the server was crashing because it was running out of memory.</p>
 <p>So I decided to to investigate if it is possible to achieve the following goals:</p>
 <ul>
 <li>Serving of a potentially <b>unbounded amount of data</b></li>
 <li><b>concurrent</b> handling of <b>multiple requests</b>.</li>
 <li>Support for <b>Extensions</b> to add additional functionality</li>
 </ul>
-<p>In my alternative design I try to split the processing up into many small pieces: So instead of sending a single big reply we can use the chunked http transfer encoding to feed many clients with small replys. <br  />
+<p>In my alternative design I try to split the processing up into many small pieces: So instead of sending a single big reply we can use the chunked http transfer encoding to feed many clients with small replies. <br  />
 </p>
 <p>This should resolve also the memory restrictions for good because we do not have any upper totoal limit for the reply any more!</p>
 <p>The basic HttpServer class just provides the functionality to</p>
@@ -81,7 +82,7 @@ $(function() {
 <li>define rewrites</li>
 <li>register reply handlers (callbacks)</li>
 <li>register extensions</li>
-<li>provide replys</li>
+<li>provide replies</li>
 <li>forward to URL</li>
 <li>tunnel to URL</li>
 </ul>
@@ -198,7 +199,7 @@ Documentation</h1>
 Installation in Arduino</h1>
 <p>You can download the library as zip and call include Library -&gt; zip library. Or you can git clone this project into the Arduino libraries folder e.g. with</p>
 <div class="fragment"><div class="line">cd  ~/Documents/Arduino/libraries</div>
-<div class="line">git clone pschatzmann/TinyHttp.git</div>
+<div class="line">git clone https://github.com/pschatzmann/TinyHttp.git</div>
 </div><!-- fragment --><p>I recommend to use git because you can easily update to the latest version just by executing the <code>git pull</code> command in the project folder. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

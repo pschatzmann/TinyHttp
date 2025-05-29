@@ -70,7 +70,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Basic/StrExt.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Basic/Str.h&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;Basic/Vector.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Server/HttpLogger.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Stream.h&quot;</span></div>
@@ -83,11 +83,11 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classtinyhttp_1_1_http_parameters.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classtinyhttp_1_1_http_parameters.html">HttpParameters</a> {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">struct </span>HttpParameterEntry {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    HttpParameterEntry() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a> key = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="classtinyhttp_1_1_str_ext.html">StrExt</a> value = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classtinyhttp_1_1_str.html">Str</a> key = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="classtinyhttp_1_1_str.html">Str</a> value = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classtinyhttp_1_1_http_parameters.html#a2c25154be4367d9bc24ff31938744957">clear</a>() {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      key.<a class="code" href="classtinyhttp_1_1_str_ext.html#a2a7493d998f7b1a937d18e18d497547e">clear</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      value.<a class="code" href="classtinyhttp_1_1_str_ext.html#a2a7493d998f7b1a937d18e18d497547e">clear</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      key.<a class="code" href="classtinyhttp_1_1_str.html#a0712236e01bae439c252d40da0a81e15">clear</a>();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      value.<a class="code" href="classtinyhttp_1_1_str.html#a0712236e01bae439c252d40da0a81e15">clear</a>();</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  };</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
@@ -101,11 +101,11 @@ $(function() {
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">while</span> (in.available() &gt; 0) {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      memset(buffer, 0, max_len);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      in.readBytesUntil(<span class="charliteral">&#39;&amp;&#39;</span>, buffer, max_len);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="classtinyhttp_1_1_str.html">Str</a> str(buffer);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> str(buffer);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info, <span class="stringliteral">&quot;parameter: %s&quot;</span>, buffer);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      urldecode2(buffer, buffer);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info, <span class="stringliteral">&quot;parameter decoded: %s&quot;</span>, buffer);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordtype">int</span> pos = str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="stringliteral">&quot;=&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordtype">int</span> pos = str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="stringliteral">&quot;=&quot;</span>);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">if</span> (pos &gt; 0) {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        buffer[pos] = 0; <span class="comment">// delimit key</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *key = buffer;</div>
@@ -130,11 +130,11 @@ $(function() {
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">while</span> (in.available() &gt; 0) {</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      memset(buffer, 0, max_len);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      in.readBytesUntil(<span class="charliteral">&#39;&amp;&#39;</span>, buffer, max_len);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <a class="code" href="classtinyhttp_1_1_str.html">Str</a> str(buffer);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <a class="code" href="classtinyhttp_1_1_str_view.html">StrView</a> str(buffer);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info, <span class="stringliteral">&quot;parameter: %s&quot;</span>, buffer);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      urldecode2(buffer, buffer);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      HttpLogger.<a class="code" href="classtinyhttp_1_1_http_logger_class.html#a8bd88841bae9816af7240a3706e8512e">log</a>(Info, <span class="stringliteral">&quot;parameter decoded: %s&quot;</span>, buffer);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordtype">int</span> pos = str.<a class="code" href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">indexOf</a>(<span class="stringliteral">&quot;=&quot;</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordtype">int</span> pos = str.<a class="code" href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">indexOf</a>(<span class="stringliteral">&quot;=&quot;</span>);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">if</span> (pos &gt; 0) {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        buffer[pos] = 0; <span class="comment">// delimit key</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *key = buffer;</div>
@@ -243,10 +243,10 @@ $(function() {
 <div class="ttc" id="aclasstinyhttp_1_1_http_parameters_html_aad3e97e6799540df8c5c22254d830116"><div class="ttname"><a href="classtinyhttp_1_1_http_parameters.html#aad3e97e6799540df8c5c22254d830116">tinyhttp::HttpParameters::HttpParameters</a></div><div class="ttdeci">HttpParameters(const int maxLen=256)</div><div class="ttdoc">Default Constructor.</div><div class="ttdef"><b>Definition:</b> HttpParameters.h:29</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_parameters_html_ac95be768ed42931f021477e11369e6b3"><div class="ttname"><a href="classtinyhttp_1_1_http_parameters.html#ac95be768ed42931f021477e11369e6b3">tinyhttp::HttpParameters::parse</a></div><div class="ttdeci">void parse(Stream &amp;in, void(*callback)(const char *key, const char *value))</div><div class="ttdef"><b>Definition:</b> HttpParameters.h:66</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_http_parameters_html_ac9f4de64ca24b13001a6bff814e3e1b1"><div class="ttname"><a href="classtinyhttp_1_1_http_parameters.html#ac9f4de64ca24b13001a6bff814e3e1b1">tinyhttp::HttpParameters::parse</a></div><div class="ttdeci">void parse(Stream &amp;in)</div><div class="ttdoc">Parses the parameters in the client stream.</div><div class="ttdef"><b>Definition:</b> HttpParameters.h:35</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_ext_html"><div class="ttname"><a href="classtinyhttp_1_1_str_ext.html">tinyhttp::StrExt</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> StrExt.h:22</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_ext_html_a2a7493d998f7b1a937d18e18d497547e"><div class="ttname"><a href="classtinyhttp_1_1_str_ext.html#a2a7493d998f7b1a937d18e18d497547e">tinyhttp::StrExt::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">clears the string by setting the terminating 0 at the beginning</div><div class="ttdef"><b>Definition:</b> StrExt.h:67</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> Str.h:16</div></div>
-<div class="ttc" id="aclasstinyhttp_1_1_str_html_a4bdedb603822f3cbbee265519df495cd"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a4bdedb603822f3cbbee265519df495cd">tinyhttp::Str::indexOf</a></div><div class="ttdeci">virtual int indexOf(const char c, int start=0)</div><div class="ttdoc">provides the position of the the indicated character after the indicated start position</div><div class="ttdef"><b>Definition:</b> Str.h:281</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_html"><div class="ttname"><a href="classtinyhttp_1_1_str.html">tinyhttp::Str</a></div><div class="ttdoc">Str which keeps the data on the heap. We grow the allocated memory only if the copy source is not fit...</div><div class="ttdef"><b>Definition:</b> Str.h:21</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_html_a0712236e01bae439c252d40da0a81e15"><div class="ttname"><a href="classtinyhttp_1_1_str.html#a0712236e01bae439c252d40da0a81e15">tinyhttp::Str::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">clears the string by setting the terminating 0 at the beginning</div><div class="ttdef"><b>Definition:</b> Str.h:58</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html">tinyhttp::StrView</a></div><div class="ttdoc">A simple wrapper to provide string functions on char*. If the underlying char* is a const we do not a...</div><div class="ttdef"><b>Definition:</b> StrView.h:16</div></div>
+<div class="ttc" id="aclasstinyhttp_1_1_str_view_html_a4c4a257c90550afd78f39fa2b006257d"><div class="ttname"><a href="classtinyhttp_1_1_str_view.html#a4c4a257c90550afd78f39fa2b006257d">tinyhttp::StrView::indexOf</a></div><div class="ttdeci">virtual int indexOf(const char c, int start=0)</div><div class="ttdef"><b>Definition:</b> StrView.h:268</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_stream_html"><div class="ttname"><a href="classtinyhttp_1_1_stream.html">tinyhttp::Stream</a></div><div class="ttdoc">We provide the Stream class so that it complies outside of the Arduino Environment.</div><div class="ttdef"><b>Definition:</b> AltStream.h:13</div></div>
 <div class="ttc" id="aclasstinyhttp_1_1_vector_html"><div class="ttname"><a href="classtinyhttp_1_1_vector.html">tinyhttp::Vector&lt; HttpParameterEntry * &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
