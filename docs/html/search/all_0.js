@@ -5,5 +5,6 @@ var searchData=
   ['addhandler_2',['addHandler',['../classtinyhttp_1_1_http_server.html#aa1f45b4e3eec52076a4f167e23777de2',1,'tinyhttp::HttpServer']]],
   ['addhistory_3',['addHistory',['../classtinyhttp_1_1_http_streamed_multi_output.html#ae587d217e85483f9472ab76437982e07',1,'tinyhttp::HttpStreamedMultiOutput']]],
   ['altarduino_2eh_4',['AltArduino.h',['../_alt_arduino_8h.html',1,'']]],
-  ['availableforwrite_5',['availableForWrite',['../classtinyhttp_1_1_http_streamed_multi_output.html#ac8df95099ebb027e0ea98fe20afe3a1e',1,'tinyhttp::HttpStreamedMultiOutput']]]
+  ['arduino_5',['Installation in Arduino',['../index.html#autotoc_md6',1,'']]],
+  ['availableforwrite_6',['availableForWrite',['../classtinyhttp_1_1_http_streamed_multi_output.html#ac8df95099ebb027e0ea98fe20afe3a1e',1,'tinyhttp::HttpStreamedMultiOutput']]]
 ];
