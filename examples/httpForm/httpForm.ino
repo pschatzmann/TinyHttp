@@ -24,7 +24,7 @@ const char* htmlForm =
         </head>\
         <body>\
             <h1>Effect Parameters:</h1>\
-            <form id='effect-form' method='T_POST' >\
+            <form id='effect-form' method='post' >\
                 <div>\
                     <input type='range' id='volumeControl' name='volumeControl'\
                             onchange='this.form.submit()'\
