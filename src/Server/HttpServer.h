@@ -62,7 +62,9 @@ class HttpServer {
                     delay(500);
                     Serial.print(".");
                 }
-
+#ifdef ESP32
+                WiFi.setSleep(false);
+#endif
                 Serial.println();
                 Serial.print("Started Server at ");
                 Serial.print(WiFi.localIP());
@@ -361,7 +363,10 @@ class HttpServer {
         void copy(){
             // get the actual client_ptr
             if (is_active) {
-                WiFiClient client = server_ptr->accept();
+                WiFiClient client = server_ptr->accept();3
+#ifdef ESP32
+                client.setNoDelay(true);
+#endif
                 if (client.connected()) {
                     HttpLogger.log(Info,"copy: hasClient");
                     client_ptr = &client;
