@@ -363,7 +363,7 @@ class HttpServer {
         void copy(){
             // get the actual client_ptr
             if (is_active) {
-                WiFiClient client = server_ptr->accept();3
+                WiFiClient client = server_ptr->accept();
 #ifdef ESP32
                 client.setNoDelay(true);
 #endif
