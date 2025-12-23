@@ -369,6 +369,7 @@ class HttpServer {
 #endif
                 if (client.connected()) {
                     HttpLogger.log(Info,"copy: hasClient");
+                    client.setTimeout(timeout);
                     client_ptr = &client;
 
                     // process the new client with standard functionality
@@ -407,6 +408,11 @@ class HttpServer {
             no_connect_dela = delay;
         }
 
+        /// Defines the client timeout in milliseconds
+        void setTimeout(int timeout){
+            this->timeout = timeout;
+        }   
+
     protected:
         // data
         HttpRequestHeader request_header;
@@ -422,6 +428,7 @@ class HttpServer {
         int buffer_size = 0;
         int no_connect_dela = 20;
         int port = 80;
+        int timeout = 1000;
 
         /// Converts null to an empty string
         const char* nullstr(const char* in){
