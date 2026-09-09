@@ -41,6 +41,7 @@ class HttpServer {
 
         /// Starts the server on the indicated port - calls WiFi.begin(ssid, password);
         bool begin(int port, const char* ssid, const char* password){
+            this->port = port;
             login(ssid, password);
             return begin(port);
         }
