@@ -10,8 +10,6 @@ namespace tinyhttp {
 
 /**
  * @brief Simple API to process get, put, post, del http requests
- * I tried to use Arduino HttpClient, but I  did not manage to extract the mime
- * type from streaming get requests.
  * 
  * The functionality is based on the Arduino Client class.
  * 

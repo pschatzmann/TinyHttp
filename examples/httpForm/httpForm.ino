@@ -24,7 +24,7 @@ const char* htmlForm =
         </head>\
         <body>\
             <h1>Effect Parameters:</h1>\
-            <form id='effect-form' method='T_POST' >\
+            <form id='effect-form' method='post' >\
                 <div>\
                     <input type='range' id='volumeControl' name='volumeControl'\
                             onchange='this.form.submit()'\
@@ -35,7 +35,7 @@ const char* htmlForm =
                     <input type='range' id='clipThreashold' name='clipThreashold' \
                             onchange='this.form.submit()'\
                             min='0' max='6000' step='100' value='%clipThreashold%'>\
-                    <label for='clipThreashold'>Clip Threashold</label>\
+                    <label for='clipThreshold'>Clip Threshold</label>\
                 </div>\
                 <div>\
                     <input type='range' id='fuzzEffectValue' name='fuzzEffectValue' \

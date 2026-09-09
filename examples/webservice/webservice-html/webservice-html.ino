@@ -75,7 +75,7 @@ const char* htmlForm =
                 <div>\
                     <input type='range' id='clipThreashold' name='clipThreashold' \
                             min='0' max='6000' step='100' value='0' onchange=\"$('#effect-form').submit();\">\
-                    <label for='clipThreashold'>Clip Threashold</label>\
+                    <label for='clipThreshold'>Clip Threshold</label>\
                 </div>\n\
                 <div>\
                     <input type='range' id='fuzzEffectValue' name='fuzzEffectValue' \
