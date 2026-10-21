@@ -28,49 +28,36 @@ class HttpLineReader {
                 return 0;
             }
 
-           // process characters until we find a new line
+           // process characters until we find a new line: at most len-1
+           // characters are stored, so that the terminating 0 always fits;
+           // the rest of a longer line is read and dropped
            bool is_buffer_owerflow = false;
-           int j=0;
+           int read = 0;    // characters read, including the new line
+           int stored = 0;  // characters stored in str
            while (true){
                int c = client.read();
                if (c==-1){
                    break;
                }
-
-               if (j<len){
-                   result++;
+               read++;
+               if (c=='\n'){
+                   break;
+               }
+               if (stored < len-1){
+                   str[stored++] = c;
                } else {
                    is_buffer_owerflow = true;
                }
-                if (c=='\n'){
-                    if (incl_nl){
-                        str[j]=c;
-                        break;
-                    } else {
-                        // remove cl lf
-                        if (j>=1){
-                            if (str[j-1]=='\r'){
-                                // remove cr
-                                str[j-1]=0;
-                                break;;
-                            } else {
-                                // remove nl
-                                str[j]=0;
-                                break;
-                            }
-                        }
-                    }
-                }
-               if (!is_buffer_owerflow){
-                   str[j] = c;
-               }
-               j++;
             }
-            str[result]=0;
-            str[result-1]=0;
+            // remove the cr of a cr lf
+            if (!incl_nl && stored>0 && str[stored-1]=='\r'){
+                stored--;
+            }
+            str[stored]=0;
             if (is_buffer_owerflow){
                HttpLogger.log(Error, "Line cut off:", (const char*) str);
             }
+            result = read < len ? read : len;
             return result;
         }
 };

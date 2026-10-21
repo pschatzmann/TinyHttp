@@ -83,11 +83,11 @@ class ExtensionStream : public Stream, public Extension  {
             return ringBuffer->write(chr);            
         }
 
-        size_t write(uint8_t *str, int len) {
+        size_t write(const uint8_t *str, size_t len) override {
             if (out!=nullptr && out->isOpen()) {
                 HttpLogger.log(Info,"ExtensionStream %s","write");
                 flush();
-                return out->write(str, len);
+                return out->write((uint8_t*)str, len);
             } 
             return 0;
         }
